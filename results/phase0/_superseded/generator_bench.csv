@@ -1,0 +1,31 @@
+model,prompt_id,gold_in_context,wall_s,prompt_tokens,gen_tokens,prompt_eval_s,eval_s,tokens_per_s,done_reason,abstained,clean,correct,output
+qwen2.5:1.5b-instruct,0,False,0.424,404,9,0.049,0.299,30.08,stop,False,True,True,The Los Angeles Times defined southern California.
+qwen2.5:1.5b-instruct,1,False,6.828,728,11,6.206,0.564,19.51,stop,True,True,False,I cannot find the answer in the provided context.
+qwen2.5:1.5b-instruct,2,False,5.376,521,11,4.725,0.5,21.98,stop,True,True,False,I cannot find the answer in the provided context.
+qwen2.5:1.5b-instruct,3,True,8.167,750,21,7.049,0.998,21.03,stop,False,True,True,The museum acquired the Henry Cole wing from the Royal College of Science in 1974.
+qwen2.5:1.5b-instruct,4,True,6.704,645,19,5.646,0.961,19.76,stop,False,True,True,Seismologists use the arrival times of seismic waves to image the interior of the Earth.
+qwen2.5:1.5b-instruct,5,True,6.888,618,19,5.923,0.869,21.85,stop,False,True,True,The French Protestant Church of London was established by Royal Charter in 1550.
+qwen2.5:1.5b-instruct,6,True,7.439,738,13,6.698,0.598,21.76,stop,False,True,True,Luther supported a non-religious war against the Turks.
+qwen2.5:1.5b-instruct,7,True,4.29,407,5,3.735,0.218,22.99,stop,False,True,True,1516
+qwen2.5:1.5b-instruct,8,True,7.711,628,17,6.65,0.9,18.89,stop,False,True,True,Pigment-filled plastids responsible for bright colors in flowers and ripe fruit.
+qwen2.5:1.5b-instruct,9,True,5.201,543,6,4.776,0.282,21.26,stop,False,True,True,William of Montreuil
+llama3.2:1b,0,False,0.831,408,11,0.062,0.62,17.75,stop,True,True,False,I cannot find the answer in the provided context.
+llama3.2:1b,1,False,11.218,737,11,10.425,0.658,16.71,stop,True,True,False,I cannot find the answer in the provided context.
+llama3.2:1b,2,False,7.712,513,11,6.965,0.595,18.5,stop,True,True,False,I cannot find the answer in the provided context.
+llama3.2:1b,3,True,11.657,721,19,10.443,1.088,17.46,stop,False,True,True,The museum acquired the Henry Cole wing from the Royal College of Science in 1974.
+llama3.2:1b,4,True,9.781,643,8,9.049,0.56,14.29,stop,False,True,False,Seismologists use shear waves.
+llama3.2:1b,5,True,9.448,602,17,8.328,1.006,16.9,stop,False,True,True,The French Protestant Church of London was established by Royal Charter in 1550.
+llama3.2:1b,6,True,11.82,732,6,11.396,0.332,18.09,stop,False,True,True,Non-religious war.
+llama3.2:1b,7,True,5.643,412,6,5.228,0.28,21.41,stop,False,True,True,In 1516.
+llama3.2:1b,8,True,9.924,629,22,8.513,1.266,17.37,stop,False,True,True,Chromoplasts are pigment-filled plastids responsible for the bright colors seen in flowers and ripe fruit.
+llama3.2:1b,9,True,7.861,547,7,7.367,0.347,20.18,stop,False,True,True,William of Montreuil.
+llama3.2:3b,0,False,1.38,408,11,0.141,1.104,9.96,stop,True,True,False,I cannot find the answer in the provided context.
+llama3.2:3b,1,False,15.192,737,11,13.947,1.111,9.9,stop,True,True,False,I cannot find the answer in the provided context.
+llama3.2:3b,2,False,10.968,513,11,9.818,0.993,11.08,stop,True,True,False,I cannot find the answer in the provided context.
+llama3.2:3b,3,True,14.211,721,6,13.464,0.562,10.68,stop,False,True,True,The Henry Cole wing.
+llama3.2:3b,4,True,14.51,643,5,13.923,0.439,11.4,stop,False,True,True,Seismic waves.
+llama3.2:3b,5,True,12.731,602,8,11.748,0.765,10.46,stop,False,True,True,The French Protestant Church of London.
+llama3.2:3b,6,True,16.927,732,6,15.942,0.755,7.95,stop,False,True,True,Non-religious war.
+llama3.2:3b,7,True,8.134,412,6,7.376,0.48,12.5,stop,False,True,True,In 1516.
+llama3.2:3b,8,True,14.918,629,17,12.95,1.731,9.82,stop,False,True,True,Pigment-filled plastids responsible for bright colors in flowers and ripe fruit.
+llama3.2:3b,9,True,11.245,547,7,10.188,0.828,8.46,stop,False,True,True,William of Montreuil.

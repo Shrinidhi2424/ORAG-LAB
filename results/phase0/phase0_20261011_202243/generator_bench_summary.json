@@ -1,0 +1,103 @@
+{
+  "options": {
+    "temperature": 0,
+    "seed": 42,
+    "num_ctx": 2048,
+    "num_predict": 48,
+    "num_gpu": 0
+  },
+  "decision_rule": "largest passing (a) median<=10s (b) peak RAM<=2.5GB (c) >=8/10 clean",
+  "chosen": "qwen2.5:1.5b-instruct",
+  "models": [
+    {
+      "model": "qwen2.5:1.5b-instruct",
+      "digest": "65ec06548149b04c096a120e4a6da9d4017ea809c91734ea5631e89f96ddc57b",
+      "ollama_details": "parent_model='' format='gguf' family='qwen2' families=['qwen2'] parameter_size='1.5B' quantization_level='Q4_K_M'",
+      "warmup_incl_load_s": 6.21,
+      "median_wall_s": 6.284,
+      "p95_wall_s": 8.043,
+      "median_tokens_per_s": 21.89,
+      "median_prompt_tokens": 623.0,
+      "median_prompt_eval_s": 5.49,
+      "peak_ollama_rss_gb": 0.032,
+      "system_ram_delta_gb": 1.113,
+      "ollama_ps_size_gb": 1.109,
+      "min_system_available_gb": 0.994,
+      "swap_used_delta_mb": 171.0,
+      "clean_count": 10,
+      "correct_count_info": 8,
+      "ps_after_warmup": [
+        {
+          "name": "qwen2.5:1.5b-instruct",
+          "size": 1109162720,
+          "size_vram": 0
+        }
+      ],
+      "pass_a_median_le_10s": true,
+      "ram_metric_gb": 1.113,
+      "pass_b_ram_le_2.5gb": true,
+      "pass_c_clean_ge_8": true,
+      "passes_gate": true
+    },
+    {
+      "model": "llama3.2:1b",
+      "digest": "baf6a787fdffd633537aa2eb51cfd54cb93ff08e28040095462bb63daf552878",
+      "ollama_details": "parent_model='' format='gguf' family='llama' families=['llama'] parameter_size='1.2B' quantization_level='Q8_0'",
+      "warmup_incl_load_s": 10.77,
+      "median_wall_s": 9.201,
+      "p95_wall_s": 11.536,
+      "median_tokens_per_s": 18.81,
+      "median_prompt_tokens": 615.5,
+      "median_prompt_eval_s": 8.463,
+      "peak_ollama_rss_gb": 0.033,
+      "system_ram_delta_gb": 1.469,
+      "ollama_ps_size_gb": 1.45,
+      "min_system_available_gb": 0.845,
+      "swap_used_delta_mb": 41.7,
+      "clean_count": 10,
+      "correct_count_info": 6,
+      "ps_after_warmup": [
+        {
+          "name": "llama3.2:1b",
+          "size": 1450086235,
+          "size_vram": 0
+        }
+      ],
+      "pass_a_median_le_10s": true,
+      "ram_metric_gb": 1.469,
+      "pass_b_ram_le_2.5gb": true,
+      "pass_c_clean_ge_8": true,
+      "passes_gate": true
+    },
+    {
+      "model": "llama3.2:3b",
+      "digest": "a80c4f17acd55265feec403c7aef86be0c25983ab279d83f3bcd3abbcb5b8b72",
+      "ollama_details": "parent_model='' format='gguf' family='llama' families=['llama'] parameter_size='3.2B' quantization_level='Q4_K_M'",
+      "warmup_incl_load_s": 16.02,
+      "median_wall_s": 13.085,
+      "p95_wall_s": 16.58,
+      "median_tokens_per_s": 11.06,
+      "median_prompt_tokens": 615.5,
+      "median_prompt_eval_s": 12.256,
+      "peak_ollama_rss_gb": 0.033,
+      "system_ram_delta_gb": 2.485,
+      "ollama_ps_size_gb": 2.325,
+      "min_system_available_gb": 0.259,
+      "swap_used_delta_mb": 465.8,
+      "clean_count": 10,
+      "correct_count_info": 7,
+      "ps_after_warmup": [
+        {
+          "name": "llama3.2:3b",
+          "size": 2324546189,
+          "size_vram": 0
+        }
+      ],
+      "pass_a_median_le_10s": false,
+      "ram_metric_gb": 2.485,
+      "pass_b_ram_le_2.5gb": true,
+      "pass_c_clean_ge_8": true,
+      "passes_gate": false
+    }
+  ]
+}

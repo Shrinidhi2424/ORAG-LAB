@@ -1,0 +1,22 @@
+{
+  "train-v1.1.json": {
+    "url": "https://rajpurkar.github.io/SQuAD-explorer/dataset/train-v1.1.json",
+    "bytes": 30288272,
+    "sha256": "3527663986b8295af4f7fcdff1ba1ff3f72d07d61a20f487cb238a6ef92fd955",
+    "md5": "981b29407e0affa3b1b156f72073b945",
+    "version": "1.1",
+    "articles": 442,
+    "paragraphs": 18896,
+    "questions": 87599
+  },
+  "dev-v1.1.json": {
+    "url": "https://rajpurkar.github.io/SQuAD-explorer/dataset/dev-v1.1.json",
+    "bytes": 4854279,
+    "sha256": "95aa6a52d5d6a735563366753ca50492a658031da74f301ac5238b03966972c9",
+    "md5": "3e85deb501d4e538b6bc56f786231552",
+    "version": "1.1",
+    "articles": 48,
+    "paragraphs": 2067,
+    "questions": 10570
+  }
+}
