@@ -1,0 +1,32 @@
+{
+  "full_with_state_prep": {
+    "qubits": 19,
+    "depth": 1083,
+    "ops": {
+      "u": 1096,
+      "cx": 1076,
+      "measure": 1
+    },
+    "two_qubit_gates": 1076,
+    "one_qubit_gates": 1096
+  },
+  "swap_test_core": {
+    "qubits": 19,
+    "depth": 78,
+    "ops": {
+      "u": 74,
+      "cx": 72,
+      "measure": 1
+    },
+    "two_qubit_gates": 72,
+    "one_qubit_gates": 74
+  },
+  "basis": [
+    "cx",
+    "u"
+  ],
+  "optimization_level": 1,
+  "statevector_bytes_complex128": 8388608,
+  "transpile_seconds": 0.6943388999789022,
+  "note": "Counts for generic amplitude encoding (StatePreparation) of 512-d vectors; reported, never executed."
+}

@@ -1,0 +1,81 @@
+{
+  "phase": "phase3",
+  "run_id": "phase3_20261011_221127_timing-validate-retrieval-summarize-tierA_e2e-resources",
+  "timestamp_utc": "2026-10-11T16:51:28+00:00",
+  "git": {
+    "commit": "b9f10ea9388cefe853db5eba11f3ef6729413fa7",
+    "dirty": true
+  },
+  "seeds": {
+    "global": 42,
+    "tierB_streams": "SeedSequence([seed, shots, M, N(, 99 for random ties)])",
+    "retrieval_seeds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "aer_seed_simulator": "per-call, see code"
+  },
+  "config": {
+    "steps": [
+      "timing",
+      "validate",
+      "retrieval",
+      "summarize",
+      "tierA_e2e",
+      "resources"
+    ],
+    "shots": [
+      64,
+      128,
+      256,
+      512,
+      1024,
+      2048,
+      4096,
+      8192,
+      16384
+    ],
+    "modes_M": [
+      "20",
+      "50",
+      "100",
+      "full"
+    ],
+    "topk": 10,
+    "tie_break_default": "classical cosine then position",
+    "validation_shots": 4096
+  },
+  "host": {
+    "os": "Windows-11-10.0.26200-SP0",
+    "machine": "AMD64",
+    "processor": "Intel64 Family 6 Model 140 Stepping 1, GenuineIntel",
+    "cpu_physical_cores": 4,
+    "cpu_logical_cores": 8,
+    "ram_total_bytes": 8334729216,
+    "python": "3.12.6"
+  },
+  "packages": {
+    "numpy": "2.5.4",
+    "scipy": "1.18.1",
+    "pandas": "3.0.6",
+    "faiss-cpu": "1.15.1",
+    "sentence-transformers": "6.1.0",
+    "torch": "2.14.1+cpu",
+    "transformers": "5.19.0",
+    "qiskit": "2.5.2",
+    "qiskit-aer": "0.17.2",
+    "fastapi": "0.143.0",
+    "uvicorn": "0.54.0",
+    "httpx": "0.28.1",
+    "pydantic": "2.14.0",
+    "pytest": "9.1.1",
+    "matplotlib": "3.11.2",
+    "pyyaml": "6.0.3",
+    "datasets": "5.1.0",
+    "ollama": "0.6.3",
+    "psutil": "7.2.2"
+  }
+}

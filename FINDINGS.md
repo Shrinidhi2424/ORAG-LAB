@@ -21,6 +21,12 @@ Do not hand-type numbers inside generated blocks (R4).
 | P2-3 | 2 | Query embedding median 13.0 ms (batch 1, CPU) | results/phase2/phase2_20261011_212701/query_embed_summary.json |
 | P2-4 | 2 | Flat index 32191533 bytes at N=all | results/phase2/phase2_20261011_212701/build.csv |
 | P2-5 | 2 | pytest: 19/19 passed | results/phase2/phase2_20261011_212701/pytest_junit.xml |
+| P3-1 | 3 | Tier A vs Tier B KS p = 0.258; RMSE slope B -0.499, A -0.483 (theory -0.5) | results/phase3/phase3_20261011_221127/validation.json |
+| P3-2 | 3 | N=all, M=50: Hit@3 classical 0.680 vs quantum-sim S=64 0.415 | results/phase3/phase3_20261011_221127/retrieval_metrics.csv |
+| P3-3 | 3 | Hit@3 shot threshold (M=50) per N: 1000: 2048, 2000: 4096, 5000: 4096, 10000: 8192, all: 16384 | results/phase3/phase3_20261011_221127/shot_thresholds.csv |
+| P3-4 | 3 | Tier A end-to-end: 200 circuits, 0.110 s/circuit | results/phase3/phase3_20261011_221127/tierA_e2e_summary.json |
+| P3-5 | 3 | T6: full circuit depth 1083, 1076 two-qubit gates | results/phase3/phase3_20261011_221127/t6_resource_counts.json |
+| P3-6 | 3 | pytest: 29/29 passed | results/phase3/phase3_20261011_221127/pytest_junit.xml |
 <!-- END:index -->
 
 ## 1. Environment & Versions
@@ -286,6 +292,195 @@ Peak working set of the benchmark process after each stage (GB, cumulative; `res
 **Manuscript hook**: Section 9 (latency), Section 7 (classical baseline), Table T4.
 <!-- END:phase2 -->
 
+### Phase 3 - Quantum-inspired retrieval arm + validation
+<!-- BEGIN:phase3 -->
+Run `phase3_20261011_221127` - manifest: `results/phase3/phase3_20261011_221127/run_manifest.json`. Quantum-inspired arm = classical SIMULATION of the SWAP test (Appendix A.1); no speedup is claimed. Tier B latency is emulated-estimator latency, not quantum latency.
+
+**Tier A circuit cost on this laptop (3.3, first step)** (`results/phase3/phase3_20261011_221127/tierA_timing.json`): 19 qubits, S=4096, median per pair 0.247 s with transpile, 0.129 s without; identical estimates in both modes: True. Tier B chunk (20 queries x 20958 candidates, S=1024, incl. ranking): 0.180 s. Decision: Tier A runs WITHOUT transpile (Aer executes set_statevector/h/cswap natively; same seed gives identical estimates) - per-pair cost below 2 s, no pair-count reduction needed.
+
+**Validation (3.3a/b)** (`results/phase3/phase3_20261011_221127/validation.json`, per-pair `results/phase3/phase3_20261011_221127/validation_pairs.csv`): 500 pairs (250 random corpus pairs + 250 query-to-exact-top-50 pairs; cos range -0.160 to 0.821), S = 4096, unclipped estimates. Theory RMSE = 0.0155.
+
+| Tier | Bias | MAE | RMSE | z sd (theory 1) | |z|<=2 | |z|<=3 | KS vs N(0,1) p |
+|---|---|---|---|---|---|---|---|
+| A (Aer circuit) | +0.00039 | 0.0127 | 0.0161 | 1.046 | 0.944 | 0.996 | 0.897 |
+| B (emulator) | -0.00044 | 0.0121 | 0.0157 | 1.014 | 0.950 | 0.998 | 0.063 |
+
+Two-sample KS on standardised errors, Tier A vs Tier B: D = 0.064, p = 0.258.
+
+Repeated estimates (50 pairs x 20 repeats per tier, S=4096; `results/phase3/phase3_20261011_221127/validation_repeated.npz`): mean |difference of pair means| = 0.0038 (expected under equivalence ~0.0049 sd); variance ratio A/B median 0.994 (IQR 0.690-1.287); variance / theory: A 1.006, B 1.018; pooled two-sample KS D = 0.067, p = 0.022.
+
+**F2 error vs shots (3.3c)**: ![F2](results/figures/F2_error_vs_shots.png) (data `results/figures/F2_error_vs_shots.csv`, source `results/phase3/phase3_20261011_221127/f2_error_vs_shots.csv`). Log-log slope of RMSE vs S: Tier B -0.499 (95% CI -0.502 to -0.497); Tier A -0.483 (95% CI -0.507 to -0.460); theory -0.5.
+
+**Negative-cosine audit (3.3d)** (`results/phase3/phase3_20261011_221127/negative_cosine_audit.json`)
+
+| N | cos<0 in exact top-10 | cos<0 in exact top-100 | Queries whose noise-free cos² full-scan top-10 differs from cos top-10 | Min cos in corpus |
+|---|---|---|---|---|
+| 1000 | 0 | 0 | 4 | -0.275 |
+| 2000 | 0 | 0 | 4 | -0.279 |
+| 5000 | 0 | 0 | 2 | -0.312 |
+| 10000 | 0 | 0 | 0 | -0.318 |
+| all | 0 | 0 | 0 | -0.321 |
+
+The last-but-one column measures the sign loss of cos² (D1) in the full-scan protocol: strongly negative items square above weakly positive top-10 items. Shortlist protocols (M <= 100) contain no negative cosines, so they are unaffected.
+
+**Quantum-sim retrieval, two-stage (M=50 shortlist from Flat, Tier B re-score, ties by classical score), 300 queries, 5 seeds** (`results/phase3/phase3_20261011_221127/retrieval_metrics.csv`; rankings `results/phase3/phase3_20261011_221127/rankings/`). Values: mean ± sd across seeds; [95% bootstrap CI over queries, seed-averaged]; diff = quantum - classical Hit@3 (paired bootstrap CI).
+
+| N | Shots S | Hit@3 | Hit@3 CI | MRR@10 | Overlap@10 | RBO | Top-1 changed | Kendall tau (M items) | diff Hit@3 [CI] |
+|---|---|---|---|---|---|---|---|---|---|
+| 1000 | classical | 0.860 | [0.820, 0.897] | 0.796 | 1 | 1 | 0 | 1 | - |
+| 1000 | 64 | 0.606 ± 0.014 | [0.565, 0.647] | 0.535 ± 0.013 | 0.447 | 0.433 | 0.533 | 0.205 | -0.254 [-0.291, -0.219] |
+| 1000 | 256 | 0.761 ± 0.011 | [0.721, 0.801] | 0.703 ± 0.013 | 0.565 | 0.586 | 0.306 | 0.318 | -0.099 [-0.129, -0.071] |
+| 1000 | 1024 | 0.836 ± 0.014 | [0.797, 0.873] | 0.769 ± 0.008 | 0.707 | 0.737 | 0.157 | 0.468 | -0.024 [-0.046, -0.003] |
+| 1000 | 4096 | 0.857 ± 0.012 | [0.819, 0.894] | 0.794 ± 0.008 | 0.831 | 0.852 | 0.081 | 0.624 | -0.003 [-0.013, +0.007] |
+| 1000 | 16384 | 0.857 ± 0.002 | [0.817, 0.894] | 0.796 ± 0.005 | 0.910 | 0.920 | 0.046 | 0.760 | -0.003 [-0.013, +0.006] |
+| 1000 | inf | 0.860 ± 0.000 | [0.820, 0.897] | 0.796 ± 0.000 | 1.000 | 1.000 | 0.000 | 1.000 | +0.000 [+0.000, +0.000] |
+| 2000 | classical | 0.827 | [0.783, 0.870] | 0.766 | 1 | 1 | 0 | 1 | - |
+| 2000 | 64 | 0.561 ± 0.026 | [0.519, 0.603] | 0.504 ± 0.028 | 0.450 | 0.432 | 0.550 | 0.216 | -0.266 [-0.304, -0.228] |
+| 2000 | 256 | 0.739 ± 0.010 | [0.697, 0.780] | 0.667 ± 0.010 | 0.578 | 0.592 | 0.311 | 0.339 | -0.087 [-0.115, -0.061] |
+| 2000 | 1024 | 0.806 ± 0.006 | [0.765, 0.846] | 0.732 ± 0.008 | 0.719 | 0.742 | 0.171 | 0.490 | -0.021 [-0.041, +0.000] |
+| 2000 | 4096 | 0.813 ± 0.008 | [0.770, 0.853] | 0.755 ± 0.003 | 0.836 | 0.852 | 0.102 | 0.645 | -0.014 [-0.029, +0.001] |
+| 2000 | 16384 | 0.821 ± 0.006 | [0.779, 0.861] | 0.761 ± 0.003 | 0.911 | 0.921 | 0.055 | 0.777 | -0.005 [-0.020, +0.009] |
+| 2000 | inf | 0.827 ± 0.000 | [0.783, 0.870] | 0.766 ± 0.000 | 1.000 | 1.000 | 0.000 | 1.000 | +0.000 [+0.000, +0.000] |
+| 5000 | classical | 0.777 | [0.730, 0.823] | 0.708 | 1 | 1 | 0 | 1 | - |
+| 5000 | 64 | 0.521 ± 0.034 | [0.479, 0.563] | 0.459 ± 0.029 | 0.452 | 0.423 | 0.600 | 0.221 | -0.256 [-0.294, -0.219] |
+| 5000 | 256 | 0.685 ± 0.013 | [0.640, 0.729] | 0.618 ± 0.011 | 0.586 | 0.588 | 0.368 | 0.361 | -0.092 [-0.121, -0.064] |
+| 5000 | 1024 | 0.737 ± 0.012 | [0.690, 0.781] | 0.682 ± 0.011 | 0.731 | 0.742 | 0.198 | 0.517 | -0.040 [-0.062, -0.019] |
+| 5000 | 4096 | 0.759 ± 0.005 | [0.713, 0.804] | 0.696 ± 0.007 | 0.848 | 0.856 | 0.103 | 0.675 | -0.017 [-0.035, +0.000] |
+| 5000 | 16384 | 0.775 ± 0.005 | [0.729, 0.820] | 0.710 ± 0.004 | 0.920 | 0.924 | 0.050 | 0.802 | -0.001 [-0.014, +0.011] |
+| 5000 | inf | 0.777 ± 0.000 | [0.730, 0.823] | 0.708 ± 0.000 | 1.000 | 1.000 | 0.000 | 1.000 | +0.000 [+0.000, +0.000] |
+| 10000 | classical | 0.747 | [0.697, 0.793] | 0.662 | 1 | 1 | 0 | 1 | - |
+| 10000 | 64 | 0.467 ± 0.027 | [0.427, 0.507] | 0.401 ± 0.016 | 0.443 | 0.404 | 0.630 | 0.222 | -0.280 [-0.319, -0.242] |
+| 10000 | 256 | 0.612 ± 0.015 | [0.565, 0.659] | 0.551 ± 0.007 | 0.574 | 0.563 | 0.425 | 0.364 | -0.135 [-0.167, -0.103] |
+| 10000 | 1024 | 0.695 ± 0.014 | [0.648, 0.743] | 0.627 ± 0.016 | 0.731 | 0.733 | 0.231 | 0.535 | -0.051 [-0.073, -0.031] |
+| 10000 | 4096 | 0.728 ± 0.009 | [0.681, 0.775] | 0.651 ± 0.003 | 0.846 | 0.850 | 0.127 | 0.690 | -0.019 [-0.033, -0.005] |
+| 10000 | 16384 | 0.740 ± 0.005 | [0.691, 0.787] | 0.656 ± 0.005 | 0.911 | 0.917 | 0.074 | 0.816 | -0.007 [-0.016, +0.003] |
+| 10000 | inf | 0.747 ± 0.000 | [0.697, 0.793] | 0.662 ± 0.000 | 1.000 | 1.000 | 0.000 | 1.000 | +0.000 [+0.000, +0.000] |
+| all | classical | 0.680 | [0.627, 0.733] | 0.590 | 1 | 1 | 0 | 1 | - |
+| all | 64 | 0.415 ± 0.022 | [0.375, 0.457] | 0.357 ± 0.005 | 0.436 | 0.385 | 0.686 | 0.221 | -0.265 [-0.304, -0.225] |
+| all | 256 | 0.552 ± 0.012 | [0.505, 0.600] | 0.489 ± 0.006 | 0.566 | 0.546 | 0.469 | 0.365 | -0.128 [-0.160, -0.097] |
+| all | 1024 | 0.626 ± 0.015 | [0.577, 0.675] | 0.559 ± 0.008 | 0.722 | 0.713 | 0.299 | 0.537 | -0.054 [-0.078, -0.031] |
+| all | 4096 | 0.661 ± 0.006 | [0.611, 0.711] | 0.583 ± 0.005 | 0.845 | 0.841 | 0.165 | 0.699 | -0.019 [-0.035, -0.004] |
+| all | 16384 | 0.675 ± 0.004 | [0.623, 0.725] | 0.592 ± 0.003 | 0.918 | 0.915 | 0.093 | 0.823 | -0.005 [-0.016, +0.005] |
+| all | inf | 0.680 ± 0.000 | [0.627, 0.733] | 0.590 ± 0.000 | 1.000 | 1.000 | 0.000 | 1.000 | +0.000 [+0.000, +0.000] |
+
+**Full-scan ablation (all N candidates estimated, Tier B)**
+
+| N | Shots S | Hit@3 | MRR@10 | Overlap@10 | Top-1 changed | diff Hit@3 [CI] |
+|---|---|---|---|---|---|---|
+| 1000 | 64 | 0.457 ± 0.016 | 0.405 ± 0.011 | 0.195 | 0.631 | -0.403 [-0.447, -0.361] |
+| 1000 | 256 | 0.741 ± 0.010 | 0.681 ± 0.004 | 0.406 | 0.315 | -0.119 [-0.152, -0.089] |
+| 1000 | 1024 | 0.836 ± 0.010 | 0.768 ± 0.007 | 0.657 | 0.168 | -0.024 [-0.042, -0.007] |
+| 1000 | 4096 | 0.857 ± 0.004 | 0.790 ± 0.007 | 0.824 | 0.094 | -0.003 [-0.016, +0.011] |
+| 1000 | 16384 | 0.863 ± 0.005 | 0.796 ± 0.003 | 0.909 | 0.050 | +0.003 [-0.008, +0.013] |
+| 1000 | inf | 0.860 ± 0.000 | 0.796 ± 0.000 | 0.998 | 0.000 | +0.000 [+0.000, +0.000] |
+| 2000 | 64 | 0.404 ± 0.031 | 0.362 ± 0.029 | 0.173 | 0.682 | -0.423 [-0.466, -0.378] |
+| 2000 | 256 | 0.713 ± 0.016 | 0.645 ± 0.014 | 0.420 | 0.350 | -0.113 [-0.147, -0.080] |
+| 2000 | 1024 | 0.797 ± 0.011 | 0.733 ± 0.011 | 0.683 | 0.180 | -0.030 [-0.050, -0.010] |
+| 2000 | 4096 | 0.822 ± 0.010 | 0.754 ± 0.004 | 0.838 | 0.089 | -0.005 [-0.019, +0.010] |
+| 2000 | 16384 | 0.827 ± 0.006 | 0.763 ± 0.005 | 0.913 | 0.057 | +0.001 [-0.009, +0.010] |
+| 2000 | inf | 0.827 ± 0.000 | 0.766 ± 0.000 | 0.998 | 0.000 | +0.000 [+0.000, +0.000] |
+| 5000 | 64 | 0.355 ± 0.023 | 0.315 ± 0.021 | 0.161 | 0.712 | -0.421 [-0.466, -0.376] |
+| 5000 | 256 | 0.663 ± 0.019 | 0.593 ± 0.017 | 0.452 | 0.392 | -0.113 [-0.144, -0.083] |
+| 5000 | 1024 | 0.746 ± 0.013 | 0.674 ± 0.005 | 0.706 | 0.186 | -0.031 [-0.050, -0.012] |
+| 5000 | 4096 | 0.761 ± 0.005 | 0.695 ± 0.007 | 0.843 | 0.104 | -0.016 [-0.031, -0.002] |
+| 5000 | 16384 | 0.770 ± 0.004 | 0.705 ± 0.004 | 0.920 | 0.055 | -0.007 [-0.018, +0.005] |
+| 5000 | inf | 0.777 ± 0.000 | 0.708 ± 0.000 | 0.999 | 0.000 | +0.000 [+0.000, +0.000] |
+| 10000 | 64 | 0.300 ± 0.021 | 0.262 ± 0.018 | 0.154 | 0.771 | -0.447 [-0.492, -0.401] |
+| 10000 | 256 | 0.600 ± 0.011 | 0.537 ± 0.004 | 0.460 | 0.431 | -0.147 [-0.179, -0.115] |
+| 10000 | 1024 | 0.704 ± 0.011 | 0.626 ± 0.005 | 0.713 | 0.233 | -0.043 [-0.065, -0.022] |
+| 10000 | 4096 | 0.725 ± 0.006 | 0.651 ± 0.005 | 0.845 | 0.122 | -0.022 [-0.040, -0.005] |
+| 10000 | 16384 | 0.734 ± 0.006 | 0.657 ± 0.006 | 0.915 | 0.067 | -0.013 [-0.023, -0.004] |
+| 10000 | inf | 0.747 ± 0.000 | 0.662 ± 0.000 | 1.000 | 0.000 | +0.000 [+0.000, +0.000] |
+| all | 64 | 0.245 ± 0.014 | 0.219 ± 0.024 | 0.151 | 0.794 | -0.435 [-0.481, -0.387] |
+| all | 256 | 0.537 ± 0.021 | 0.474 ± 0.021 | 0.467 | 0.493 | -0.143 [-0.177, -0.112] |
+| all | 1024 | 0.623 ± 0.005 | 0.557 ± 0.009 | 0.704 | 0.297 | -0.057 [-0.080, -0.034] |
+| all | 4096 | 0.659 ± 0.003 | 0.580 ± 0.010 | 0.845 | 0.161 | -0.021 [-0.035, -0.008] |
+| all | 16384 | 0.663 ± 0.009 | 0.592 ± 0.006 | 0.920 | 0.080 | -0.017 [-0.029, -0.006] |
+| all | inf | 0.680 ± 0.000 | 0.590 ± 0.000 | 1.000 | 0.000 | +0.000 [+0.000, +0.000] |
+
+**Tie-breaking effect at low S (M=50) [P1]**: default breaks equal estimates by the classical score (a design choice that injects exact information into ties); 'random' breaks them uniformly at random.
+
+| N | Shots S | Hit@3 ties=classical | Hit@3 ties=random | Hit@1 ties=classical | Hit@1 ties=random |
+|---|---|---|---|---|---|
+| 1000 | 64 | 0.606 ± 0.014 | 0.581 ± 0.012 | 0.425 ± 0.018 | 0.399 ± 0.022 |
+| 1000 | 128 | 0.690 ± 0.021 | 0.678 ± 0.024 | 0.538 ± 0.026 | 0.527 ± 0.029 |
+| 1000 | 256 | 0.761 ± 0.011 | 0.755 ± 0.010 | 0.617 ± 0.021 | 0.608 ± 0.023 |
+| 1000 | 1024 | 0.836 ± 0.014 | 0.836 ± 0.015 | 0.687 ± 0.009 | 0.685 ± 0.007 |
+| 2000 | 64 | 0.561 ± 0.026 | 0.531 ± 0.039 | 0.400 ± 0.034 | 0.375 ± 0.024 |
+| 2000 | 128 | 0.676 ± 0.025 | 0.662 ± 0.022 | 0.500 ± 0.011 | 0.485 ± 0.015 |
+| 2000 | 256 | 0.739 ± 0.010 | 0.732 ± 0.012 | 0.573 ± 0.012 | 0.563 ± 0.007 |
+| 2000 | 1024 | 0.806 ± 0.006 | 0.805 ± 0.009 | 0.641 ± 0.013 | 0.641 ± 0.012 |
+| 5000 | 64 | 0.521 ± 0.034 | 0.489 ± 0.039 | 0.357 ± 0.035 | 0.331 ± 0.037 |
+| 5000 | 128 | 0.607 ± 0.016 | 0.593 ± 0.013 | 0.444 ± 0.021 | 0.429 ± 0.016 |
+| 5000 | 256 | 0.685 ± 0.013 | 0.679 ± 0.018 | 0.522 ± 0.012 | 0.513 ± 0.013 |
+| 5000 | 1024 | 0.737 ± 0.012 | 0.737 ± 0.012 | 0.601 ± 0.021 | 0.600 ± 0.020 |
+| 10000 | 64 | 0.467 ± 0.027 | 0.427 ± 0.018 | 0.295 ± 0.022 | 0.269 ± 0.022 |
+| 10000 | 128 | 0.567 ± 0.013 | 0.553 ± 0.010 | 0.384 ± 0.026 | 0.373 ± 0.026 |
+| 10000 | 256 | 0.612 ± 0.015 | 0.601 ± 0.013 | 0.458 ± 0.005 | 0.447 ± 0.009 |
+| 10000 | 1024 | 0.695 ± 0.014 | 0.694 ± 0.014 | 0.533 ± 0.024 | 0.531 ± 0.024 |
+| all | 64 | 0.415 ± 0.022 | 0.375 ± 0.014 | 0.254 ± 0.009 | 0.227 ± 0.010 |
+| all | 128 | 0.476 ± 0.009 | 0.461 ± 0.013 | 0.322 ± 0.012 | 0.314 ± 0.013 |
+| all | 256 | 0.552 ± 0.012 | 0.545 ± 0.011 | 0.392 ± 0.008 | 0.384 ± 0.005 |
+| all | 1024 | 0.626 ± 0.015 | 0.625 ± 0.019 | 0.461 ± 0.007 | 0.460 ± 0.011 |
+
+**Shot threshold (exit gate)** (`results/phase3/phase3_20261011_221127/shot_thresholds.csv`): smallest S such that for that S and every larger S in the grid the paired 95% CI of (quantum - classical) contains 0 ('indistinguishable'), and the plainer rule 'quantum mean inside the classical 95% CI'.
+
+| N | M | Ties | Hit@3: indistinguishable | Hit@3: within classical CI | MRR@10: indistinguishable | MRR@10: within CI | Hit@1: indistinguishable |
+|---|---|---|---|---|---|---|---|
+| 1000 | 20 | classical | 2048 | 512 | 4096 | 1024 | 2048 |
+| 1000 | 50 | classical | 2048 | 1024 | 4096 | 1024 | 2048 |
+| 1000 | 50 | random | 2048 | 1024 | 4096 | 1024 | 2048 |
+| 1000 | 100 | classical | 2048 | 512 | 4096 | 1024 | 2048 |
+| 1000 | full | classical | 2048 | 1024 | 2048 | 1024 | 2048 |
+| 2000 | 20 | classical | 2048 | 1024 | 8192 | 1024 | 8192 |
+| 2000 | 50 | classical | 4096 | 1024 | 8192 | 1024 | 8192 |
+| 2000 | 50 | random | 4096 | 1024 | 8192 | 1024 | 8192 |
+| 2000 | 100 | classical | 2048 | 1024 | 8192 | 1024 | 4096 |
+| 2000 | full | classical | 4096 | 1024 | 8192 | 1024 | 16384 |
+| 5000 | 20 | classical | 8192 | 1024 | 8192 | 1024 | 4096 |
+| 5000 | 50 | classical | 4096 | 1024 | 16384 | 1024 | 2048 |
+| 5000 | 50 | random | 4096 | 1024 | 16384 | 1024 | 2048 |
+| 5000 | 100 | classical | 8192 | 1024 | 4096 | 1024 | 4096 |
+| 5000 | full | classical | 8192 | 1024 | 8192 | 1024 | 4096 |
+| 10000 | 20 | classical | 8192 | 2048 | 8192 | 1024 | 2048 |
+| 10000 | 50 | classical | 8192 | 2048 | 8192 | 1024 | 2048 |
+| 10000 | 50 | random | 8192 | 2048 | 8192 | 1024 | 2048 |
+| 10000 | 100 | classical | 16384 | 2048 | 8192 | 1024 | 4096 |
+| 10000 | full | classical | absent | 1024 | 8192 | 1024 | 4096 |
+| all | 20 | classical | 16384 | 1024 | 2048 | 512 | 2048 |
+| all | 50 | classical | 16384 | 2048 | 4096 | 1024 | 4096 |
+| all | 50 | random | 16384 | 2048 | 4096 | 1024 | 4096 |
+| all | 100 | classical | 16384 | 1024 | 4096 | 1024 | 2048 |
+| all | full | classical | absent | 2048 | 4096 | 1024 | 2048 |
+
+Tier B run cost (H8; `results/phase3/phase3_20261011_221127/tierB_run_timing.csv`): median seconds per (N, M, S, seed) run over all 300 queries, incl. ranking and metrics - N=1000 M=50: 0.092 s, N=1000 M=full: 0.051 s, N=2000 M=50: 0.086 s, N=2000 M=full: 0.086 s, N=5000 M=50: 0.084 s, N=5000 M=full: 0.232 s, N=10000 M=50: 0.086 s, N=10000 M=full: 0.553 s, N=all M=50: 0.084 s, N=all M=full: 1.405 s. (Proper latency per query is Phase 4.)
+
+**Tier A end-to-end subset (3.5) [P1]** (`results/phase3/phase3_20261011_221127/tierA_e2e_summary.json`, `results/phase3/phase3_20261011_221127/tierA_e2e.csv`): 20 queries x M=10 (exact top-10 at N=all) x S=1024: 200 real Aer circuits in 22.0 s (0.110 s per circuit; classical simulation cost grows as 2^qubits).
+
+| Ranking | Hit@1 | Hit@3 | Top-1 changed vs classical | Overlap@3 vs classical |
+|---|---|---|---|---|
+| A | 0.500 | 0.700 | 0.250 | 0.667 |
+| B | 0.550 | 0.600 | 0.250 | 0.683 |
+| classical | 0.550 | 0.700 | 0.000 | 1.000 |
+
+With 20 queries these rates are illustrative only (no CI claimed).
+
+**T6 resource counts (MODELLED, not executed)** (`results/phase3/phase3_20261011_221127/t6_resource_counts.json`; basis ['cx', 'u'], optimisation level 1, transpile took 0.7 s)
+
+| Circuit | Qubits | Depth | 2-qubit gates | 1-qubit gates |
+|---|---|---|---|---|
+| swap_test_core | 19 | 78 | 72 | 74 |
+| full_with_state_prep | 19 | 1083 | 1076 | 1096 |
+
+Statevector memory for the 19-qubit simulation: 8388608 bytes (complex128). State preparation dominates the gate count; without QRAM-like loading there is no asymptotic advantage (Appendix A.3).
+
+**Not done in Phase 3**: 3.6 Zardini-style estimator [P1] deferred until all P0 phases are complete (plan Section 0 priority rule); see Deviations.
+
+**pytest** (whole suite at Phase 3 exit): 29 tests, 0 failures, 0 errors, 0 skipped (`results/phase3/phase3_20261011_221127/pytest_junit.xml`).
+
+**Manuscript hook**: Section 6 (estimator validation, F2, shot budget), Table T6; Section 2 (SWAP test).
+<!-- END:phase3 -->
+
 ## 3. Headline Findings
 (Filled in Phase 9.)
 
@@ -302,6 +497,11 @@ Peak working set of the benchmark process after each stage (GB, cumulative; `res
 - **D-2.2 Silhouette check skipped**: the Song et al.-style Silhouette choice of nlist is a [P2] item and was not run; nlist = round(sqrt N) is used throughout.
 - **D-2.3 Thread pinning**: FAISS was pinned to 1 thread for in-process latency (low noise, comparable with the single-threaded numpy emulator in Phase 3); multi-thread results are not reported.
 - **D-2.4 Ground-truth ties**: the numpy ground truth breaks score ties by lower position; FAISS Flat reproduced all top-50 lists identically (see the Flat-vs-numpy check in the Phase 2 report).
+- **D-3.1 Validation pair mix**: plan 3.3a asks for 500 random corpus pairs. Random paragraph pairs have low cosine (cos^2 near 0), which would only test one end of the range, so the 500 pairs are 250 random corpus pairs plus 250 query-to-exact-top-50 pairs (the retrieval-relevant range). Validation uses unclipped (unbiased) estimates; retrieval uses estimates clipped to [0, 1] (plan 3.1).
+- **D-3.2 Tier A without per-call transpile**: Aer executes set_statevector, h and cswap natively; with the same seed the estimates are identical with and without transpile (Phase 3 `tierA_timing.json`), so runs skip transpile (lower cost). The SWAP test itself is still executed by the simulator.
+- **D-3.3 Zardini estimator (3.6, [P1]) deferred**: plan Section 0 says to finish all P0 work first; it requires reading the original paper to implement the exact formulas. It is not implemented yet and will be marked "not implemented" if time runs out.
+- **D-3.4 Rankings not committed**: per-configuration rankings (`results/phase3/<run>/rankings/*.npz`) are git-ignored; they are fully seeded and regenerate exactly with `python tasks.py phase3`. All summary CSV/JSON files are committed.
+- **D-3.5 Shot-threshold rule**: the exit gate "Hit@k within CI" is operationalised two ways: (1) paired bootstrap 95% CI of (quantum - classical) contains 0 at that S and at every larger S in the grid; (2) quantum mean inside the classical 95% CI. Rule (1) is strict: a small but consistent loss on a few queries is flagged as a difference. The formal, pre-registered tests (McNemar / Holm) are Phase 4 (4.6).
 <!-- END:deviations -->
 
 ## 5. Failures, Limitations, Threats to Validity
@@ -311,6 +511,9 @@ Peak working set of the benchmark process after each stage (GB, cumulative; `res
 - **Truncation (Phase 1)**: paragraphs longer than the embedder's max_seq_length are truncated before embedding (count and fraction in the Phase 1 embedding table); the gold answer may lie in the cut part for those paragraphs, lowering the classical ceiling equally for both arms.
 - **3B model**: fails the latency criterion (a) and leaves little RAM headroom; not usable on this laptop.
 - **Latency noise (Phase 2)**: for the larger indexes the repeat-to-repeat medians of Flat search differ noticeably (see the "run-to-run range" column of T4a), CPU temperature was not monitored and the power plan was Balanced, so small latency differences between arms at large N must be read against that range, not the pooled median alone. No repeat was discarded.
+- **Tier A vs Tier B, repeated-estimate KS (Phase 3)**: on the repeated-estimates subset the pooled two-sample KS test of standardised errors gives p below 0.05 (uncorrected; exact value in the Phase 3 validation paragraph), while the single-estimate KS test, the bias, the variance-to-theory ratios and the log-log slopes all agree with equivalence. With the four KS tests in the validation, Holm correction would not reject; this is reported, not explained away. Pooled z-scores of a lattice-valued estimator (2k/S - 1) are not continuous, which the KS test assumes.
+- **Sign loss in full scan (Phase 3)**: the SWAP test estimates cos^2, so in the full-scan protocol strongly negative paragraphs can outrank weak positive top-10 items even with infinite shots (counts per N in the negative-cosine audit). The shortlist protocol (M <= 100) contained no negative cosines.
+- **Full-scan quality gap (Phase 3)**: for the larger corpora the full-scan quantum arm does not become statistically indistinguishable from classical on Hit@3 within the shot grid (see `shot_thresholds.csv`), so full-scan results are not used as the main arm.
 <!-- END:failures -->
 
 ## 6. Reproduction Commands

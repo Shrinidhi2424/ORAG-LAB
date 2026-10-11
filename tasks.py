@@ -1,7 +1,7 @@
 """Cross-platform task runner (no `make` needed on Windows).
 
 Usage: python tasks.py <task> [<task> ...]
-Tasks: setup | env | data | bench | embed | test | report | phase0 .. phase10
+Tasks: setup | env | data | bench | embed | test | report | figures | phase0 .. phase10
 """
 from __future__ import annotations
 
@@ -54,8 +54,28 @@ def bench() -> None:
     run(py(), "scripts/bench_generator.py", "--run-id", run_id())
 
 
+def latest_phase() -> str:
+    """Highest phase that has a current run (its run dir receives the pytest junit report)."""
+    for i in range(10, -1, -1):
+        if (ROOT / "results" / f"phase{i}" / ".current_run").exists():
+            return f"phase{i}"
+    return "phase0"
+
+
 def test() -> None:
-    run(py(), "-m", "pytest", "-q", f"--junitxml=results/phase2/{run_id('phase2')}/pytest_junit.xml" if (ROOT / "results/phase2/.current_run").exists() else f"--junitxml=results/phase1/{run_id('phase1')}/pytest_junit.xml" if (ROOT / "results/phase1/.current_run").exists() else f"--junitxml=results/phase0/{run_id()}/pytest_junit.xml")
+    ph = latest_phase()
+    run(py(), "-m", "pytest", "-q", f"--junitxml=results/{ph}/{run_id(ph)}/pytest_junit.xml")
+
+
+def figures() -> None:
+    run(py(), "scripts/make_figures.py")
+
+
+def phase3() -> None:
+    run(py(), "scripts/run_phase3.py", "--run-id", run_id("phase3"))
+    figures()
+    test()
+    report()
 
 
 def report() -> None:
@@ -91,8 +111,8 @@ def phase0() -> None:
 
 
 TASKS = {"setup": setup, "env": env, "data": data, "bench": bench, "test": test, "report": report, "embed": embed,
-         "phase0": phase0, "phase1": phase1, "phase2": phase2}
-for _i in range(3, 11):
+         "phase0": phase0, "phase1": phase1, "phase2": phase2, "phase3": phase3, "figures": figures}
+for _i in range(4, 11):
     TASKS[f"phase{_i}"] = not_yet(f"phase{_i}")
 
 

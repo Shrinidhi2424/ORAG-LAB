@@ -1,0 +1,27 @@
+{
+  "queries": 20,
+  "M": 10,
+  "shots": 1024,
+  "N": "all",
+  "total_seconds": 21.991330400051083,
+  "circuits": 200,
+  "seconds_per_circuit": 0.10995665200025542,
+  "A": {
+    "Hit@1": 0.5,
+    "Hit@3": 0.7,
+    "top1_changed_frac": 0.25,
+    "overlap@3_mean": 0.6666666666666666
+  },
+  "B": {
+    "Hit@1": 0.55,
+    "Hit@3": 0.6,
+    "top1_changed_frac": 0.25,
+    "overlap@3_mean": 0.6833333333333332
+  },
+  "classical": {
+    "Hit@1": 0.55,
+    "Hit@3": 0.7,
+    "top1_changed_frac": 0.0,
+    "overlap@3_mean": 1.0
+  }
+}

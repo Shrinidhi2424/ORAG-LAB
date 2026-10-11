@@ -1,0 +1,22 @@
+{
+  "with_transpile": {
+    "per_pair_s_median_excl_first": 0.2474503499979619,
+    "per_pair_s_max": 0.5282465000054799,
+    "n": 20,
+    "shots": 4096
+  },
+  "without_transpile": {
+    "per_pair_s_median_excl_first": 0.12861805001739413,
+    "per_pair_s_max": 0.19315930001903325,
+    "n": 20,
+    "shots": 4096
+  },
+  "identical_estimates_both_modes": true,
+  "tierB_chunk_full_scan": {
+    "queries": 20,
+    "candidates": 20958,
+    "shots": 1024,
+    "seconds": 0.18031190003966913
+  },
+  "decision": "Tier A runs WITHOUT transpile (Aer executes set_statevector/h/cswap natively; same seed gives identical estimates) - per-pair cost below 2 s, no pair-count reduction needed"
+}

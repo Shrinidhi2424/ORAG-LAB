@@ -1,0 +1,76 @@
+{
+  "shots": 4096,
+  "n_pairs": 500,
+  "pair_types": {
+    "random_corpus_pair": 250,
+    "query_top50_pair": 250
+  },
+  "theory_rmse": 0.01547257609318668,
+  "theory_mae_normal_approx": 0.012343344212888624,
+  "tierA": {
+    "bias": 0.0003859158710338939,
+    "mae": 0.012717227454189569,
+    "rmse": 0.01613903355433357,
+    "z_mean": 0.024384037599871584,
+    "z_sd": 1.046209316145489,
+    "frac_abs_z_le_2": 0.944,
+    "frac_abs_z_le_3": 0.996,
+    "ks_vs_normal_p": 0.896582834530691
+  },
+  "tierB": {
+    "bias": -0.00043927944146610623,
+    "mae": 0.012125125029832567,
+    "rmse": 0.015666680881775093,
+    "z_mean": -0.02906199649882909,
+    "z_sd": 1.014255352293731,
+    "frac_abs_z_le_2": 0.95,
+    "frac_abs_z_le_3": 0.998,
+    "ks_vs_normal_p": 0.06281677933280483
+  },
+  "ks_two_sample_z_tierA_vs_tierB": {
+    "stat": 0.06400000000000006,
+    "p": 0.25760726053364696
+  },
+  "tierA_seconds_per_pair_median": 0.12196354998741299,
+  "cos_range": [
+    -0.16011127618336113,
+    0.8208487663052226
+  ],
+  "estimates_unclipped": true,
+  "repeated": {
+    "pairs": 50,
+    "repeats": 20,
+    "shots": 4096,
+    "mean_abs_diff_of_pair_means": 0.0038061523437500004,
+    "mean_abs_diff_of_pair_means_expected_sd": 0.004896886537106188,
+    "var_ratio_A_over_B_median": 0.9937243349661691,
+    "var_ratio_A_over_B_iqr": [
+      0.6896026370891072,
+      1.287242418339257
+    ],
+    "tierA_var_over_theory_mean": 1.0055088301015562,
+    "tierB_var_over_theory_mean": 1.0175235598303833,
+    "ks_two_sample_pooled_z": {
+      "stat": 0.06700000000000006,
+      "p": 0.022438659451142425
+    }
+  },
+  "loglog_slope_tierA": {
+    "slope": -0.4832247503947348,
+    "stderr": 0.01191933950569464,
+    "ci95": [
+      -0.5065866558258962,
+      -0.45986284496357327
+    ],
+    "theory": -0.5
+  },
+  "loglog_slope_tierB": {
+    "slope": -0.4992589335576731,
+    "stderr": 0.0012342798757820164,
+    "ci95": [
+      -0.5016781221142058,
+      -0.49683974500114036
+    ],
+    "theory": -0.5
+  }
+}
