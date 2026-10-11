@@ -55,7 +55,7 @@ def bench() -> None:
 
 
 def test() -> None:
-    run(py(), "-m", "pytest", "-q", f"--junitxml=results/phase1/{run_id('phase1')}/pytest_junit.xml" if (ROOT / "results/phase1/.current_run").exists() else f"--junitxml=results/phase0/{run_id()}/pytest_junit.xml")
+    run(py(), "-m", "pytest", "-q", f"--junitxml=results/phase2/{run_id('phase2')}/pytest_junit.xml" if (ROOT / "results/phase2/.current_run").exists() else f"--junitxml=results/phase1/{run_id('phase1')}/pytest_junit.xml" if (ROOT / "results/phase1/.current_run").exists() else f"--junitxml=results/phase0/{run_id()}/pytest_junit.xml")
 
 
 def report() -> None:
@@ -65,6 +65,12 @@ def report() -> None:
 def embed() -> None:
     """Phase 1: build corpus/ladder/eval set, embed (skips if embeddings exist), ground truth is a separate step."""
     run(py(), "scripts/run_phase1.py", "--run-id", run_id("phase1"), "--steps", "corpus", "embed")
+
+
+def phase2() -> None:
+    run(py(), "scripts/run_phase2.py", "--run-id", run_id("phase2"))
+    test()
+    report()
 
 
 def phase1() -> None:
@@ -85,8 +91,8 @@ def phase0() -> None:
 
 
 TASKS = {"setup": setup, "env": env, "data": data, "bench": bench, "test": test, "report": report, "embed": embed,
-         "phase0": phase0, "phase1": phase1}
-for _i in range(2, 11):
+         "phase0": phase0, "phase1": phase1, "phase2": phase2}
+for _i in range(3, 11):
     TASKS[f"phase{_i}"] = not_yet(f"phase{_i}")
 
 

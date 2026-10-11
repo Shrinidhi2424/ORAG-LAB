@@ -1,0 +1,11 @@
+{
+  "n": 500,
+  "median_ms": 13.019100006204098,
+  "p95_ms": 22.22673497744836,
+  "mean_ms": 14.502192200976424,
+  "min_ms": 7.821100007276982,
+  "max_ms": 75.11560001876205,
+  "repeat_median_min_ms": 10.980399994878098,
+  "repeat_median_max_ms": 15.978800016455352,
+  "note": "batch size 1, CPU, torch threads 4, includes tokenisation"
+}

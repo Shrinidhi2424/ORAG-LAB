@@ -1,0 +1,32 @@
+{
+  "1000": {
+    "nlist": 32,
+    "best_nprobe": 16,
+    "target_met": true,
+    "rule": "smallest nprobe with mean Overlap@10 vs exact >= 0.95; else largest swept"
+  },
+  "2000": {
+    "nlist": 45,
+    "best_nprobe": 16,
+    "target_met": true,
+    "rule": "smallest nprobe with mean Overlap@10 vs exact >= 0.95; else largest swept"
+  },
+  "5000": {
+    "nlist": 71,
+    "best_nprobe": 16,
+    "target_met": true,
+    "rule": "smallest nprobe with mean Overlap@10 vs exact >= 0.95; else largest swept"
+  },
+  "10000": {
+    "nlist": 100,
+    "best_nprobe": 16,
+    "target_met": true,
+    "rule": "smallest nprobe with mean Overlap@10 vs exact >= 0.95; else largest swept"
+  },
+  "all": {
+    "nlist": 145,
+    "best_nprobe": 16,
+    "target_met": true,
+    "rule": "smallest nprobe with mean Overlap@10 vs exact >= 0.95; else largest swept"
+  }
+}

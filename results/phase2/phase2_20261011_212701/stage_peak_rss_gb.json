@@ -1,0 +1,7 @@
+{
+  "note": "process peak working set (GB) after each stage (cumulative)",
+  "quality": 0.396591104,
+  "build": 0.48965632,
+  "latency": 0.48965632,
+  "qembed": 0.661209088
+}

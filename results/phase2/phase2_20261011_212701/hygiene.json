@@ -1,0 +1,14 @@
+{
+  "faiss_omp_threads": 1,
+  "faiss_version": "1.15.1",
+  "power_plugged": true,
+  "battery_percent": 100,
+  "power_scheme": "Power Scheme GUID: 381b4222-f694-41f0-9685-ff5bb260df2e  (Balanced)",
+  "cpu_freq_mhz_at_start": 2419.0,
+  "cpu_temperature": "not monitored (no sensor tool on this host); cpu_freq per repeat logged as throttling proxy",
+  "arm_order": "conditions shuffled per repeat (seeded) so thermal drift hits all conditions alike (H7)",
+  "warmup_queries_discarded": 10,
+  "timed_queries": 100,
+  "repeats": 5,
+  "other_load": "no other experiments running; user apps not controlled"
+}
