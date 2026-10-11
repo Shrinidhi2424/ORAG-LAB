@@ -71,6 +71,13 @@ def figures() -> None:
     run(py(), "scripts/make_figures.py")
 
 
+def phase4() -> None:
+    run(py(), "scripts/run_phase4.py", "--run-id", run_id("phase4"))
+    figures()
+    test()
+    report()
+
+
 def phase3() -> None:
     run(py(), "scripts/run_phase3.py", "--run-id", run_id("phase3"))
     figures()
@@ -111,8 +118,8 @@ def phase0() -> None:
 
 
 TASKS = {"setup": setup, "env": env, "data": data, "bench": bench, "test": test, "report": report, "embed": embed,
-         "phase0": phase0, "phase1": phase1, "phase2": phase2, "phase3": phase3, "figures": figures}
-for _i in range(4, 11):
+         "phase0": phase0, "phase1": phase1, "phase2": phase2, "phase3": phase3, "phase4": phase4, "figures": figures}
+for _i in range(5, 11):
     TASKS[f"phase{_i}"] = not_yet(f"phase{_i}")
 
 

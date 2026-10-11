@@ -1,0 +1,11 @@
+{
+  "threads": "faiss 1, BLAS/numpy 1 (threadpoolctl)",
+  "power_plugged": true,
+  "battery_percent": 100,
+  "power_scheme": "Power Scheme GUID: 381b4222-f694-41f0-9685-ff5bb260df2e  (Balanced)",
+  "cpu_temperature": "not monitored; cpu_freq at repeat boundaries logged as throttling proxy",
+  "interleaving": "all conditions shuffled per repeat (seeded) so thermal drift hits all arms alike (H7)",
+  "warmup_queries_discarded": 10,
+  "timed_queries": 100,
+  "repeats": 5
+}

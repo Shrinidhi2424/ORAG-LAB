@@ -27,6 +27,11 @@ Do not hand-type numbers inside generated blocks (R4).
 | P3-4 | 3 | Tier A end-to-end: 200 circuits, 0.110 s/circuit | results/phase3/phase3_20261011_221127/tierA_e2e_summary.json |
 | P3-5 | 3 | T6: full circuit depth 1083, 1076 two-qubit gates | results/phase3/phase3_20261011_221127/t6_resource_counts.json |
 | P3-6 | 3 | pytest: 29/29 passed | results/phase3/phase3_20261011_221127/pytest_junit.xml |
+| P4-1 | 4 | N=all: Hit@3 Flat 0.680 vs Quantum-sim S=1024 0.626 | results/phase4/phase4_20261011_223158/main_table.csv |
+| P4-2 | 4 | Latency exponent b: Flat 1.14, Quantum-sim shortlist M=50 0.88 | results/phase4/phase4_20261011_223158/latency_slopes.csv |
+| P4-3 | 4 | Failure analysis N=all S=256: 42 dropped / 6 gained vs classical top-3 | results/phase4/phase4_20261011_223158/failure_summary.json |
+| P4-4 | 4 | Pre-registered tests: 20/30 significant after Holm | results/phase4/phase4_20261011_223158/tests.csv |
+| P4-5 | 4 | pytest: 37/37 passed | results/phase4/phase4_20261011_223158/pytest_junit.xml |
 <!-- END:index -->
 
 ## 1. Environment & Versions
@@ -481,6 +486,203 @@ Statevector memory for the 19-qubit simulation: 8388608 bytes (complex128). Stat
 **Manuscript hook**: Section 6 (estimator validation, F2, shot budget), Table T6; Section 2 (SWAP test).
 <!-- END:phase3 -->
 
+### Phase 4 - Retrieval-only experiments
+<!-- BEGIN:phase4 -->
+Run `phase4_20261011_223158` - manifest: `results/phase4/phase4_20261011_223158/run_manifest.json`. Retrieval-only; inputs: Phase 1 ground truth, Phase 2 baselines, Phase 3 rankings (`results/phase3/phase3_20261011_221127`). Quantum-sim = SWAP-test simulation (M=50 shortlist unless stated). Latency of that arm is EMULATED-estimator latency, never quantum latency.
+
+**T3 main retrieval comparison (4.1)** (`results/phase4/phase4_20261011_223158/main_table.csv`). Values with 95% bootstrap CI over the 300 queries (quantum: per-query mean over 5 seeds). Overlap@10 and RBO are versus the exact top-10; Flat is the reference (1 by construction).
+
+| N | Arm | Hit@1 | Hit@3 | Hit@5 | Hit@10 | MRR@10 | nDCG@10 | Overlap@10 | RBO |
+|---|---|---|---|---|---|---|---|---|---|
+| 1000 | Flat | 0.720 [0.670, 0.770] | 0.860 [0.820, 0.897] | 0.900 [0.863, 0.933] | 0.940 [0.913, 0.967] | 0.796 [0.757, 0.834] | 0.831 [0.797, 0.864] | 1.000 [1.000, 1.000] | 1.000 [1.000, 1.000] |
+| 1000 | IVF (nprobe 16) | 0.720 [0.670, 0.770] | 0.860 [0.820, 0.897] | 0.903 [0.867, 0.937] | 0.943 [0.917, 0.967] | 0.797 [0.758, 0.834] | 0.833 [0.799, 0.865] | 0.986 [0.980, 0.991] | 0.989 [0.984, 0.993] |
+| 1000 | Quantum-sim S=256 | 0.617 [0.571, 0.662] | 0.761 [0.721, 0.801] | 0.811 [0.775, 0.847] | 0.877 [0.845, 0.906] | 0.703 [0.664, 0.741] | 0.745 [0.709, 0.780] | 0.565 [0.550, 0.581] | 0.586 [0.570, 0.603] |
+| 1000 | Quantum-sim S=1024 | 0.687 [0.639, 0.733] | 0.836 [0.797, 0.873] | 0.879 [0.845, 0.911] | 0.913 [0.885, 0.941] | 0.769 [0.730, 0.806] | 0.804 [0.769, 0.837] | 0.707 [0.692, 0.722] | 0.737 [0.723, 0.751] |
+| 1000 | Quantum-sim S=4096 | 0.717 [0.667, 0.765] | 0.857 [0.819, 0.894] | 0.892 [0.859, 0.923] | 0.935 [0.908, 0.960] | 0.794 [0.756, 0.831] | 0.829 [0.795, 0.861] | 0.831 [0.820, 0.842] | 0.852 [0.841, 0.862] |
+| 1000 | Quantum-sim S=16384 | 0.717 [0.667, 0.767] | 0.857 [0.817, 0.894] | 0.901 [0.867, 0.932] | 0.943 [0.916, 0.967] | 0.796 [0.758, 0.833] | 0.832 [0.798, 0.864] | 0.910 [0.903, 0.918] | 0.920 [0.913, 0.926] |
+| 2000 | Flat | 0.690 [0.637, 0.740] | 0.827 [0.783, 0.870] | 0.873 [0.833, 0.910] | 0.917 [0.883, 0.947] | 0.766 [0.724, 0.806] | 0.802 [0.765, 0.838] | 1.000 [1.000, 1.000] | 1.000 [1.000, 1.000] |
+| 2000 | IVF (nprobe 16) | 0.687 [0.633, 0.740] | 0.823 [0.780, 0.867] | 0.870 [0.830, 0.907] | 0.913 [0.880, 0.943] | 0.762 [0.721, 0.804] | 0.799 [0.761, 0.835] | 0.973 [0.964, 0.981] | 0.979 [0.971, 0.986] |
+| 2000 | Quantum-sim S=256 | 0.573 [0.527, 0.620] | 0.739 [0.697, 0.780] | 0.788 [0.749, 0.826] | 0.845 [0.811, 0.878] | 0.667 [0.626, 0.707] | 0.710 [0.672, 0.748] | 0.578 [0.564, 0.593] | 0.592 [0.576, 0.607] |
+| 2000 | Quantum-sim S=1024 | 0.641 [0.593, 0.689] | 0.806 [0.765, 0.846] | 0.847 [0.810, 0.883] | 0.893 [0.861, 0.924] | 0.732 [0.692, 0.771] | 0.771 [0.734, 0.807] | 0.719 [0.704, 0.734] | 0.742 [0.727, 0.756] |
+| 2000 | Quantum-sim S=4096 | 0.673 [0.623, 0.723] | 0.813 [0.770, 0.853] | 0.863 [0.825, 0.898] | 0.909 [0.878, 0.939] | 0.755 [0.714, 0.794] | 0.792 [0.756, 0.827] | 0.836 [0.825, 0.847] | 0.852 [0.842, 0.861] |
+| 2000 | Quantum-sim S=16384 | 0.680 [0.629, 0.731] | 0.821 [0.779, 0.861] | 0.873 [0.836, 0.909] | 0.919 [0.887, 0.947] | 0.761 [0.719, 0.801] | 0.799 [0.762, 0.834] | 0.911 [0.904, 0.919] | 0.921 [0.915, 0.927] |
+| 5000 | Flat | 0.623 [0.570, 0.680] | 0.777 [0.730, 0.823] | 0.817 [0.773, 0.860] | 0.880 [0.843, 0.917] | 0.708 [0.664, 0.752] | 0.749 [0.709, 0.790] | 1.000 [1.000, 1.000] | 1.000 [1.000, 1.000] |
+| 5000 | IVF (nprobe 16) | 0.620 [0.567, 0.677] | 0.770 [0.720, 0.817] | 0.810 [0.763, 0.853] | 0.867 [0.827, 0.903] | 0.703 [0.658, 0.748] | 0.742 [0.701, 0.784] | 0.958 [0.948, 0.968] | 0.967 [0.959, 0.975] |
+| 5000 | Quantum-sim S=256 | 0.522 [0.476, 0.570] | 0.685 [0.640, 0.729] | 0.747 [0.704, 0.789] | 0.816 [0.777, 0.852] | 0.618 [0.576, 0.660] | 0.665 [0.625, 0.705] | 0.586 [0.572, 0.600] | 0.588 [0.572, 0.603] |
+| 5000 | Quantum-sim S=1024 | 0.601 [0.551, 0.652] | 0.737 [0.690, 0.781] | 0.785 [0.741, 0.827] | 0.849 [0.811, 0.884] | 0.682 [0.638, 0.726] | 0.722 [0.681, 0.762] | 0.731 [0.717, 0.745] | 0.742 [0.729, 0.756] |
+| 5000 | Quantum-sim S=4096 | 0.612 [0.559, 0.665] | 0.759 [0.713, 0.804] | 0.803 [0.759, 0.845] | 0.869 [0.833, 0.905] | 0.696 [0.652, 0.740] | 0.738 [0.697, 0.778] | 0.848 [0.838, 0.858] | 0.856 [0.847, 0.865] |
+| 5000 | Quantum-sim S=16384 | 0.627 [0.575, 0.681] | 0.775 [0.729, 0.820] | 0.810 [0.765, 0.853] | 0.881 [0.844, 0.915] | 0.710 [0.666, 0.754] | 0.751 [0.711, 0.791] | 0.920 [0.913, 0.926] | 0.924 [0.918, 0.929] |
+| 10000 | Flat | 0.573 [0.517, 0.630] | 0.747 [0.697, 0.793] | 0.783 [0.737, 0.830] | 0.833 [0.790, 0.873] | 0.662 [0.616, 0.709] | 0.703 [0.660, 0.746] | 1.000 [1.000, 1.000] | 1.000 [1.000, 1.000] |
+| 10000 | IVF (nprobe 16) | 0.560 [0.503, 0.617] | 0.727 [0.677, 0.777] | 0.760 [0.713, 0.810] | 0.807 [0.760, 0.850] | 0.645 [0.597, 0.694] | 0.684 [0.639, 0.730] | 0.965 [0.955, 0.974] | 0.971 [0.962, 0.980] |
+| 10000 | Quantum-sim S=256 | 0.458 [0.412, 0.505] | 0.612 [0.565, 0.659] | 0.677 [0.631, 0.723] | 0.757 [0.713, 0.798] | 0.551 [0.507, 0.595] | 0.600 [0.558, 0.642] | 0.574 [0.560, 0.589] | 0.563 [0.547, 0.580] |
+| 10000 | Quantum-sim S=1024 | 0.533 [0.483, 0.585] | 0.695 [0.648, 0.743] | 0.753 [0.709, 0.797] | 0.817 [0.776, 0.856] | 0.627 [0.583, 0.671] | 0.673 [0.631, 0.715] | 0.731 [0.717, 0.744] | 0.733 [0.719, 0.747] |
+| 10000 | Quantum-sim S=4096 | 0.564 [0.512, 0.617] | 0.728 [0.681, 0.775] | 0.771 [0.725, 0.815] | 0.815 [0.773, 0.855] | 0.651 [0.606, 0.698] | 0.691 [0.649, 0.734] | 0.846 [0.836, 0.856] | 0.850 [0.841, 0.860] |
+| 10000 | Quantum-sim S=16384 | 0.565 [0.511, 0.620] | 0.740 [0.691, 0.787] | 0.777 [0.730, 0.822] | 0.824 [0.782, 0.865] | 0.656 [0.610, 0.702] | 0.697 [0.654, 0.740] | 0.911 [0.904, 0.918] | 0.917 [0.911, 0.923] |
+| all | Flat | 0.490 [0.433, 0.547] | 0.680 [0.627, 0.733] | 0.733 [0.683, 0.783] | 0.783 [0.737, 0.830] | 0.590 [0.542, 0.638] | 0.637 [0.592, 0.682] | 1.000 [1.000, 1.000] | 1.000 [1.000, 1.000] |
+| all | IVF (nprobe 16) | 0.473 [0.417, 0.530] | 0.660 [0.607, 0.713] | 0.713 [0.663, 0.763] | 0.760 [0.710, 0.807] | 0.572 [0.523, 0.621] | 0.618 [0.572, 0.665] | 0.953 [0.942, 0.964] | 0.958 [0.946, 0.969] |
+| all | Quantum-sim S=256 | 0.392 [0.347, 0.439] | 0.552 [0.505, 0.600] | 0.619 [0.573, 0.667] | 0.703 [0.659, 0.746] | 0.489 [0.446, 0.534] | 0.540 [0.498, 0.583] | 0.566 [0.553, 0.581] | 0.546 [0.530, 0.562] |
+| all | Quantum-sim S=1024 | 0.461 [0.411, 0.513] | 0.626 [0.577, 0.675] | 0.693 [0.647, 0.740] | 0.761 [0.715, 0.804] | 0.559 [0.513, 0.605] | 0.608 [0.563, 0.652] | 0.722 [0.709, 0.736] | 0.713 [0.699, 0.728] |
+| all | Quantum-sim S=4096 | 0.483 [0.430, 0.537] | 0.661 [0.611, 0.711] | 0.728 [0.680, 0.775] | 0.778 [0.732, 0.823] | 0.583 [0.536, 0.631] | 0.631 [0.586, 0.675] | 0.845 [0.836, 0.855] | 0.841 [0.831, 0.851] |
+| all | Quantum-sim S=16384 | 0.493 [0.439, 0.549] | 0.675 [0.623, 0.725] | 0.725 [0.676, 0.774] | 0.781 [0.734, 0.827] | 0.592 [0.544, 0.640] | 0.638 [0.592, 0.683] | 0.918 [0.912, 0.924] | 0.915 [0.909, 0.921] |
+
+**F4 quality vs N**: ![F4](results/figures/F4_quality_vs_N.png) (data `results/figures/F4_quality_vs_N.csv`).
+**F3 quality vs shots**: ![F3](results/figures/F3_quality_vs_shots.png) (data `results/figures/F3_quality_vs_shots.csv`).
+**F6 agreement with classical ranking vs shots**: ![F6](results/figures/F6_overlap_rbo_vs_shots.png) (data `results/figures/F6_overlap_rbo_vs_shots.csv`).
+
+**T4b In-process retrieval latency per query, embedding excluded (4.2)** (`results/phase4/phase4_20261011_223158/latency_summary.csv`; raw `results/phase4/phase4_20261011_223158/latency_raw.csv`). Protocol: batch-1, 10 warm-up discarded, 100 timed queries, 5 repeats, all conditions shuffled per repeat, 1 thread.
+
+| N | Arm | Median ms | p95 ms | Range of repeat medians (ms) |
+|---|---|---|---|---|
+| 1000 | Flat k=10 | 0.109 | 0.212 | 0.093-0.204 |
+| 1000 | IVF nprobe 16, k=10 | 0.050 | 0.098 | 0.042-0.090 |
+| 1000 | Quantum-sim M=50 S=1024 | 0.177 | 0.337 | 0.126-0.255 |
+| 1000 | Quantum-sim full scan S=1024 | 0.185 | 0.405 | 0.132-0.302 |
+| 2000 | Flat k=10 | 0.169 | 0.323 | 0.125-0.201 |
+| 2000 | IVF nprobe 16, k=10 | 0.061 | 0.141 | 0.045-0.128 |
+| 2000 | Quantum-sim M=50 S=1024 | 0.333 | 0.797 | 0.162-0.723 |
+| 2000 | Quantum-sim full scan S=1024 | 0.450 | 1.019 | 0.253-0.934 |
+| 5000 | Flat k=10 | 0.578 | 1.140 | 0.371-0.893 |
+| 5000 | IVF nprobe 16, k=10 | 0.176 | 0.344 | 0.120-0.289 |
+| 5000 | Quantum-sim M=50 S=1024 | 0.930 | 1.432 | 0.493-1.162 |
+| 5000 | Quantum-sim full scan S=1024 | 0.855 | 1.614 | 0.728-1.065 |
+| 10000 | Flat k=10 | 1.405 | 3.264 | 1.029-3.039 |
+| 10000 | IVF nprobe 16, k=10 | 0.200 | 0.409 | 0.168-0.302 |
+| 10000 | Quantum-sim M=50 S=1024 | 1.483 | 2.645 | 1.164-2.479 |
+| 10000 | Quantum-sim full scan S=1024 | 2.195 | 3.828 | 1.825-3.173 |
+| all | Flat k=10 | 2.918 | 6.710 | 2.121-5.841 |
+| all | IVF nprobe 16, k=10 | 0.417 | 0.870 | 0.303-0.705 |
+| all | Quantum-sim M=50 S=1024 | 2.903 | 5.687 | 2.367-5.217 |
+| all | Quantum-sim full scan S=1024 | 5.175 | 8.361 | 3.810-7.421 |
+
+**Latency scaling: log-log exponent b in latency ~ N^b** (`results/phase4/phase4_20261011_223158/latency_slopes.csv`; point estimate on medians, 95% CI by bootstrapping the 5 repeat medians per N)
+
+| Series | b [95% CI] | R^2 (point fit) |
+|---|---|---|
+| Flat (exact), k=10 | 1.144 [0.970, 1.320] | 0.988 |
+| IVF best nprobe, k=10 | 0.672 [0.510, 0.900] | 0.949 |
+| Quantum-sim shortlist M=20, S=1024 | 0.978 [0.833, 1.190] | 0.994 |
+| Quantum-sim shortlist M=50, S=1024 | 0.879 [0.763, 1.123] | 0.967 |
+| Quantum-sim shortlist M=100, S=1024 | 0.962 [0.834, 1.040] | 0.997 |
+| Quantum-sim full scan, S=256 | 1.068 [0.928, 1.173] | 0.989 |
+| Quantum-sim full scan, S=1024 | 1.102 [0.896, 1.214] | 0.984 |
+| Quantum-sim full scan, S=16384 | 1.037 [0.947, 1.162] | 0.990 |
+
+**Stage breakdown, Quantum-sim M=50 S=1024 (median ms)**: Flat shortlist search, binomial estimate, ranking.
+
+| N | Shortlist search | Estimate (binomial) | Rank | Total |
+|---|---|---|---|---|
+| 1000 | 0.1132 | 0.0537 | 0.0064 | 0.177 |
+| 2000 | 0.2547 | 0.0686 | 0.0081 | 0.333 |
+| 5000 | 0.7749 | 0.1197 | 0.0117 | 0.930 |
+| 10000 | 1.3371 | 0.1136 | 0.0110 | 1.483 |
+| all | 2.7560 | 0.1200 | 0.0110 | 2.903 |
+
+**F5 latency vs N**: ![F5](results/figures/F5_latency_vs_N.png) (data `results/figures/F5_latency_vs_N.csv`).
+
+**Shot-budget ablation (4.3): latency vs S at N=all** (median ms; emulator cost grows with candidates, hardly with S). Quality vs S is in the Phase 3 table and F3.
+
+| S | M=20 | M=50 | M=100 | full scan |
+|---|---|---|---|---|
+| 64 | 3.223 | 3.148 | 3.320 | - |
+| 256 | 2.413 | 2.905 | 3.576 | 5.704 |
+| 1024 | 2.696 | 2.903 | 2.626 | 5.175 |
+| 4096 | 2.625 | 3.293 | 3.171 | - |
+| 16384 | 2.995 | 3.746 | 2.900 | 4.177 |
+
+**MODELLED quantum cost per query at N=all (not measured; Appendix A.3)** (`results/phase4/phase4_20261011_223158/modelled_quantum_cost.csv`): circuits = M (or N), shots = circuits x S; 2-qubit-gate executions use the T6 gate counts of the full circuit with generic state preparation and of the SWAP-test core alone. This is NOT wall-clock quantum speed.
+
+| M | S | Circuits/query | Shots/query | 2q-gate executions (full circuit) | 2q-gate executions (SWAP core only) |
+|---|---|---|---|---|---|
+| 50 | 256 | 50 | 12800 | 13772800 | 921600 |
+| 50 | 1024 | 50 | 51200 | 55091200 | 3686400 |
+| 50 | 4096 | 50 | 204800 | 220364800 | 14745600 |
+| 50 | 16384 | 50 | 819200 | 881459200 | 58982400 |
+| full | 256 | 20958 | 5365248 | 5773006848 | 386297856 |
+| full | 1024 | 20958 | 21460992 | 23092027392 | 1545191424 |
+| full | 4096 | 20958 | 85843968 | 92368109568 | 6180765696 |
+| full | 16384 | 20958 | 343375872 | 369472438272 | 24723062784 |
+
+**Memory vs N (4.2)** (`results/phase4/phase4_20261011_223158/memory_vs_N.csv`; index bytes from Phase 2 `build.csv`): the shortlist arm needs the Flat index only; Tier A circuits would additionally need 512-d padded vectors; full scan holds the 384-d matrix.
+
+| N | Flat index bytes | IVF index bytes | Padded 512-d bytes (Tier A) | Full-scan matrix bytes |
+|---|---|---|---|---|
+| 1000 | 1536045 | 1593547 | 2048000 | 1536000 |
+| 2000 | 3072045 | 3157619 | 4096000 | 3072000 |
+| 5000 | 7680045 | 7829763 | 10240000 | 7680000 |
+| 10000 | 15360045 | 15594539 | 20480000 | 15360000 |
+| all | 32191533 | 32583171 | 42921984 | 32191488 |
+
+Log-log slope of index bytes vs N: Flat 1.000, IVF 0.992.
+
+**Shortlist ablation (4.4)**: M in {20, 50, 100, N (full scan)}; cells are Hit@3 / MRR@10 / Overlap@10 (mean of 5 seeds; Phase 3 `results/phase3/phase3_20261011_221127/retrieval_metrics.csv`); last column: median latency ms at S=1024 (this phase).
+
+| N | M | S=256 | S=1024 | S=4096 | Latency ms (S=1024) |
+|---|---|---|---|---|---|
+| 5000 | 20 | 0.687 / 0.622 / 0.699 | 0.743 / 0.678 / 0.782 | 0.759 / 0.698 / 0.861 | 0.702 |
+| 5000 | 50 | 0.685 / 0.618 / 0.586 | 0.737 / 0.682 / 0.731 | 0.759 / 0.696 / 0.848 | 0.930 |
+| 5000 | 100 | 0.675 / 0.610 / 0.537 | 0.738 / 0.671 / 0.720 | 0.760 / 0.700 / 0.851 | 0.754 |
+| 5000 | full | 0.663 / 0.593 / 0.452 | 0.746 / 0.674 / 0.706 | 0.761 / 0.695 / 0.843 | 0.855 |
+| all | 20 | 0.561 / 0.497 / 0.686 | 0.631 / 0.557 / 0.773 | 0.661 / 0.585 / 0.853 | 2.696 |
+| all | 50 | 0.552 / 0.489 / 0.566 | 0.626 / 0.559 / 0.722 | 0.661 / 0.583 / 0.845 | 2.903 |
+| all | 100 | 0.522 / 0.468 / 0.533 | 0.628 / 0.555 / 0.713 | 0.656 / 0.585 / 0.846 | 2.626 |
+| all | full | 0.537 / 0.474 / 0.467 | 0.623 / 0.557 / 0.704 | 0.659 / 0.580 / 0.845 | 5.175 |
+
+**Failure analysis (4.5)** (`results/phase4/phase4_20261011_223158/failure_summary.json`, 20 examples with scores in `results/phase4/phase4_20261011_223158/failure_examples.csv`): N=all, M=50, S=256, seed 0, k=3. Replay of the Phase 3 random stream reproduces the saved ranking exactly: True. Gold in classical top-3: 204/300; in quantum top-3: 168/300. Dropped by quantum (gold in classical top-3 but not quantum): 42; gained: 6. Median classical gold rank among dropped: 2.0; mean estimated cos^2 of the dropped gold: 0.252.
+
+First 5 of the 20 dumped examples (full text in the CSV):
+
+| query_i | gold classical rank | gold cos | gold k/S | gold c2_hat (true) | gold quantum rank in shortlist | quantum top-3 c2_hat |
+|---|---|---|---|---|---|---|
+| 19 | 1 | 0.514 | 150/256 | 0.172 (0.264) | 11 | 0.297 | 0.281 | 0.227 |
+| 26 | 3 | 0.422 | 150/256 | 0.172 (0.178) | 9 | 0.258 | 0.227 | 0.227 |
+| 28 | 2 | 0.617 | 168/256 | 0.312 (0.380) | 5 | 0.359 | 0.352 | 0.336 |
+| 40 | 3 | 0.533 | 162/256 | 0.266 (0.284) | 11 | 0.359 | 0.336 | 0.328 |
+| 64 | 1 | 0.459 | 160/256 | 0.250 (0.211) | 5 | 0.281 | 0.266 | 0.258 |
+
+**T5a Pre-registered tests (4.6, A.6), classical vs quantum-sim M=50** (`results/phase4/phase4_20261011_223158/tests.csv`). Primary test: paired bootstrap (10k) of the per-query difference between the seed-averaged quantum outcome and the classical outcome; Holm correction within each family (T-a Hit@3, T-b MRR@10; 15 tests each). Secondary, uncorrected: Wilcoxon signed-rank on the same differences and exact McNemar on seed 0 (Hit@3 only). The bootstrap p floor is about 2e-4. 20 of 30 primary tests are significant after Holm.
+
+| Fam. | Metric | N | S | Classical | Quantum | Diff [95% CI] | p (boot) | p (Holm) | Sig. | p Wilcoxon | p McNemar s0 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| T-a | Hit@3 | 1000 | 256 | 0.860 | 0.761 | -0.099 [-0.129, -0.071] | 0.0002 | 0.0030 | yes | 0.0000 | 0.0000 |
+| T-b | MRR@10 | 1000 | 256 | 0.796 | 0.703 | -0.093 [-0.114, -0.073] | 0.0002 | 0.0030 | yes | 0.0000 | - |
+| T-a | Hit@3 | 1000 | 1024 | 0.860 | 0.836 | -0.024 [-0.046, -0.003] | 0.0254 | 0.1270 | no | 0.0704 | 0.1435 |
+| T-b | MRR@10 | 1000 | 1024 | 0.796 | 0.769 | -0.028 [-0.041, -0.015] | 0.0002 | 0.0030 | yes | 0.0000 | - |
+| T-a | Hit@3 | 1000 | 4096 | 0.860 | 0.857 | -0.003 [-0.013, +0.007] | 0.6557 | 0.6557 | no | 0.9849 | 0.0312 |
+| T-b | MRR@10 | 1000 | 4096 | 0.796 | 0.794 | -0.002 [-0.010, +0.006] | 0.6055 | 0.6055 | no | 0.7145 | - |
+| T-a | Hit@3 | 2000 | 256 | 0.827 | 0.739 | -0.087 [-0.115, -0.061] | 0.0002 | 0.0030 | yes | 0.0000 | 0.0000 |
+| T-b | MRR@10 | 2000 | 256 | 0.766 | 0.667 | -0.099 [-0.119, -0.078] | 0.0002 | 0.0030 | yes | 0.0000 | - |
+| T-a | Hit@3 | 2000 | 1024 | 0.827 | 0.806 | -0.021 [-0.041, +0.000] | 0.0516 | 0.2064 | no | 0.1270 | 0.1435 |
+| T-b | MRR@10 | 2000 | 1024 | 0.766 | 0.732 | -0.034 [-0.046, -0.022] | 0.0002 | 0.0030 | yes | 0.0000 | - |
+| T-a | Hit@3 | 2000 | 4096 | 0.827 | 0.813 | -0.014 [-0.029, +0.001] | 0.0620 | 0.2064 | no | 0.0991 | 0.0078 |
+| T-b | MRR@10 | 2000 | 4096 | 0.766 | 0.755 | -0.011 [-0.020, -0.002] | 0.0122 | 0.0488 | yes | 0.0098 | - |
+| T-a | Hit@3 | 5000 | 256 | 0.777 | 0.685 | -0.092 [-0.121, -0.064] | 0.0002 | 0.0030 | yes | 0.0000 | 0.0002 |
+| T-b | MRR@10 | 5000 | 256 | 0.708 | 0.618 | -0.090 [-0.110, -0.071] | 0.0002 | 0.0030 | yes | 0.0000 | - |
+| T-a | Hit@3 | 5000 | 1024 | 0.777 | 0.737 | -0.040 [-0.062, -0.019] | 0.0002 | 0.0030 | yes | 0.0041 | 0.0963 |
+| T-b | MRR@10 | 5000 | 1024 | 0.708 | 0.682 | -0.026 [-0.038, -0.015] | 0.0002 | 0.0030 | yes | 0.0000 | - |
+| T-a | Hit@3 | 5000 | 4096 | 0.777 | 0.759 | -0.017 [-0.035, +0.000] | 0.0542 | 0.2064 | no | 0.0858 | 0.2668 |
+| T-b | MRR@10 | 5000 | 4096 | 0.708 | 0.696 | -0.012 [-0.020, -0.003] | 0.0080 | 0.0400 | yes | 0.0076 | - |
+| T-a | Hit@3 | 10000 | 256 | 0.747 | 0.612 | -0.135 [-0.167, -0.103] | 0.0002 | 0.0030 | yes | 0.0000 | 0.0000 |
+| T-b | MRR@10 | 10000 | 256 | 0.662 | 0.551 | -0.110 [-0.133, -0.089] | 0.0002 | 0.0030 | yes | 0.0000 | - |
+| T-a | Hit@3 | 10000 | 1024 | 0.747 | 0.695 | -0.051 [-0.073, -0.031] | 0.0002 | 0.0030 | yes | 0.0000 | 0.0072 |
+| T-b | MRR@10 | 10000 | 1024 | 0.662 | 0.627 | -0.035 [-0.048, -0.023] | 0.0002 | 0.0030 | yes | 0.0000 | - |
+| T-a | Hit@3 | 10000 | 4096 | 0.747 | 0.728 | -0.019 [-0.033, -0.005] | 0.0100 | 0.0700 | no | 0.0216 | 0.0654 |
+| T-b | MRR@10 | 10000 | 4096 | 0.662 | 0.651 | -0.010 [-0.020, -0.001] | 0.0258 | 0.0774 | no | 0.0209 | - |
+| T-a | Hit@3 | all | 256 | 0.680 | 0.552 | -0.128 [-0.160, -0.097] | 0.0002 | 0.0030 | yes | 0.0000 | 0.0000 |
+| T-b | MRR@10 | all | 256 | 0.590 | 0.489 | -0.101 [-0.125, -0.078] | 0.0002 | 0.0030 | yes | 0.0000 | - |
+| T-a | Hit@3 | all | 1024 | 0.680 | 0.626 | -0.054 [-0.078, -0.031] | 0.0002 | 0.0030 | yes | 0.0002 | 0.0002 |
+| T-b | MRR@10 | all | 1024 | 0.590 | 0.559 | -0.031 [-0.047, -0.017] | 0.0002 | 0.0030 | yes | 0.0001 | - |
+| T-a | Hit@3 | all | 4096 | 0.680 | 0.661 | -0.019 [-0.035, -0.004] | 0.0118 | 0.0708 | no | 0.0767 | 0.0923 |
+| T-b | MRR@10 | all | 4096 | 0.590 | 0.583 | -0.007 [-0.016, +0.003] | 0.1796 | 0.3592 | no | 0.2245 | - |
+
+T-c (hallucination rate, McNemar at N=all) belongs to Phase 5.
+
+**Measurement hygiene (H7)** (`results/phase4/phase4_20261011_223158/hygiene.json`): plugged in = True, battery 100%, power scheme `Power Scheme GUID: 381b4222-f694-41f0-9685-ff5bb260df2e  (Balanced)`, threads: faiss 1, BLAS/numpy 1 (threadpoolctl), CPU temperature: not monitored; cpu_freq at repeat boundaries logged as throttling proxy. CPU MHz at repeat boundaries: min 2419, max 2419. all conditions shuffled per repeat (seeded) so thermal drift hits all arms alike (H7).
+
+**pytest** (whole suite at Phase 4 exit): 37 tests, 0 failures, 0 errors, 0 skipped (`results/phase4/phase4_20261011_223158/pytest_junit.xml`).
+
+**Manuscript hook**: Sections 7 (retrieval quality and scalability) and 9 (latency); Tables T3, T4, T5a; figures F3-F6.
+<!-- END:phase4 -->
+
 ## 3. Headline Findings
 (Filled in Phase 9.)
 
@@ -502,6 +704,10 @@ Statevector memory for the 19-qubit simulation: 8388608 bytes (complex128). Stat
 - **D-3.3 Zardini estimator (3.6, [P1]) deferred**: plan Section 0 says to finish all P0 work first; it requires reading the original paper to implement the exact formulas. It is not implemented yet and will be marked "not implemented" if time runs out.
 - **D-3.4 Rankings not committed**: per-configuration rankings (`results/phase3/<run>/rankings/*.npz`) are git-ignored; they are fully seeded and regenerate exactly with `python tasks.py phase3`. All summary CSV/JSON files are committed.
 - **D-3.5 Shot-threshold rule**: the exit gate "Hit@k within CI" is operationalised two ways: (1) paired bootstrap 95% CI of (quantum - classical) contains 0 at that S and at every larger S in the grid; (2) quantum mean inside the classical 95% CI. Rule (1) is strict: a small but consistent loss on a few queries is flagged as a difference. The formal, pre-registered tests (McNemar / Holm) are Phase 4 (4.6).
+- **D-4.1 Two sources of quantum-sim randomness**: quality results (T3, tests, failure analysis) use the seeded Phase 3 rankings (shared random stream per configuration). The latency experiment runs `qrag/rerank.py` (`QuantumSimRetriever`) with its own per-repeat random stream: same distribution, different draws, so no quality metric is taken from the latency run. Full-scan latency uses argpartition + sort of the top-k (equal-key ties at the cut may differ from the stable full sort used for quality).
+- **D-4.2 Latency k**: Phase 4 times k=10 (what the pipeline needs) whereas Phase 2 timed k=50; Flat latency was re-measured here, so Phase 2 and Phase 4 Flat numbers are not directly comparable. Power plan was again "Balanced" (see D-2.1).
+- **D-4.3 Primary test choice (4.6)**: the plan pre-lists Hit@3 and MRR classical vs quantum with McNemar/paired-bootstrap and Holm. Because the quantum arm has 5 seeds, the primary test is a paired bootstrap on the per-query difference between the seed-averaged quantum outcome and the classical outcome (Holm within each 15-test family). Wilcoxon and exact McNemar (seed 0 only) are reported as uncorrected secondary checks and are not used for conclusions.
+- **D-4.4 Memory (4.2)**: "memory vs N" is accounted from serialised index bytes and array sizes (Phase 2 `build.csv`), not from per-process RSS.
 <!-- END:deviations -->
 
 ## 5. Failures, Limitations, Threats to Validity
@@ -514,6 +720,9 @@ Statevector memory for the 19-qubit simulation: 8388608 bytes (complex128). Stat
 - **Tier A vs Tier B, repeated-estimate KS (Phase 3)**: on the repeated-estimates subset the pooled two-sample KS test of standardised errors gives p below 0.05 (uncorrected; exact value in the Phase 3 validation paragraph), while the single-estimate KS test, the bias, the variance-to-theory ratios and the log-log slopes all agree with equivalence. With the four KS tests in the validation, Holm correction would not reject; this is reported, not explained away. Pooled z-scores of a lattice-valued estimator (2k/S - 1) are not continuous, which the KS test assumes.
 - **Sign loss in full scan (Phase 3)**: the SWAP test estimates cos^2, so in the full-scan protocol strongly negative paragraphs can outrank weak positive top-10 items even with infinite shots (counts per N in the negative-cosine audit). The shortlist protocol (M <= 100) contained no negative cosines.
 - **Full-scan quality gap (Phase 3)**: for the larger corpora the full-scan quantum arm does not become statistically indistinguishable from classical on Hit@3 within the shot grid (see `shot_thresholds.csv`), so full-scan results are not used as the main arm.
+- **Latency noise limits the scaling claims (Phase 4)**: the range of the 5 repeat medians is wide for the larger corpora (T4b, last column), the power plan was Balanced and temperature was not monitored. The log-log exponent confidence intervals are correspondingly wide and several overlap (Flat, shortlist, full scan); the data do not support ranking those three by scaling exponent. IVF has the lowest exponent estimate, but its interval also overlaps the others at its upper end.
+- **No latency advantage for the quantum-sim arm (Phase 4)**: with the shortlist protocol the exact Flat search is executed first, so the arm's latency is the Flat search plus a small estimator cost (stage breakdown table); full scan costs more than Flat. This is emulated-estimator latency and says nothing about quantum hardware; modelled shot and gate counts are listed separately and are not wall-clock times.
+- **Tier B emulator at low shot counts (Phase 4)**: quality at S=256 is far below classical at every N (Table T3); the shot budget needed to be statistically indistinguishable grows with N (Phase 3 threshold table), consistent with the 1/sqrt(S) noise vs a shrinking score margin among more distractors. This is an observation, not a tested mechanism.
 <!-- END:failures -->
 
 ## 6. Reproduction Commands

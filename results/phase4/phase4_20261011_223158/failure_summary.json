@@ -1,0 +1,17 @@
+{
+  "config": {
+    "N": "all",
+    "M": 50,
+    "S": 256,
+    "seed": 0,
+    "k": 3
+  },
+  "replay_matches_phase3_ranking": true,
+  "queries": 300,
+  "gold_in_classical_top_k": 204,
+  "gold_in_quantum_top_k": 168,
+  "dropped_by_quantum": 42,
+  "gained_by_quantum": 6,
+  "dropped_gold_rank_in_shortlist_median": 2.0,
+  "dropped_gold_c2_hat_mean": 0.25186011904761907
+}
