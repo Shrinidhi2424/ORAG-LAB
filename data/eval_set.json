@@ -1,0 +1,3389 @@
+[
+  {
+    "qid": "572759665951b619008f8884",
+    "question": "In what year did Massachusetts first require children to be educated in schools?",
+    "gold_id": "p90106b7a09d0",
+    "gold_idx": 20238,
+    "answers": [
+      "1852",
+      "1852",
+      "1852"
+    ]
+  },
+  {
+    "qid": "57296de03f37b3190047839e",
+    "question": "When were stromules discovered?",
+    "gold_id": "p775798709268",
+    "gold_idx": 20592,
+    "answers": [
+      "1962",
+      "1962",
+      "1962"
+    ]
+  },
+  {
+    "qid": "5726d4a45951b619008f7f6c",
+    "question": "Which artist who had a major influence on the Gothic Revival is represented in the V&A's British galleries?",
+    "gold_id": "p4a658aa13713",
+    "gold_idx": 19909,
+    "answers": [
+      "Horace Walpole",
+      "Horace Walpole",
+      "Horace Walpole"
+    ]
+  },
+  {
+    "qid": "572843304b864d1900164848",
+    "question": "In 1890, who did the university decide to team up with?",
+    "gold_id": "p895a99d78539",
+    "gold_idx": 20403,
+    "answers": [
+      "several regional colleges and universities",
+      "Des Moines College, Kalamazoo College, Butler University, and Stetson University",
+      "Des Moines College, Kalamazoo College, Butler University, and Stetson University",
+      "Des Moines College, Kalamazoo College, Butler University, and Stetson University"
+    ]
+  },
+  {
+    "qid": "56d729180d65d21400198427",
+    "question": "Who got a touchdown making the score 10-7?",
+    "gold_id": "pc2358d5d52cc",
+    "gold_idx": 18938,
+    "answers": [
+      "Jonathan Stewart",
+      "Jonathan Stewart",
+      "Stewart"
+    ]
+  },
+  {
+    "qid": "57274beff1498d1400e8f5e6",
+    "question": "How many Examination Boards exist in India?",
+    "gold_id": "p1196a2ac80b4",
+    "gold_idx": 20223,
+    "answers": [
+      "30",
+      "30",
+      "30"
+    ]
+  },
+  {
+    "qid": "57274d905951b619008f87e3",
+    "question": "Who started rumors in 2008 that ABC would sell its ten owned-and-operated stations?",
+    "gold_id": "p6c459ebdb580",
+    "gold_idx": 19993,
+    "answers": [
+      "Caris & Co.",
+      "Caris & Co.",
+      "Caris & Co."
+    ]
+  },
+  {
+    "qid": "56bf1ae93aeaaa14008c951b",
+    "question": "Which network broadcasted the 50th Super Bowl game? ",
+    "gold_id": "p005274218681",
+    "gold_idx": 18894,
+    "answers": [
+      "CBS",
+      "CBS",
+      "CBS"
+    ]
+  },
+  {
+    "qid": "57264d9edd62a815002e8100",
+    "question": "Why was this short termed organization created?",
+    "gold_id": "pa602656d4459",
+    "gold_idx": 19566,
+    "answers": [
+      "coordinate the response to the embargo",
+      "to coordinate the response to the embargo",
+      "to coordinate the response to the embargo",
+      "to coordinate the response to the embargo",
+      "to coordinate the response to the embargo"
+    ]
+  },
+  {
+    "qid": "5725c41eec44d21400f3d50b",
+    "question": "What does LGM stands for?",
+    "gold_id": "p89112d99bc24",
+    "gold_idx": 19679,
+    "answers": [
+      "Last Glacial Maximum",
+      "Last Glacial Maximum",
+      "Last Glacial Maximum"
+    ]
+  },
+  {
+    "qid": "56e20a3ae3433e140042324d",
+    "question": "What is the paper written by Richard Karp in 1972 that ushered in a new era of understanding between intractability and NP-complete problems?",
+    "gold_id": "pbddbcb451d5c",
+    "gold_idx": 19178,
+    "answers": [
+      "\"Reducibility Among Combinatorial Problems\"",
+      "Reducibility Among Combinatorial Problems",
+      "\"Reducibility Among Combinatorial Problems\""
+    ]
+  },
+  {
+    "qid": "572f59b4a23a5019007fc58a",
+    "question": "What Lake in a German island Mainau receives a fraction of the Rhine's flow?",
+    "gold_id": "pdda660b5ade4",
+    "gold_idx": 20662,
+    "answers": [
+      "Lake \u00dcberlingen",
+      "Lake \u00dcberlingen",
+      "Lake \u00dcberlingen"
+    ]
+  },
+  {
+    "qid": "5727678e5951b619008f8973",
+    "question": "What studio does ABC own at 1500 Broadway in NYC?",
+    "gold_id": "pbac6f0aea436",
+    "gold_idx": 20017,
+    "answers": [
+      "Times Square Studios",
+      "Times Square Studios",
+      "Times Square Studios"
+    ]
+  },
+  {
+    "qid": "572867543acd2414000df9a1",
+    "question": "How many fraternities are apart of the university?",
+    "gold_id": "pdf976866eeec",
+    "gold_idx": 20424,
+    "answers": [
+      "fifteen",
+      "fifteen",
+      "fifteen"
+    ]
+  },
+  {
+    "qid": "57275f6ef1498d1400e8f709",
+    "question": "At what address did Goldenson secure a new headquarters for ABC?",
+    "gold_id": "p30cfd819fb4e",
+    "gold_idx": 20010,
+    "answers": [
+      "1330 Avenue of the Americas in Manhattan",
+      "1330 Avenue of the Americas in Manhattan",
+      "1330 Avenue of the Americas in Manhattan"
+    ]
+  },
+  {
+    "qid": "5730b255396df919000962b4",
+    "question": "Who had established the Russian empire to its former glory prior to 1921?",
+    "gold_id": "p59eabecbb3e4",
+    "gold_idx": 20807,
+    "answers": [
+      "Bolshevik leaders",
+      "Bolshevik leaders",
+      "Bolshevik leaders",
+      "Bolshevik leaders"
+    ]
+  },
+  {
+    "qid": "57298ef11d0469140077952f",
+    "question": "What does the Riemann hypothesis state the source of irregularity in the distribution of points comes from?",
+    "gold_id": "padbb2585380f",
+    "gold_idx": 20641,
+    "answers": [
+      "random noise",
+      "random noise",
+      "random noise",
+      "random noise"
+    ]
+  },
+  {
+    "qid": "56f86966aef2371900626053",
+    "question": "Which work of Luther's is effective in teaching children?",
+    "gold_id": "pa87acb39c6d7",
+    "gold_idx": 19289,
+    "answers": [
+      "Small Catechism",
+      "Small Catechism",
+      "Small Catechism"
+    ]
+  },
+  {
+    "qid": "5728d5793acd2414000dffb7",
+    "question": "How was the civil disobedience shown in Antigone?",
+    "gold_id": "p82fbd7d0d22a",
+    "gold_idx": 20167,
+    "answers": [
+      "obey her conscience rather than human law",
+      "She gives a stirring speech",
+      "She gives a stirring speech in which she tells him that she must obey her conscience rather than human law",
+      "a stirring speech",
+      "She gives a stirring speech in which she tells him that she must obey her conscience rather than human law"
+    ]
+  },
+  {
+    "qid": "572684365951b619008f7540",
+    "question": "Where do juvenile platyctenids live?",
+    "gold_id": "p36a5d6ac5256",
+    "gold_idx": 19719,
+    "answers": [
+      "among the plankton",
+      "among the plankton",
+      "among the plankton"
+    ]
+  },
+  {
+    "qid": "570d26efb3d812140066d493",
+    "question": "How often are elections held for the Victorian Parliament?",
+    "gold_id": "p1da16b04cc86",
+    "gold_idx": 19398,
+    "answers": [
+      "every four years",
+      "every four years",
+      "four years"
+    ]
+  },
+  {
+    "qid": "57378c9b1c456719005744a9",
+    "question": "What magnetic and electric force acts on a charge?",
+    "gold_id": "pa9dfa4054897",
+    "gold_idx": 20942,
+    "answers": [
+      "unified electromagnetic",
+      "unified electromagnetic force",
+      "electromagnetic",
+      "unified electromagnetic force"
+    ]
+  },
+  {
+    "qid": "57286bb84b864d19001649c8",
+    "question": "What kinds of growth did Kublai encourage?",
+    "gold_id": "pc2e6265cc9c6",
+    "gold_idx": 20446,
+    "answers": [
+      "commercial, scientific, and cultural",
+      "commercial, scientific, and cultural",
+      "commercial, scientific, and cultural"
+    ]
+  },
+  {
+    "qid": "5727f746ff5b5019007d9960",
+    "question": "What was the name of the first episode of the new Doctor Who series?",
+    "gold_id": "pa96c4497d644",
+    "gold_idx": 20343,
+    "answers": [
+      "Rose",
+      "Rose",
+      "Rose"
+    ]
+  },
+  {
+    "qid": "5706074552bb8914006897d6",
+    "question": "Each of the extended metropolitan areas has a population that exceeds what number?",
+    "gold_id": "pd1619b2a9846",
+    "gold_idx": 19357,
+    "answers": [
+      "five million",
+      "five million",
+      "five million"
+    ]
+  },
+  {
+    "qid": "5728f50baf94a219006a9e57",
+    "question": "Why is giving a defiant speech sometimes more harmful for the individual?",
+    "gold_id": "p67df60419836",
+    "gold_idx": 20187,
+    "answers": [
+      "lack of remorse",
+      "lack of remorse",
+      "the judge increased her sentence",
+      "statement suggested a lack of remorse"
+    ]
+  },
+  {
+    "qid": "57309ef18ab72b1400f9c601",
+    "question": "When were Joseph Schumpeter and Norman Angell at their most prolific writing period?",
+    "gold_id": "pc1c045a1819e",
+    "gold_idx": 20796,
+    "answers": [
+      "before World War I",
+      "World War I",
+      "before World War I",
+      "before World War I",
+      "before World War I,"
+    ]
+  },
+  {
+    "qid": "5727ec062ca10214002d99b9",
+    "question": "How do competing businesses attract workers?",
+    "gold_id": "p239074b1fbc2",
+    "gold_idx": 20295,
+    "answers": [
+      "offering a higher wage",
+      "by offering a higher wage",
+      "offering a higher wage the best of their labor"
+    ]
+  },
+  {
+    "qid": "56d99179dc89441400fdb56d",
+    "question": "How many teams up to Super Bowl 50 have been to the championship game eight times?",
+    "gold_id": "paad58c5e2cd7",
+    "gold_idx": 18899,
+    "answers": [
+      "four",
+      "four",
+      "four"
+    ]
+  },
+  {
+    "qid": "5711607f2419e314009555cf",
+    "question": "What plants create most electric power?",
+    "gold_id": "p38f90e7e83f4",
+    "gold_idx": 19500,
+    "answers": [
+      "steam turbine",
+      "steam turbine",
+      "steam turbine plant",
+      "steam turbine plant"
+    ]
+  },
+  {
+    "qid": "57266a15f1498d1400e8defa",
+    "question": "The epidemic in Newcastle was the most what in any British city at the time?",
+    "gold_id": "pa4d3901aa5d4",
+    "gold_idx": 19832,
+    "answers": [
+      "devastating loss",
+      "devastating loss",
+      "devastating loss"
+    ]
+  },
+  {
+    "qid": "570953a7efce8f15003a7e02",
+    "question": "What additional srevice did BSkyB offer besides Video on Demand that they claimed offered \"substantially more value\"?",
+    "gold_id": "p46b1c4c3ec6e",
+    "gold_idx": 19379,
+    "answers": [
+      "HD channels",
+      "HD channels",
+      "HD channels"
+    ]
+  },
+  {
+    "qid": "56e1239acd28a01900c67641",
+    "question": "Who did Tesla think would run the world of the future?",
+    "gold_id": "p2ecb862d312e",
+    "gold_idx": 19123,
+    "answers": [
+      "women",
+      "women",
+      "women"
+    ]
+  },
+  {
+    "qid": "57302efe04bcaa1900d772f9",
+    "question": "What have many HT members graduated to joining?",
+    "gold_id": "p7b91e465dc9e",
+    "gold_idx": 20774,
+    "answers": [
+      "terrorist groups",
+      "terrorist groups",
+      "terrorist groups"
+    ]
+  },
+  {
+    "qid": "5726e37ef1498d1400e8eed8",
+    "question": "Approximately how many items are in the costume collection of the V&A?",
+    "gold_id": "pdadced78882a",
+    "gold_idx": 19917,
+    "answers": [
+      "over 14,000",
+      "over 14,000 outfits",
+      "over 14,000",
+      "over 14,000"
+    ]
+  },
+  {
+    "qid": "5725d662ec44d21400f3d688",
+    "question": "Which park is home to the Fresno Chafffee Zoo?",
+    "gold_id": "p4fa59fb6f826",
+    "gold_idx": 19733,
+    "answers": [
+      "Roeding Park",
+      "Roeding Park",
+      "Roeding Park"
+    ]
+  },
+  {
+    "qid": "57266e72f1498d1400e8df8d",
+    "question": "The point at which different radiometric isotopes stop diffusing into and out of the crystal lattice is called what?",
+    "gold_id": "pf52bac5315c9",
+    "gold_idx": 19811,
+    "answers": [
+      "particular closure temperature",
+      "closure temperature",
+      "closure temperature"
+    ]
+  },
+  {
+    "qid": "56e74faf00c9c71400d76f95",
+    "question": "What could someone be investigated for?",
+    "gold_id": "peb17d1962a5a",
+    "gold_idx": 19186,
+    "answers": [
+      "allegations of professional misconduct",
+      "professional misconduct",
+      "professional misconduct"
+    ]
+  },
+  {
+    "qid": "5729d51d3f37b31900478592",
+    "question": "What are examples of economic actors?",
+    "gold_id": "p425960ca97e9",
+    "gold_idx": 20293,
+    "answers": [
+      "worker, capitalist/business owner, landlord",
+      "worker, capitalist/business owner, landlord",
+      "worker, capitalist/business owner, landlord"
+    ]
+  },
+  {
+    "qid": "5728f2e26aef051400154898",
+    "question": "What field involves the study of the immune system?",
+    "gold_id": "p9ed642841a09",
+    "gold_idx": 20119,
+    "answers": [
+      "Immunology",
+      "Immunology",
+      "Immunology"
+    ]
+  },
+  {
+    "qid": "5729efab3f37b319004785cf",
+    "question": "What are the phagocytes that are located in tissues in contact with the external environment called?",
+    "gold_id": "p6f4f658b9df5",
+    "gold_idx": 20131,
+    "answers": [
+      "Dendritic cells",
+      "Dendritic cells",
+      "Dendritic cells"
+    ]
+  },
+  {
+    "qid": "57266783f1498d1400e8de8a",
+    "question": "What did the merchants of Newcastle plot to do to Timothy Dexter?",
+    "gold_id": "p1a7ac5f87dc9",
+    "gold_idx": 19831,
+    "answers": [
+      "ruin him",
+      "ruin him",
+      "to ruin him"
+    ]
+  },
+  {
+    "qid": "56e0c0c7231d4119001ac379",
+    "question": "What job did Tesla's father have in Gospic?",
+    "gold_id": "p7b13646b0b25",
+    "gold_idx": 19044,
+    "answers": [
+      "pastor",
+      "a pastor",
+      "pastor"
+    ]
+  },
+  {
+    "qid": "56d70d240d65d21400198327",
+    "question": "Which hotel did the Panthers stay at for the Super Bowl?",
+    "gold_id": "p0b51923ad80c",
+    "gold_idx": 18914,
+    "answers": [
+      "San Jose Marriott.",
+      "the San Jose Marriott",
+      "San Jose Marriott"
+    ]
+  },
+  {
+    "qid": "5733d3cb4776f419006612ed",
+    "question": "What are other alternative names for French and Indian War?",
+    "gold_id": "p9844293c5eee",
+    "gold_idx": 20873,
+    "answers": [
+      "Fourth Intercolonial War and the Great War for the Empire",
+      "Fourth Intercolonial War and the Great War for the Empire",
+      "Fourth Intercolonial War and the Great War for the Empire",
+      "Fourth Intercolonial War and the Great War for the Empire",
+      "the Fourth Intercolonial War and the Great War for the Empire"
+    ]
+  },
+  {
+    "qid": "5705f7c875f01819005e77df",
+    "question": "Outside of its use of automobiles, what else is southern California famous for using?",
+    "gold_id": "p2e560fa62217",
+    "gold_idx": 19349,
+    "answers": [
+      "highways",
+      "highways"
+    ]
+  },
+  {
+    "qid": "572680865951b619008f74e9",
+    "question": "What was the last name of the designers of Newcastle's library?",
+    "gold_id": "pe42b15a30a88",
+    "gold_idx": 19854,
+    "answers": [
+      "Green",
+      "Green",
+      "John and Benjamin Green"
+    ]
+  },
+  {
+    "qid": "5725d79e89a1e219009abf90",
+    "question": "How many people were on the test flight of the AS-206?",
+    "gold_id": "p3a23021d3457",
+    "gold_idx": 19609,
+    "answers": [
+      "unmanned",
+      "unmanned",
+      "unmanned",
+      "unmanned"
+    ]
+  },
+  {
+    "qid": "570603c475f01819005e7884",
+    "question": "What is the state average growth rate?",
+    "gold_id": "p02d25619e58a",
+    "gold_idx": 19356,
+    "answers": [
+      "10.0%",
+      "10.0%",
+      "10.0%"
+    ]
+  },
+  {
+    "qid": "57264fe65951b619008f6fa4",
+    "question": "When was the study on sequenced Y genomes published?",
+    "gold_id": "p12218bd728c0",
+    "gold_idx": 19791,
+    "answers": [
+      "October 2011",
+      "October 2011",
+      "October 2011"
+    ]
+  },
+  {
+    "qid": "56d98f0ddc89441400fdb559",
+    "question": "How many times prios has the Sun Life Stadium had Super Bowls?",
+    "gold_id": "pd697522145bd",
+    "gold_idx": 18897,
+    "answers": [
+      "10.",
+      "10",
+      "10 times"
+    ]
+  },
+  {
+    "qid": "56de0ed14396321400ee257a",
+    "question": "What does Kitab Rudjdjar mean in English?",
+    "gold_id": "pe38ef7ec045b",
+    "gold_idx": 19004,
+    "answers": [
+      "The Book of Roger",
+      "The Book of Roger",
+      "The Book of Roger"
+    ]
+  },
+  {
+    "qid": "572649d8f1498d1400e8db39",
+    "question": "Name one country that banned boating, driving and flying on Sundays.",
+    "gold_id": "p1c0c03988355",
+    "gold_idx": 19564,
+    "answers": [
+      "Germany",
+      "Germany",
+      "Italy",
+      "Norway"
+    ]
+  },
+  {
+    "qid": "57264684708984140094c127",
+    "question": "For how long did the plague stick around?",
+    "gold_id": "p6bf8e604c876",
+    "gold_idx": 19779,
+    "answers": [
+      "until the 19th century",
+      "until the 19th century",
+      "19th century"
+    ]
+  },
+  {
+    "qid": "570953a7efce8f15003a7dff",
+    "question": "What channels were removed from the network in March of 2007?",
+    "gold_id": "p46b1c4c3ec6e",
+    "gold_idx": 19379,
+    "answers": [
+      "basic channels",
+      "the basic channels",
+      "the basic channels"
+    ]
+  },
+  {
+    "qid": "56beb3a03aeaaa14008c9248",
+    "question": "How many total touchdowns did Cam Newton score?",
+    "gold_id": "p68fdd3148af7",
+    "gold_idx": 18901,
+    "answers": [
+      "45",
+      "45",
+      "45"
+    ]
+  },
+  {
+    "qid": "5726a299dd62a815002e8b9e",
+    "question": "How many original treaties establishing the EU protected fundamental rights?",
+    "gold_id": "p17d23cc1a027",
+    "gold_idx": 19658,
+    "answers": [
+      "None",
+      "None",
+      "None"
+    ]
+  },
+  {
+    "qid": "57097051ed30961900e84134",
+    "question": "What did BSkyB name their interactive service?",
+    "gold_id": "p3867ff02473e",
+    "gold_idx": 19391,
+    "answers": [
+      "Sky Active",
+      "Open",
+      "Sky Active"
+    ]
+  },
+  {
+    "qid": "5705e3f252bb89140068966c",
+    "question": "How many inhabitants does the Los Angeles area contain?",
+    "gold_id": "pb3195de1d69d",
+    "gold_idx": 19337,
+    "answers": [
+      "12 million",
+      "over 12 million inhabitants",
+      "12 million"
+    ]
+  },
+  {
+    "qid": "5725e1c4271a42140099d2d7",
+    "question": "During what period did the Tower Theatre re-open?",
+    "gold_id": "pcbda2b470d40",
+    "gold_idx": 19738,
+    "answers": [
+      "late 1970s",
+      "late 1970s",
+      "late 1970s"
+    ]
+  },
+  {
+    "qid": "57332442d058e614000b5723",
+    "question": "What did Warsz own?",
+    "gold_id": "p490d76fe7242",
+    "gold_idx": 18966,
+    "answers": [
+      "a village",
+      "village"
+    ]
+  },
+  {
+    "qid": "572906e23f37b31900477f8e",
+    "question": "Who formed the government in Kenya?",
+    "gold_id": "p66339ea67c2f",
+    "gold_idx": 20495,
+    "answers": [
+      "Kenya African National Union (KANU) of Jomo Kenyatta",
+      "Kenya African National Union",
+      "Kenya African National Union"
+    ]
+  },
+  {
+    "qid": "5728455bff5b5019007da078",
+    "question": "What tool has measured the amount of dust that travels from the Sahara to the Amazon?",
+    "gold_id": "pc76adad91452",
+    "gold_idx": 19680,
+    "answers": [
+      "NASA's CALIPSO satellite",
+      "NASA's CALIPSO satellite",
+      "satellite"
+    ]
+  },
+  {
+    "qid": "56d9c79edc89441400fdb808",
+    "question": "Who sacked Newton with 11 seconds left in the first half?",
+    "gold_id": "pde8c4f459f5a",
+    "gold_idx": 18939,
+    "answers": [
+      "DeMarcus Ware",
+      "DeMarcus Ware",
+      "Ware"
+    ]
+  },
+  {
+    "qid": "56f87531a6d7ea1400e17671",
+    "question": "What was the hymn meant to examine students on?",
+    "gold_id": "p5ea67560791b",
+    "gold_idx": 19296,
+    "answers": [
+      "specific catechism questions",
+      "specific catechism questions",
+      "specific catechism questions"
+    ]
+  },
+  {
+    "qid": "57274e145951b619008f87ea",
+    "question": "In Nepalese private schools, what is the primary language of instruction?",
+    "gold_id": "p45b1e6147500",
+    "gold_idx": 20227,
+    "answers": [
+      "English",
+      "English",
+      "English"
+    ]
+  },
+  {
+    "qid": "572fc8a904bcaa1900d76d20",
+    "question": "What topic do private bills typically have?",
+    "gold_id": "p862bb2c6515f",
+    "gold_idx": 20720,
+    "answers": [
+      "large-scale development projects",
+      "large-scale development projects",
+      "large-scale development projects"
+    ]
+  },
+  {
+    "qid": "56de15dbcffd8e1900b4b5ca",
+    "question": "To where did Ethelred flee?",
+    "gold_id": "p9b8d823d5e09",
+    "gold_idx": 19012,
+    "answers": [
+      "Normandy",
+      "Normandy",
+      "Normandy"
+    ]
+  },
+  {
+    "qid": "5733f5f24776f419006615c4",
+    "question": "What future Revolutionary key figures participated in this attack?",
+    "gold_id": "p682631a075cf",
+    "gold_idx": 20894,
+    "answers": [
+      "Washington and Thomas Gage",
+      "George Washington",
+      "Washington and Thomas Gage",
+      "Washington and Thomas Gage",
+      "George Washington"
+    ]
+  },
+  {
+    "qid": "571098f8a58dae1900cd6ab3",
+    "question": "What style of lace is erroneously believed by some to have Huguenot influence?",
+    "gold_id": "p490cd65f6517",
+    "gold_idx": 19444,
+    "answers": [
+      "'Bucks Point'",
+      "Bucks Point",
+      "Bucks Point"
+    ]
+  },
+  {
+    "qid": "57300888b2c2fd1400568776",
+    "question": "What did the number of legions in Roman times depend on?",
+    "gold_id": "pd9672e894fda",
+    "gold_idx": 20692,
+    "answers": [
+      "threat of war",
+      "whether a state or threat of war existed",
+      "whether a state or threat of war existed"
+    ]
+  },
+  {
+    "qid": "56e11a16cd28a01900c675b6",
+    "question": "Before dinner what were Tesla's working hours?",
+    "gold_id": "pb99549398e9c",
+    "gold_idx": 19108,
+    "answers": [
+      "9:00 a.m. until 6:00 p.m. or later",
+      "9:00 a.m. until 6:00 p.m",
+      "9:00 a.m. until 6:00 p.m. or later"
+    ]
+  },
+  {
+    "qid": "571090abb654c5140001f996",
+    "question": "What house was the site of a weaving school in Canterbury?",
+    "gold_id": "pcba1c27b2780",
+    "gold_idx": 19436,
+    "answers": [
+      "The Weavers",
+      "The Weavers",
+      "The Weavers"
+    ]
+  },
+  {
+    "qid": "56e764e200c9c71400d77092",
+    "question": "What is strongly linked to good student-teacher relationships?",
+    "gold_id": "p3568bbe9fad6",
+    "gold_idx": 19207,
+    "answers": [
+      "student motivation and attitudes towards school",
+      "student motivation and attitudes towards school",
+      "student motivation and attitudes towards school"
+    ]
+  },
+  {
+    "qid": "57269f3ef1498d1400e8e535",
+    "question": "What does the First Company Law Directive article 11 require?",
+    "gold_id": "pe5eb913db4de",
+    "gold_idx": 19653,
+    "answers": [
+      "incorporations would only be nullified for a fixed list of reasons",
+      "incorporations would only be nullified for a fixed list of reasons",
+      "incorporations would only be nullified for a fixed list of reasons"
+    ]
+  },
+  {
+    "qid": "572a03086aef0514001551a4",
+    "question": "What are two examples of cytotoxic or immunosuppressive drugs?",
+    "gold_id": "paf6da72365e6",
+    "gold_idx": 20151,
+    "answers": [
+      "methotrexate or azathioprine",
+      "methotrexate or azathioprine",
+      "methotrexate or azathioprine"
+    ]
+  },
+  {
+    "qid": "57268e2bf1498d1400e8e3b0",
+    "question": "What caused the need for principal Treaties that ended up forming the EU?",
+    "gold_id": "pdb95b8c39127",
+    "gold_idx": 19639,
+    "answers": [
+      "common rules for coal and steel, and then atomic energy",
+      "common rules for coal and steel, and then atomic energy",
+      "with common rules for coal and steel",
+      "with common rules for coal and steel"
+    ]
+  },
+  {
+    "qid": "5725be0fec44d21400f3d4a5",
+    "question": "Who originally led the Space Task Group?",
+    "gold_id": "p5cbf8d54e310",
+    "gold_idx": 19587,
+    "answers": [
+      "Robert R. Gilruth",
+      "Robert R. Gilruth's",
+      "Robert R. Gilruth's",
+      "Robert R. Gilruth",
+      "Robert R. Gilruth"
+    ]
+  },
+  {
+    "qid": "57274baff1498d1400e8f5de",
+    "question": "Which female anchor from Today joined Hugh Downs on 20/20?",
+    "gold_id": "p72e50d095596",
+    "gold_idx": 19991,
+    "answers": [
+      "Barbara Walters",
+      "Barbara Walters",
+      "Barbara Walters"
+    ]
+  },
+  {
+    "qid": "5729e2316aef0514001550c8",
+    "question": "What is the estimate for the amount of tree species in the amazon tropical rain forest?",
+    "gold_id": "pcf1362c17f53",
+    "gold_idx": 19676,
+    "answers": [
+      "16,000 species",
+      "16,000",
+      "16,000"
+    ]
+  },
+  {
+    "qid": "5725e748ec44d21400f3d733",
+    "question": "What type of homes is Fresno known for?",
+    "gold_id": "pbf79acd0b4b9",
+    "gold_idx": 19740,
+    "answers": [
+      "early twentieth century homes",
+      "early twentieth century homes",
+      "early twentieth century"
+    ]
+  },
+  {
+    "qid": "56d9943fdc89441400fdb578",
+    "question": "What team had the best start ever in the NFL?",
+    "gold_id": "p283080fb5b8c",
+    "gold_idx": 18900,
+    "answers": [
+      "Carolina Panthers",
+      "the Panthers",
+      "Carolina"
+    ]
+  },
+  {
+    "qid": "571cde695efbb31900334e18",
+    "question": "Which organic compounds contain the greatest amount of oxygen by mass?",
+    "gold_id": "pc06d5b8881d4",
+    "gold_idx": 19550,
+    "answers": [
+      "carbohydrates",
+      "carbohydrates",
+      "carbohydrates",
+      "carbohydrates",
+      "carbohydrates"
+    ]
+  },
+  {
+    "qid": "572a1046af94a219006aa78d",
+    "question": "What did Stiglitz present in 2009 regarding global inequality?",
+    "gold_id": "pb3198ff9569c",
+    "gold_idx": 20321,
+    "answers": [
+      "evidence",
+      "evidence",
+      "prevent growth"
+    ]
+  },
+  {
+    "qid": "5727403af1498d1400e8f526",
+    "question": "Of what hollywood film company was UPT a subsidiary of when it merged with ABC?",
+    "gold_id": "p1028b4dacd9c",
+    "gold_idx": 19977,
+    "answers": [
+      "Paramount Pictures",
+      "Paramount Pictures",
+      "Paramount Pictures"
+    ]
+  },
+  {
+    "qid": "56d70daa0d65d21400198332",
+    "question": "When did the NFL announce that it would not use Roman numbers to designate the Super Bowl number?",
+    "gold_id": "p49dbe46e1655",
+    "gold_idx": 18915,
+    "answers": [
+      "June 4, 2014",
+      "On June 4, 2014",
+      "2014"
+    ]
+  },
+  {
+    "qid": "57111428b654c5140001fb01",
+    "question": "How many Huguenots were killed in Toulouse?",
+    "gold_id": "p2c8e47194eb9",
+    "gold_idx": 19457,
+    "answers": [
+      "Nearly 3,000",
+      "Nearly 3,000",
+      "Nearly 3,000"
+    ]
+  },
+  {
+    "qid": "57293d116aef051400154bca",
+    "question": "What is 'grey literature'?",
+    "gold_id": "p97ffa67d5056",
+    "gold_idx": 20541,
+    "answers": [
+      "non-peer-reviewed sources",
+      "non-peer-reviewed sources",
+      "non-peer-reviewed sources"
+    ]
+  },
+  {
+    "qid": "572687e1dd62a815002e8854",
+    "question": "What's the name of Newcastle's speedway team?",
+    "gold_id": "p8ec9bb224461",
+    "gold_idx": 19862,
+    "answers": [
+      "Newcastle Diamonds",
+      "Newcastle Diamonds",
+      "Newcastle Diamonds"
+    ]
+  },
+  {
+    "qid": "572821ceff5b5019007d9db3",
+    "question": "What was the main reason for the show's suspension in 1989?",
+    "gold_id": "pee88a9eb7ec7",
+    "gold_idx": 20377,
+    "answers": [
+      "Its late 1980s performance of three to five million viewers",
+      "performance of three to five million viewers was seen as poor",
+      "performance"
+    ]
+  },
+  {
+    "qid": "5728fd9b3f37b31900477f3c",
+    "question": "What is the name of the port city that was created?",
+    "gold_id": "p6a693192a365",
+    "gold_idx": 20490,
+    "answers": [
+      "Mombasa",
+      "Mombasa",
+      "Mombasa"
+    ]
+  },
+  {
+    "qid": "56f7f2e0aef2371900625cb0",
+    "question": "When did Martin Luther receive his Doctor of Theology?",
+    "gold_id": "pe047b9ac9523",
+    "gold_idx": 19246,
+    "answers": [
+      "19 October 1512",
+      "19 October 1512",
+      "1512"
+    ]
+  },
+  {
+    "qid": "5725cb33271a42140099d1de",
+    "question": "Which phylum is more complex than sponges?",
+    "gold_id": "p3ebfeda90daa",
+    "gold_idx": 19702,
+    "answers": [
+      "Ctenophores",
+      "Ctenophores",
+      "Ctenophores"
+    ]
+  },
+  {
+    "qid": "572a02483f37b3190047864e",
+    "question": "What other scientist influence Frank Burnet when he was formulating his theory of immunity?",
+    "gold_id": "pc044c7147a6a",
+    "gold_idx": 20150,
+    "answers": [
+      "Niels Jerne",
+      "Niels Jerne",
+      "Niels Jerne"
+    ]
+  },
+  {
+    "qid": "5727aeac3acd2414000de989",
+    "question": "How many volumes are contained in the library?",
+    "gold_id": "p18953c714163",
+    "gold_idx": 20241,
+    "answers": [
+      "18 million volumes",
+      "18 million",
+      "over 18 million"
+    ]
+  },
+  {
+    "qid": "56e756bc37bdd419002c3e97",
+    "question": "What does co-teaching get the students to focus on?",
+    "gold_id": "pe7660449ad27",
+    "gold_idx": 19193,
+    "answers": [
+      "learning",
+      "learning",
+      "learning"
+    ]
+  },
+  {
+    "qid": "570d391fb3d812140066d576",
+    "question": "Of what mountain system are the Victorian Alps a part?",
+    "gold_id": "p8ea8a4b13cfd",
+    "gold_idx": 19409,
+    "answers": [
+      "Great Dividing Range",
+      "the Great Dividing Range",
+      "Great Dividing Range"
+    ]
+  },
+  {
+    "qid": "56bf3a223aeaaa14008c9576",
+    "question": "What body part did Thomas Davis break during the NFC Championship Game?",
+    "gold_id": "p4d9b20450c5a",
+    "gold_idx": 18908,
+    "answers": [
+      "arm",
+      "arm",
+      "arm"
+    ]
+  },
+  {
+    "qid": "5737432bc3c5551400e51e99",
+    "question": "Whose First Law of Motion says that unless acted upon be forces, objects would continue to move at a constant velocity?",
+    "gold_id": "p9bc8d438ee7a",
+    "gold_idx": 20918,
+    "answers": [
+      "Newton",
+      "Newton's",
+      "Newton's",
+      "Newton's",
+      "Newton's"
+    ]
+  },
+  {
+    "qid": "57264cac708984140094c1b7",
+    "question": "How was scarcity managed in many countries?",
+    "gold_id": "p9f0e3279eef5",
+    "gold_idx": 19565,
+    "answers": [
+      "rationing",
+      "rationing",
+      "rationing",
+      "rationing",
+      "rationing"
+    ]
+  },
+  {
+    "qid": "57264991f1498d1400e8db31",
+    "question": "Where did the residents of Antioch flee to?",
+    "gold_id": "p9776703cac88",
+    "gold_idx": 19783,
+    "answers": [
+      "The city's residents fled to the north",
+      "the north",
+      "north"
+    ]
+  },
+  {
+    "qid": "5725b64d89a1e219009abd43",
+    "question": "How many of the remaining launches were successful?",
+    "gold_id": "p73d419f44dea",
+    "gold_idx": 19580,
+    "answers": [
+      "Five",
+      "six",
+      "Five",
+      "Five",
+      "Five of the remaining six missions"
+    ]
+  },
+  {
+    "qid": "56e756bc37bdd419002c3e98",
+    "question": "How do co-teachers work with each other to fulfill the needs of students?",
+    "gold_id": "pe7660449ad27",
+    "gold_idx": 19193,
+    "answers": [
+      "harmoniously",
+      "in sync",
+      "harmoniously"
+    ]
+  },
+  {
+    "qid": "5727f44c2ca10214002d9a33",
+    "question": "What creatures were the most popular monsters in the series?",
+    "gold_id": "p946f58696b47",
+    "gold_idx": 20340,
+    "answers": [
+      "The Daleks (a.k.a. The Mutants)",
+      "Daleks",
+      "eponymous aliens"
+    ]
+  },
+  {
+    "qid": "573098f38ab72b1400f9c5d5",
+    "question": "Who did Britain exploit in India?",
+    "gold_id": "p21d172192888",
+    "gold_idx": 20793,
+    "answers": [
+      "the Mughal state",
+      "Mughal state",
+      "Mughal state",
+      "Mughal state",
+      "Mughal state"
+    ]
+  },
+  {
+    "qid": "5728501aff5b5019007da166",
+    "question": "Who runs the University of Chicago?",
+    "gold_id": "p0f681ae75f38",
+    "gold_idx": 20411,
+    "answers": [
+      "a board of trustees",
+      "board of trustees",
+      "The Board of Trustees"
+    ]
+  },
+  {
+    "qid": "5729f9953f37b3190047861f",
+    "question": "Hormones can alter the sensitivity of the immune system, so they can be referred to as what?",
+    "gold_id": "p34061c3524d8",
+    "gold_idx": 20141,
+    "answers": [
+      "immunomodulators",
+      "immunomodulators",
+      "immunomodulators"
+    ]
+  },
+  {
+    "qid": "56d98fbfdc89441400fdb564",
+    "question": "How much did Levi's Stadium cost?",
+    "gold_id": "p7d0d0b8595cd",
+    "gold_idx": 18898,
+    "answers": [
+      "$1.2 billion",
+      "$1.2 billion",
+      "$1.2 billion"
+    ]
+  },
+  {
+    "qid": "56be54bdacb8001400a50323",
+    "question": "How many times has the South Florida/Miami area hosted the Super Bowl?",
+    "gold_id": "pd697522145bd",
+    "gold_idx": 18897,
+    "answers": [
+      "10",
+      "10",
+      "10"
+    ]
+  },
+  {
+    "qid": "57292449af94a219006aa0e0",
+    "question": "How much of the population is Hindu?",
+    "gold_id": "p85a39bbe7dd0",
+    "gold_idx": 20523,
+    "answers": [
+      "around 300,000",
+      "300,000",
+      "300,000"
+    ]
+  },
+  {
+    "qid": "5730042804bcaa1900d77014",
+    "question": "When did the formation of the Holocene Rhine-Meuse delta begin?",
+    "gold_id": "pd77288411bed",
+    "gold_idx": 20687,
+    "answers": [
+      "8,000 years ago",
+      "~8,000 years ago",
+      "~8,000 years ago"
+    ]
+  },
+  {
+    "qid": "57269698dd62a815002e8a6d",
+    "question": "Which university has its origins in a school dealing with medicine and surgery?",
+    "gold_id": "p9a5253161454",
+    "gold_idx": 19873,
+    "answers": [
+      "Newcastle University",
+      "Newcastle University",
+      "Newcastle University"
+    ]
+  },
+  {
+    "qid": "572976791d046914007794b2",
+    "question": "How much carbon gets wasted by using O2 instead of CO2?",
+    "gold_id": "pcb96b558a250",
+    "gold_idx": 20615,
+    "answers": [
+      "up to half the carbon fixed by the Calvin cycle",
+      "up to half",
+      "half"
+    ]
+  },
+  {
+    "qid": "5733ea04d058e614000b6596",
+    "question": "Where was Marin's second fort constructed?",
+    "gold_id": "p1180cd778cb5",
+    "gold_idx": 20886,
+    "answers": [
+      "Fort Le Boeuf (present-day Waterford, Pennsylvania",
+      "Fort Le Boeuf",
+      "present-day Waterford, Pennsylvania",
+      "Fort Le Boeuf",
+      "present-day Waterford, Pennsylvania"
+    ]
+  },
+  {
+    "qid": "5733a1854776f41900660f0a",
+    "question": "Where can a tribute to the fall of Warsaw be found?",
+    "gold_id": "p84eae7c7c7e9",
+    "gold_idx": 18957,
+    "answers": [
+      "Warsaw Uprising Museum",
+      "Warsaw Uprising Museum",
+      "Warsaw Uprising Museum"
+    ]
+  },
+  {
+    "qid": "56bec2013aeaaa14008c9372",
+    "question": "On what service could the ESPN Deportes broadcast be streamed?",
+    "gold_id": "pa276b4226f03",
+    "gold_idx": 18925,
+    "answers": [
+      "WatchESPN",
+      "WatchESPN",
+      "WatchESPN"
+    ]
+  },
+  {
+    "qid": "5710968aa58dae1900cd6a89",
+    "question": "What characteristic identifies the French ancestry of some South Africans?",
+    "gold_id": "p8c970eb1937b",
+    "gold_idx": 19442,
+    "answers": [
+      "surnames",
+      "names",
+      "surnames"
+    ]
+  },
+  {
+    "qid": "56de1563cffd8e1900b4b5c3",
+    "question": "What was the naval base called?",
+    "gold_id": "p146a36276e05",
+    "gold_idx": 19011,
+    "answers": [
+      "Dyrrachium",
+      "Dyrrachium",
+      "Dyrrachium"
+    ]
+  },
+  {
+    "qid": "56e089ab231d4119001ac287",
+    "question": "How much did Tesla sell his AC patents to Westinghouse Electric for?",
+    "gold_id": "p72d23508937f",
+    "gold_idx": 19065,
+    "answers": [
+      "$216,000",
+      "$216,000",
+      "a lump sum payment of $216,000"
+    ]
+  },
+  {
+    "qid": "5727e9523acd2414000def99",
+    "question": "How is income determined in a market with variously skilled workers?",
+    "gold_id": "p425960ca97e9",
+    "gold_idx": 20293,
+    "answers": [
+      "marginal value added of each economic actor",
+      "differences in value",
+      "marginal value added of each economic actor"
+    ]
+  },
+  {
+    "qid": "57291fb4af94a219006aa0b5",
+    "question": "What has caused China to suspend their railway project?",
+    "gold_id": "pb85b360ba540",
+    "gold_idx": 20518,
+    "answers": [
+      "environmental and social problems",
+      "environmental and social problems",
+      "environmental and social problems"
+    ]
+  },
+  {
+    "qid": "5711619950c2381900b54ab0",
+    "question": "What did Watt add to Newcomen's engine between 1763 and 1775?",
+    "gold_id": "p40274d2ab091",
+    "gold_idx": 19502,
+    "answers": [
+      "condenser",
+      "a separate condenser",
+      "condenser",
+      "a separate condenser"
+    ]
+  },
+  {
+    "qid": "572978e66aef051400154f78",
+    "question": "What kind of light is important for chloroplasts to divide?",
+    "gold_id": "pc58fc63218a7",
+    "gold_idx": 20622,
+    "answers": [
+      "bright white light",
+      "white light",
+      "bright white light"
+    ]
+  },
+  {
+    "qid": "57276576dd62a815002e9c18",
+    "question": "What are the only states where ABC doesn't have a licensed affiliate?",
+    "gold_id": "p80c118bf49fb",
+    "gold_idx": 20015,
+    "answers": [
+      "New Jersey, Rhode Island and Delaware",
+      "New Jersey, Rhode Island and Delaware",
+      "New Jersey, Rhode Island and Delaware"
+    ]
+  },
+  {
+    "qid": "5710f4b8b654c5140001fa46",
+    "question": "Which Count did the Prince strike an arrangement with?",
+    "gold_id": "p37ff99139afc",
+    "gold_idx": 19453,
+    "answers": [
+      "Count Ludwig von Nassau-Saarbr\u00fccken",
+      "Ludwig von Nassau-Saarbr\u00fccken",
+      "Count Ludwig von Nassau-Saarbr\u00fccken"
+    ]
+  },
+  {
+    "qid": "5725e36f89a1e219009ac038",
+    "question": "From what project did the Apollo 11 crew consist entirely of?",
+    "gold_id": "p7e8adc3faa21",
+    "gold_idx": 19621,
+    "answers": [
+      "Gemini",
+      "all-Gemini veteran",
+      "Gemini",
+      "all-Gemini veteran crew",
+      "Gemini"
+    ]
+  },
+  {
+    "qid": "5728804b4b864d1900164a47",
+    "question": "When did Zhu Shijie die?",
+    "gold_id": "p9c36c3316fe8",
+    "gold_idx": 20469,
+    "answers": [
+      "1314",
+      "1314",
+      "1314"
+    ]
+  },
+  {
+    "qid": "5728ec6a4b864d19001650ab",
+    "question": "What was the civil disobedience performed at the test site?",
+    "gold_id": "p9e2202c8b0b6",
+    "gold_idx": 20184,
+    "answers": [
+      "tempted to enter the test site",
+      "protesters attempted to enter the test site",
+      "attempted to enter the test site",
+      "13 of the protesters attempted to enter the test site",
+      "protest"
+    ]
+  },
+  {
+    "qid": "57114b1a2419e31400955576",
+    "question": "What is another term for the pivot mounting?",
+    "gold_id": "p5d61b161043d",
+    "gold_idx": 19481,
+    "answers": [
+      "trunnion",
+      "trunnion",
+      "trunnion"
+    ]
+  },
+  {
+    "qid": "56d7277c0d65d21400198401",
+    "question": "Who did the Broncos tie with the most sacks in a Super Bowl?",
+    "gold_id": "p157a3748edc8",
+    "gold_idx": 18944,
+    "answers": [
+      "Chicago Bears",
+      "the Chicago Bears",
+      "Bears"
+    ]
+  },
+  {
+    "qid": "5727490bdd62a815002e9a82",
+    "question": "What power is available to Australian private schools but generally not present in public schools?",
+    "gold_id": "pd11ce45a00b4",
+    "gold_idx": 20218,
+    "answers": [
+      "expulsion",
+      "expulsion",
+      "offer a higher quality of education"
+    ]
+  },
+  {
+    "qid": "5727ed2e3acd2414000df001",
+    "question": "What has the tendency to increase wages in a field or job position?",
+    "gold_id": "p24cdb4f2e32e",
+    "gold_idx": 20296,
+    "answers": [
+      "Competition amongst workers",
+      "high demand",
+      "competition between employers for employees"
+    ]
+  },
+  {
+    "qid": "572883153acd2414000dfa70",
+    "question": "What Chinese system did Kublai's government compromise with?",
+    "gold_id": "pa62f27f0692e",
+    "gold_idx": 20476,
+    "answers": [
+      "traditional Chinese autocratic-bureaucratic system",
+      "autocratic-bureaucratic",
+      "autocratic-bureaucratic system"
+    ]
+  },
+  {
+    "qid": "5727d6154b864d1900163e34",
+    "question": "What is tuition for 2012 - 13 year at Harvard? ",
+    "gold_id": "p872f5cc4030c",
+    "gold_idx": 20259,
+    "answers": [
+      "$38,000",
+      "$38,000",
+      "$38,000"
+    ]
+  },
+  {
+    "qid": "5729f2646aef051400155132",
+    "question": "How many tons of live plants were found to live in one square kilometer of the Amazon rainforest in 1999?",
+    "gold_id": "p6af1f2b7b4ac",
+    "gold_idx": 19685,
+    "answers": [
+      "90,790 tonnes",
+      "about 90,790",
+      "about 90,790",
+      "90,790 tonnes"
+    ]
+  },
+  {
+    "qid": "572a0c541d046914007796f5",
+    "question": "When was consumption inequality lower than it had been in 1986?",
+    "gold_id": "p65131c35c20e",
+    "gold_idx": 20317,
+    "answers": [
+      "2001",
+      "2001",
+      "2001"
+    ]
+  },
+  {
+    "qid": "571127a5a58dae1900cd6cc5",
+    "question": "On what date did the first railway trip in the world occur?",
+    "gold_id": "pcc287d0bc183",
+    "gold_idx": 19467,
+    "answers": [
+      "21 February 1804",
+      "21 February 1804",
+      "21 February 1804"
+    ]
+  },
+  {
+    "qid": "5728827b2ca10214002da42c",
+    "question": "When did the Yuan begin using bronze printing plates for its money?",
+    "gold_id": "pa3d17123bc53",
+    "gold_idx": 20475,
+    "answers": [
+      "1275",
+      "1275",
+      "1275"
+    ]
+  },
+  {
+    "qid": "56e75f5500c9c71400d7703e",
+    "question": "Who ends up getting more of the teacher's resources in this scenario?",
+    "gold_id": "pe269c626916d",
+    "gold_idx": 19202,
+    "answers": [
+      "motivated students",
+      "motivated students",
+      "motivated students"
+    ]
+  },
+  {
+    "qid": "56d721af0d65d2140019839e",
+    "question": "Who made their Super Bowl commercial debut with Nintendo?",
+    "gold_id": "p6e5e909f6da4",
+    "gold_idx": 18927,
+    "answers": [
+      "The Pok\u00e9mon Company",
+      "The Pok\u00e9mon Company",
+      "The Pok\u00e9mon Company"
+    ]
+  },
+  {
+    "qid": "5726c002708984140094d073",
+    "question": "Which Treaty protects the freedom of establishment and the freedom to provide services?",
+    "gold_id": "p7b5ec85b4d46",
+    "gold_idx": 19672,
+    "answers": [
+      "the Treaty on the Functioning of the European Union",
+      "the Treaty on the Functioning of the European Union",
+      "the Treaty on the Functioning of the European Union"
+    ]
+  },
+  {
+    "qid": "57280f974b864d1900164371",
+    "question": "Constitutional impasse is different from civil disobedience because does not include what type of person?",
+    "gold_id": "p6ec24ee7b6c9",
+    "gold_idx": 20171,
+    "answers": [
+      "citizen's",
+      "head of government",
+      "private citizen",
+      "private citizen",
+      "private"
+    ]
+  },
+  {
+    "qid": "571ccd9b5efbb31900334dfa",
+    "question": "While producing oxygen, what gas does a zeolite sieve absorb?",
+    "gold_id": "p6b087e8983bc",
+    "gold_idx": 19541,
+    "answers": [
+      "nitrogen",
+      "nitrogen",
+      "nitrogen",
+      "nitrogen",
+      "nitrogen"
+    ]
+  },
+  {
+    "qid": "571bb2269499d21900609caa",
+    "question": "What element makes up almost half of the earth's crust by mass?",
+    "gold_id": "p99afd070d04b",
+    "gold_idx": 19511,
+    "answers": [
+      "Oxygen",
+      "Oxygen",
+      "Oxygen",
+      "Oxygen",
+      "Oxygen"
+    ]
+  },
+  {
+    "qid": "57297103af94a219006aa425",
+    "question": "Why do carotenoids make leaves change color in the fall?",
+    "gold_id": "p56bd872ccd66",
+    "gold_idx": 20601,
+    "answers": [
+      "their bright colors sometimes override the chlorophyll green",
+      "override the chlorophyll green",
+      "override the chlorophyll green"
+    ]
+  },
+  {
+    "qid": "5729779b6aef051400154f66",
+    "question": "What plants don't need light to make chloroplasts?",
+    "gold_id": "pdeccc135115e",
+    "gold_idx": 20618,
+    "answers": [
+      "Gymnosperms",
+      "Gymnosperms",
+      "Gymnosperms"
+    ]
+  },
+  {
+    "qid": "56e10fbacd28a01900c6750a",
+    "question": "Where can the Treatise be found?",
+    "gold_id": "pe63c06d2cbf1",
+    "gold_idx": 19101,
+    "answers": [
+      "Nikola Tesla Museum archive",
+      "the Nikola Tesla Museum archive",
+      "Nikola Tesla Museum"
+    ]
+  },
+  {
+    "qid": "57096e1ced30961900e84105",
+    "question": "Who was given the highlights of most of the matches?",
+    "gold_id": "p94131650d10f",
+    "gold_idx": 19389,
+    "answers": [
+      "BBC",
+      "The BBC",
+      "BBC"
+    ]
+  },
+  {
+    "qid": "572f5533a23a5019007fc55b",
+    "question": "Where does the Rhine begin? ",
+    "gold_id": "pe94b3b3adc26",
+    "gold_idx": 20655,
+    "answers": [
+      "Swiss canton",
+      "s in the Swiss canton of Graub\u00fcnden in the southeastern Swiss Alps,",
+      "Graub\u00fcnden",
+      "Graub\u00fcnden"
+    ]
+  },
+  {
+    "qid": "57276d7f708984140094dd3f",
+    "question": "ABC had secondary status on the existing stations in what Ohio town?",
+    "gold_id": "p88bcd45dacad",
+    "gold_idx": 20022,
+    "answers": [
+      "Youngstown",
+      "WKST-TV in Youngstown",
+      "Youngstown"
+    ]
+  },
+  {
+    "qid": "5729046aaf94a219006a9f4e",
+    "question": "What did this help accomplish?",
+    "gold_id": "p75ebe05864e3",
+    "gold_idx": 20494,
+    "answers": [
+      "the subsequent interrogation led to a better understanding of the Mau Mau command structure",
+      "better understanding of the Mau Mau command structure",
+      "a better understanding of the Mau Mau command structure"
+    ]
+  },
+  {
+    "qid": "5725d662ec44d21400f3d687",
+    "question": "How many large public parks does Fresno have?",
+    "gold_id": "p4fa59fb6f826",
+    "gold_idx": 19733,
+    "answers": [
+      "three",
+      "three",
+      "three"
+    ]
+  },
+  {
+    "qid": "57300137b2c2fd1400568717",
+    "question": "Who was an important early figure in the Islamic revival in India?",
+    "gold_id": "p8fe42ad8dabd",
+    "gold_idx": 20749,
+    "answers": [
+      "Sayyid Abul Ala Maududi",
+      "Sayyid Abul Ala Maududi",
+      "Sayyid Abul Ala Maududi"
+    ]
+  },
+  {
+    "qid": "5730c8a1f6cb411900e2449f",
+    "question": "Why was the 36 acres leased?",
+    "gold_id": "pfc66c3da519d",
+    "gold_idx": 20849,
+    "answers": [
+      "for the George W. Bush Presidential Library",
+      "the George W. Bush Presidential Library",
+      "the George W. Bush Presidential Library"
+    ]
+  },
+  {
+    "qid": "57097051ed30961900e84135",
+    "question": "Who did BSkyB compete with initially?",
+    "gold_id": "p3867ff02473e",
+    "gold_idx": 19391,
+    "answers": [
+      "ONdigital",
+      "ONdigital",
+      "ONdigital"
+    ]
+  },
+  {
+    "qid": "5730ec85e6313a140071cabb",
+    "question": "What is an interdenominational group composed of various churches to promote the Gospel throughout the world?",
+    "gold_id": "pbbd105f6f106",
+    "gold_idx": 20867,
+    "answers": [
+      "World Methodist Council",
+      "World Methodist Council",
+      "World Methodist Council"
+    ]
+  },
+  {
+    "qid": "56beb7953aeaaa14008c92ad",
+    "question": "Who won Super Bowl XLIX?",
+    "gold_id": "p31d37d05c609",
+    "gold_idx": 18907,
+    "answers": [
+      "New England Patriots",
+      "New England Patriots",
+      "Patriots"
+    ]
+  },
+  {
+    "qid": "57265642f1498d1400e8dc68",
+    "question": "How many people died of plague in Paris in 1466?",
+    "gold_id": "p5afd0c6bef72",
+    "gold_idx": 19799,
+    "answers": [
+      "40,000",
+      "40,000",
+      "40,000"
+    ]
+  },
+  {
+    "qid": "57096c95200fba1400367fbf",
+    "question": "What service is a VideoGuard UK equipped receiver dedicated to decrypt?",
+    "gold_id": "p53373a126724",
+    "gold_idx": 19388,
+    "answers": [
+      "Sky",
+      "Sky",
+      "Sky service"
+    ]
+  },
+  {
+    "qid": "57277373dd62a815002e9d25",
+    "question": "How much did Capital Cities Communications purchase ABC and its properties for?",
+    "gold_id": "p5b310084030f",
+    "gold_idx": 20026,
+    "answers": [
+      "$3.5 billion",
+      "$3.5 billion and $118 for each of ABC's shares as well as a guarantee of 10% (or $3) for a total of $121 per share",
+      "$3.5 billion"
+    ]
+  },
+  {
+    "qid": "57264586f1498d1400e8dac8",
+    "question": "Who else did DATNET 1 refer to ",
+    "gold_id": "pdc25c2ba4a09",
+    "gold_idx": 19774,
+    "answers": [
+      "public PAD service Telepad (using the DNIC 2049",
+      "the public PAD service Telepad",
+      "public PAD service Telepad"
+    ]
+  },
+  {
+    "qid": "572699db5951b619008f7799",
+    "question": "What do all member states agree takes precedence over national law?",
+    "gold_id": "pb918d05af476",
+    "gold_idx": 19648,
+    "answers": [
+      "EU law",
+      "EU law",
+      "EU law",
+      "EU law"
+    ]
+  },
+  {
+    "qid": "572fc80b04bcaa1900d76d14",
+    "question": "What is the Scottish Parliament currently in the fourth of?",
+    "gold_id": "pef38574ffd1d",
+    "gold_idx": 20719,
+    "answers": [
+      "Session",
+      "Session",
+      "Session"
+    ]
+  },
+  {
+    "qid": "56beaa4a3aeaaa14008c91c3",
+    "question": "Who did the Broncos prevent from going to the Super Bowl?",
+    "gold_id": "pf1b96eb26e96",
+    "gold_idx": 18892,
+    "answers": [
+      "New England Patriots",
+      "the New England Patriots",
+      "New England Patriots"
+    ]
+  },
+  {
+    "qid": "57300f8504bcaa1900d770d4",
+    "question": "What monarchy did western troops protect?",
+    "gold_id": "p97d6dfbc029b",
+    "gold_idx": 20758,
+    "answers": [
+      "Saudi",
+      "Saudi",
+      "Saudi"
+    ]
+  },
+  {
+    "qid": "56d602631c85041400946ed8",
+    "question": "Who broadcast the Super Bowl on TV?",
+    "gold_id": "p005274218681",
+    "gold_idx": 18894,
+    "answers": [
+      "CBS",
+      "CBS",
+      "CBS"
+    ]
+  },
+  {
+    "qid": "5729f799af94a219006aa70a",
+    "question": "Long-lived memory cells can remember previous encounters with what?",
+    "gold_id": "pe07475a8e0e6",
+    "gold_idx": 20139,
+    "answers": [
+      "specific pathogen",
+      "pathogen",
+      "each specific pathogen"
+    ]
+  },
+  {
+    "qid": "5730bf03069b5314008322eb",
+    "question": "The UMC supports federal funding for research on embryos created for what purpose?",
+    "gold_id": "pb13e51121809",
+    "gold_idx": 20843,
+    "answers": [
+      "IVF",
+      "created for IVF that remain after the procreative efforts have ceased,",
+      "research"
+    ]
+  },
+  {
+    "qid": "5725c123271a42140099d132",
+    "question": "When was Mueller announced and appointed as Deputy Associate Administrator?",
+    "gold_id": "p8c14cf424683",
+    "gold_idx": 19590,
+    "answers": [
+      "July 23, 1963",
+      "1963",
+      "July 23, 1963",
+      "July 23, 1963",
+      "July 23, 1963,"
+    ]
+  },
+  {
+    "qid": "5728284e3acd2414000df5d1",
+    "question": "What year did the the case go before the supreme court?",
+    "gold_id": "p3296f5e50bcf",
+    "gold_idx": 20179,
+    "answers": [
+      "1978",
+      "1978",
+      "1978",
+      "1978",
+      "1978"
+    ]
+  },
+  {
+    "qid": "5728683b3acd2414000df9b2",
+    "question": "What is the name of the winter festival held in January that is based on fitness? ",
+    "gold_id": "p7d4a75736ad7",
+    "gold_idx": 20425,
+    "answers": [
+      "Kuviasungnerk/Kangeiko",
+      "Kuviasungnerk/Kangeiko",
+      "Kuviasungnerk/Kangeiko"
+    ]
+  },
+  {
+    "qid": "56f86d30a6d7ea1400e17606",
+    "question": "Which Germans could understand the language Luther used?",
+    "gold_id": "p8b6ecd998b1a",
+    "gold_idx": 19291,
+    "answers": [
+      "northern and southern",
+      "northern and southern",
+      "both northern and southern Germans"
+    ]
+  },
+  {
+    "qid": "572a0ce11d046914007796ff",
+    "question": "What is the eukaryotic parasite responsible for malaria known as?",
+    "gold_id": "pca575e40341c",
+    "gold_idx": 20160,
+    "answers": [
+      "Plasmodium falciparum",
+      "Plasmodium falciparum",
+      "Plasmodium falciparum"
+    ]
+  },
+  {
+    "qid": "56dfa7887aa994140058dfad",
+    "question": "What health issue did Tesla suffer?",
+    "gold_id": "pd79a3a9a2ffb",
+    "gold_idx": 19049,
+    "answers": [
+      "nervous breakdown",
+      "nervous breakdown",
+      "nervous breakdown"
+    ]
+  },
+  {
+    "qid": "5726f36cdd62a815002e9601",
+    "question": "What types of medications do specialty pharmacies stock?",
+    "gold_id": "p84faa52b8d6a",
+    "gold_idx": 20110,
+    "answers": [
+      "novel medications that need to be properly stored, administered, carefully monitored, and clinically managed",
+      "novel medications",
+      "novel medications that need to be properly stored, administered, carefully monitored, and clinically managed"
+    ]
+  },
+  {
+    "qid": "5730d6fcb7151e1900c01562",
+    "question": "What is a local pastor's official title?",
+    "gold_id": "p4be67a52484d",
+    "gold_idx": 20859,
+    "answers": [
+      "Licensed Local Pastor",
+      "'Licensed Local Pastor",
+      "'Licensed Local Pastor"
+    ]
+  },
+  {
+    "qid": "56e11cedcd28a01900c675e9",
+    "question": "What is another term for Tesla's visualization ability?",
+    "gold_id": "pcb53f18c2546",
+    "gold_idx": 19113,
+    "answers": [
+      "picture thinking",
+      "picture thinking"
+    ]
+  },
+  {
+    "qid": "572974923f37b3190047840c",
+    "question": "What is the process of changing light into chemical energy?",
+    "gold_id": "pad6598f7f010",
+    "gold_idx": 20610,
+    "answers": [
+      "photosynthesis",
+      "photosynthesis",
+      "photosynthesis"
+    ]
+  },
+  {
+    "qid": "572925491d046914007790c5",
+    "question": "What are the biggest burdens?",
+    "gold_id": "pd257b2d13744",
+    "gold_idx": 20525,
+    "answers": [
+      "diseases like malaria, HIV/AIDS, pneumonia, diarrhoea and malnutrition",
+      "Preventable diseases like malaria, HIV/AIDS, pneumonia, diarrhoea and malnutrition",
+      "Preventable diseases"
+    ]
+  },
+  {
+    "qid": "57275a505951b619008f889f",
+    "question": "What two comedies were featured on ABC's new Wednesday comedy lineup?",
+    "gold_id": "pd9ead0599a4d",
+    "gold_idx": 20005,
+    "answers": [
+      "The Middle and Modern Family",
+      "The Middle and Modern Family",
+      "The Middle and Modern Family"
+    ]
+  },
+  {
+    "qid": "57265d86f1498d1400e8dd52",
+    "question": "Some species of beroe have a pair of strips of adhesive cells on the stomach wall. What does it do?",
+    "gold_id": "p126502bfb56a",
+    "gold_idx": 19715,
+    "answers": [
+      "zip\" the mouth shut when the animal is not feeding,",
+      "\"zip\" the mouth shut when the animal is not feeding",
+      "\"zip\" the mouth shut when the animal is not feeding"
+    ]
+  },
+  {
+    "qid": "572883a33acd2414000dfa79",
+    "question": "Who did the Mongols bring to China as administrators?",
+    "gold_id": "p5fdc17caa737",
+    "gold_idx": 20477,
+    "answers": [
+      "Central Asian Muslims",
+      "Central Asian Muslims",
+      "Central Asian Muslims"
+    ]
+  },
+  {
+    "qid": "572812e74b864d19001643ce",
+    "question": "What author argues pitching the conscience versus the collective?",
+    "gold_id": "p891ae40b0436",
+    "gold_idx": 20172,
+    "answers": [
+      "Thoreau",
+      "Thoreau",
+      "Thoreau",
+      "Thoreau",
+      "Thoreau's"
+    ]
+  },
+  {
+    "qid": "56d6ee6e0d65d21400198255",
+    "question": "One of the sites, Merceds-Benz Superdome, is located where?",
+    "gold_id": "p419804371a5b",
+    "gold_idx": 18896,
+    "answers": [
+      "New Orleans",
+      "New Orleans",
+      "New Orleans'"
+    ]
+  },
+  {
+    "qid": "572926086aef051400154ac4",
+    "question": "What is the edcuation system currently?",
+    "gold_id": "pb99ee403f178",
+    "gold_idx": 20527,
+    "answers": [
+      "8\u20134\u20134 system",
+      "7\u20134\u20132\u20133 system",
+      "7\u20134\u20132\u20133"
+    ]
+  },
+  {
+    "qid": "5726400589a1e219009ac5f2",
+    "question": "How many different species of ctenohore are there?",
+    "gold_id": "p97145248beef",
+    "gold_idx": 19698,
+    "answers": [
+      "100\u2013150 species",
+      "100\u2013150",
+      "100\u2013150 species have been validated"
+    ]
+  },
+  {
+    "qid": "56f7fde8a6d7ea1400e17367",
+    "question": "When was Johann Tetzel sent by the Roman Catholic Church to Germany to sell indulgences?",
+    "gold_id": "p57c787f0dbf1",
+    "gold_idx": 19247,
+    "answers": [
+      "1516",
+      "1516",
+      "1516"
+    ]
+  },
+  {
+    "qid": "56d9c049dc89441400fdb790",
+    "question": "Who were the Westwood One sideline announcers?",
+    "gold_id": "p9b7b8bf03849",
+    "gold_idx": 18930,
+    "answers": [
+      "James Lofton and Mark Malone",
+      "James Lofton and Mark Malone",
+      "James Lofton and Mark Malone"
+    ]
+  },
+  {
+    "qid": "572f58d9a23a5019007fc581",
+    "question": "Which border does the Rhine flow from the south?",
+    "gold_id": "pd0380346a4d4",
+    "gold_idx": 20661,
+    "answers": [
+      "Swiss-Austrian border",
+      "Swiss-Austrian",
+      "Swiss-Austrian border"
+    ]
+  },
+  {
+    "qid": "5730a40f396df91900096237",
+    "question": "What happened to the East India Trading Company in 1767?",
+    "gold_id": "p129ef08abffa",
+    "gold_idx": 20799,
+    "answers": [
+      "exploitation",
+      "political activity caused exploitation",
+      "political activity caused exploitation",
+      "exploitation",
+      "exploitation"
+    ]
+  },
+  {
+    "qid": "5725bd4b38643c19005acc32",
+    "question": "Who was Kennedy's vice president?",
+    "gold_id": "pab0f00311e1f",
+    "gold_idx": 19586,
+    "answers": [
+      "Lyndon B. Johnson",
+      "Lyndon B. Johnson",
+      "Lyndon B. Johnson",
+      "Lyndon B. Johnson",
+      "Lyndon B. Johnson"
+    ]
+  },
+  {
+    "qid": "572837402ca10214002da0f5",
+    "question": "What company created Doctor Who?",
+    "gold_id": "p9c4168736e06",
+    "gold_idx": 20392,
+    "answers": [
+      "BBC Television",
+      "BBC Television",
+      "BBC Television"
+    ]
+  },
+  {
+    "qid": "5705eb3375f01819005e7767",
+    "question": "Other than the motion picture and television industry, what other major industry is centered in Los Angeles?",
+    "gold_id": "pb5be7dd49382",
+    "gold_idx": 19341,
+    "answers": [
+      "music",
+      "major record companies"
+    ]
+  },
+  {
+    "qid": "5730cc2cb54a4f140068cc66",
+    "question": "The UMC established and is affiliated with approximately how many colleges and universities in the U.S.?",
+    "gold_id": "p15cb54606405",
+    "gold_idx": 20853,
+    "answers": [
+      "one hundred",
+      "one hundred colleges and universities",
+      "around one hundred"
+    ]
+  },
+  {
+    "qid": "56e1011ecd28a01900c6740c",
+    "question": "What happened to his lab?",
+    "gold_id": "pfe6b61868b85",
+    "gold_idx": 19083,
+    "answers": [
+      "His lab was torn down",
+      "torn down",
+      "torn down in 1904"
+    ]
+  },
+  {
+    "qid": "5727448b5951b619008f87a2",
+    "question": "When did Sunday Night Football premiere on NBC?",
+    "gold_id": "p2c308d98f6c9",
+    "gold_idx": 19983,
+    "answers": [
+      "2006",
+      "2006",
+      "2006"
+    ]
+  },
+  {
+    "qid": "56bf48cc3aeaaa14008c95ac",
+    "question": "What was the final score for Super Bowl XXXIII?",
+    "gold_id": "p33632cb57c51",
+    "gold_idx": 18913,
+    "answers": [
+      "34\u201319",
+      "34\u201319",
+      "34\u201319"
+    ]
+  },
+  {
+    "qid": "573081c2069b531400832133",
+    "question": "The amount of land a country controls is its greatest what?",
+    "gold_id": "p23a70a62e863",
+    "gold_idx": 20780,
+    "answers": [
+      "distinction",
+      "distinction",
+      "distinction",
+      "distinction",
+      "distinction"
+    ]
+  },
+  {
+    "qid": "570953a7efce8f15003a7e01",
+    "question": "What additional srevice did BSkyB offer besides HD channels that they claimed offered \"substantially more value\"?",
+    "gold_id": "p46b1c4c3ec6e",
+    "gold_idx": 19379,
+    "answers": [
+      "Video On Demand",
+      "Video On Demand content",
+      "HD channels and Video On Demand"
+    ]
+  },
+  {
+    "qid": "5726d9935951b619008f7ff1",
+    "question": "What types of preparation do pharmacists have?",
+    "gold_id": "p548e7c054f8c",
+    "gold_idx": 20092,
+    "answers": [
+      "specialised education and training",
+      "specialised education and training",
+      "specialised education and training"
+    ]
+  },
+  {
+    "qid": "572fffb404bcaa1900d76ff2",
+    "question": "When did rapid warming begin and help vegetation?",
+    "gold_id": "p51e0600e4cf7",
+    "gold_idx": 20685,
+    "answers": [
+      "13,000 BP",
+      "13,000 BP",
+      "13,000 BP"
+    ]
+  },
+  {
+    "qid": "5725bd4b38643c19005acc33",
+    "question": "How long did it take Johnson to respond to Kennedy?",
+    "gold_id": "pab0f00311e1f",
+    "gold_idx": 19586,
+    "answers": [
+      "approximately one week",
+      "one week",
+      "one week",
+      "one week",
+      "one week"
+    ]
+  },
+  {
+    "qid": "56e1cbe2cd28a01900c67bae",
+    "question": "What measurement of time is used in polynomial time reduction?",
+    "gold_id": "p2a7c4e4b9f14",
+    "gold_idx": 19161,
+    "answers": [
+      "polynomial time",
+      "polynomial",
+      "polynomial time"
+    ]
+  },
+  {
+    "qid": "5729f39a6aef05140015514d",
+    "question": "What is the receptor that killer T cells use to bind to specific antigens that are complexed with the MHC Class 1 receptor of another cell?",
+    "gold_id": "p901cc20f841e",
+    "gold_idx": 20135,
+    "answers": [
+      "T cell receptor (TCR)",
+      "T cell receptor",
+      "T cell receptor (TCR)"
+    ]
+  },
+  {
+    "qid": "571136b8a58dae1900cd6d22",
+    "question": "Along with poppet valve gears, what type of gears utilized separate admission and exhaust valves to give ideal events?",
+    "gold_id": "p4c27d4d4ca52",
+    "gold_idx": 19470,
+    "answers": [
+      "Corliss",
+      "patent valve",
+      "Corliss"
+    ]
+  },
+  {
+    "qid": "56e089ab231d4119001ac285",
+    "question": "When was a patent-sharing agreement signed between Westinghouse Electric and General Electric?",
+    "gold_id": "p72d23508937f",
+    "gold_idx": 19065,
+    "answers": [
+      "1896",
+      "1896",
+      "1896"
+    ]
+  },
+  {
+    "qid": "570d29c2b3d812140066d4c0",
+    "question": "How many Victorians are Buddhist?",
+    "gold_id": "pb1a090a9153b",
+    "gold_idx": 19400,
+    "answers": [
+      "168,637",
+      "168,637",
+      "168,637"
+    ]
+  },
+  {
+    "qid": "57267ebfdd62a815002e872c",
+    "question": "Zones in which mountains are built along convergent tectonic plate boundaries are called what?",
+    "gold_id": "p9a49c00cf18e",
+    "gold_idx": 19820,
+    "answers": [
+      "orogenic wedges",
+      "orogenic wedges",
+      "orogenic wedges"
+    ]
+  },
+  {
+    "qid": "57115e532419e314009555b1",
+    "question": "What was compounding seen as being in the locomotive construction industry?",
+    "gold_id": "pa893d02109b2",
+    "gold_idx": 19496,
+    "answers": [
+      "complicated",
+      "complicated",
+      "complicated"
+    ]
+  },
+  {
+    "qid": "5726e3c4dd62a815002e9405",
+    "question": "What is the origin of clinical pharmacy?",
+    "gold_id": "p8d6a63a3b7ee",
+    "gold_idx": 20101,
+    "answers": [
+      "inside hospitals and clinics",
+      "inside hospitals and clinics",
+      "the clinical pharmacy movement initially began inside hospitals and clinics"
+    ]
+  },
+  {
+    "qid": "5725d42a89a1e219009abf58",
+    "question": "Who wrote \"Walking in Fresno?\"",
+    "gold_id": "pcd78f56d56da",
+    "gold_idx": 19732,
+    "answers": [
+      "Bill Aken",
+      "Bill Aken",
+      "Bill Aken"
+    ]
+  },
+  {
+    "qid": "5728f9342ca10214002dab53",
+    "question": "What do some believe about this pronunciation?",
+    "gold_id": "p62800bcca863",
+    "gold_idx": 20487,
+    "answers": [
+      "a very precise notation of a correct African pronunciation",
+      "precise",
+      "precise"
+    ]
+  },
+  {
+    "qid": "5725ba5038643c19005acbea",
+    "question": "Who was the deputy administrator of NASA in 1960?",
+    "gold_id": "p59a24e618441",
+    "gold_idx": 19583,
+    "answers": [
+      "Hugh L. Dryden",
+      "Maxime Faget",
+      "Hugh L. Dryden",
+      "Hugh L. Dryden",
+      "Hugh L. Dryden"
+    ]
+  },
+  {
+    "qid": "5730cb8df6cb411900e244c2",
+    "question": "What is the guidebook for local churches and pastors?",
+    "gold_id": "p80798eff11e9",
+    "gold_idx": 20852,
+    "answers": [
+      "The Book of Discipline",
+      "The Book of Discipline",
+      "The Book of Discipline"
+    ]
+  },
+  {
+    "qid": "5730b10b8ab72b1400f9c69e",
+    "question": "Is the UMC pro-life or pro-choice?",
+    "gold_id": "p820cf85e9c35",
+    "gold_idx": 20832,
+    "answers": [
+      "pro-choice",
+      "pro-choice",
+      "pro-choice"
+    ]
+  },
+  {
+    "qid": "5728d5793acd2414000dffb4",
+    "question": "Antigone was a play made by whom?",
+    "gold_id": "p82fbd7d0d22a",
+    "gold_idx": 20167,
+    "answers": [
+      "Sophocles",
+      "Sophocles",
+      "Sophocles",
+      "Sophocles",
+      "Sophocles"
+    ]
+  },
+  {
+    "qid": "572655e5f1498d1400e8dc61",
+    "question": "What is the main component of the aboral organ?",
+    "gold_id": "p2dfd891f052f",
+    "gold_idx": 19709,
+    "answers": [
+      "a statocyst",
+      "statocyst",
+      "statocyst"
+    ]
+  },
+  {
+    "qid": "572a12386aef051400155235",
+    "question": "Hormones released during sleep support the interaction of T-cells and what species?",
+    "gold_id": "pc4bf9d54d987",
+    "gold_idx": 20164,
+    "answers": [
+      "APCs",
+      "APCs",
+      "APCs"
+    ]
+  },
+  {
+    "qid": "571c97e2dd7acb1400e4c11e",
+    "question": "Where does oxygen rank by mass in the planet's biosphere?",
+    "gold_id": "p8c1ce401fcd2",
+    "gold_idx": 19529,
+    "answers": [
+      "most abundant",
+      "most",
+      "most abundant",
+      "most abundant",
+      "most abundant"
+    ]
+  },
+  {
+    "qid": "5728ec6a4b864d19001650ae",
+    "question": "What type of sentences were the protesters given?",
+    "gold_id": "p9e2202c8b0b6",
+    "gold_idx": 20184,
+    "answers": [
+      "suspended sentences",
+      "suspended sentences",
+      "suspended",
+      "suspended",
+      "suspended"
+    ]
+  },
+  {
+    "qid": "5730a0778ab72b1400f9c60a",
+    "question": "What served as a justification for imposing imperialistic policies on certain peoples or regions?",
+    "gold_id": "p5ae91d3c545c",
+    "gold_idx": 20797,
+    "answers": [
+      "environmental determinism",
+      "environmental determinism",
+      "environmental determinism",
+      "environmental determinism",
+      "environmental determinism"
+    ]
+  },
+  {
+    "qid": "5730aa52069b53140083221e",
+    "question": "After 1945, what challenged the French empire?",
+    "gold_id": "p5a94e5bfa1c1",
+    "gold_idx": 20802,
+    "answers": [
+      "anti-colonial movements",
+      "anti-colonial movements",
+      "anti-colonial movements",
+      "anti-colonial movements",
+      "anti-colonial movements"
+    ]
+  },
+  {
+    "qid": "5706074552bb8914006897d7",
+    "question": "What does the El Centro metropolitan area and San Diego-Carslbad-San Marcos metropolitan area form?",
+    "gold_id": "pd1619b2a9846",
+    "gold_idx": 19357,
+    "answers": [
+      "Southern Border Region",
+      "the Southern Border Region",
+      "Southern Border Region"
+    ]
+  },
+  {
+    "qid": "57274b35f1498d1400e8f5d4",
+    "question": "What are private secondary schools in Germany called?",
+    "gold_id": "p36fc90ebeb04",
+    "gold_idx": 20222,
+    "answers": [
+      "Erg\u00e4nzungsschulen",
+      "Erg\u00e4nzungsschulen",
+      "Erg\u00e4nzungsschulen"
+    ]
+  },
+  {
+    "qid": "56e08f4a231d4119001ac2ba",
+    "question": "what did tesla note the hazards of working with? ",
+    "gold_id": "p1ef7a4118b41",
+    "gold_idx": 19070,
+    "answers": [
+      "his circuit and single-node X-ray-producing devices",
+      "X-ray-producing devices",
+      "circuit and single-node X-ray-producing devices"
+    ]
+  },
+  {
+    "qid": "56d724ea0d65d214001983c8",
+    "question": "What British TV network will carry the Super Bowl?",
+    "gold_id": "pfa1a03ae239c",
+    "gold_idx": 18932,
+    "answers": [
+      "BBC",
+      "BBC",
+      "BBC"
+    ]
+  },
+  {
+    "qid": "570967c4ed30961900e840bc",
+    "question": "What satellite enabled Sky Digital to launch an all new digital service?",
+    "gold_id": "pd39e173e373a",
+    "gold_idx": 19385,
+    "answers": [
+      "Eutelsat's Eurobird 1",
+      "Eutelsat's Eurobird 1",
+      "Eutelsat's Eurobird 1"
+    ]
+  },
+  {
+    "qid": "5725c41eec44d21400f3d50d",
+    "question": "What are some of scientists arguments? ",
+    "gold_id": "p89112d99bc24",
+    "gold_idx": 19679,
+    "answers": [
+      "the rainforest was reduced to small, isolated refugia separated by open forest and grassland",
+      "the rainforest was reduced to small, isolated refugia separated by open forest and grassland",
+      "rainforest was reduced"
+    ]
+  },
+  {
+    "qid": "572648ed5951b619008f6f04",
+    "question": "Which country was the last to receive the disease?",
+    "gold_id": "pf3e19b22146c",
+    "gold_idx": 19782,
+    "answers": [
+      "northwestern Russia",
+      "Russia",
+      "Russia"
+    ]
+  },
+  {
+    "qid": "56f86e91aef2371900626067",
+    "question": "At the time of Martin Luther what was in demand?",
+    "gold_id": "p96dd2cedb017",
+    "gold_idx": 19292,
+    "answers": [
+      "German-language publications",
+      "German-language publications",
+      "German-language publications,"
+    ]
+  },
+  {
+    "qid": "56beb90c3aeaaa14008c92ca",
+    "question": "How much older was Manning than Newton during Super Bowl 50?",
+    "gold_id": "p7e02040d541a",
+    "gold_idx": 18910,
+    "answers": [
+      "13 years and 48 days",
+      "13 years and 48 days",
+      "13 years"
+    ]
+  },
+  {
+    "qid": "5725b81b271a42140099d098",
+    "question": "How many square kilometers of rainforest is covered in the basin?",
+    "gold_id": "pcf1362c17f53",
+    "gold_idx": 19676,
+    "answers": [
+      "5,500,000 square kilometres (2,100,000 sq mi) are covered by the rainforest.",
+      "5,500,000",
+      "5,500,000"
+    ]
+  },
+  {
+    "qid": "573750f61c4567190057446a",
+    "question": "What is missing a theory on quantum gravity?",
+    "gold_id": "pcef2a653dede",
+    "gold_idx": 20921,
+    "answers": [
+      "General relativity",
+      "coherent theory of quantum gravity",
+      "General relativity",
+      "General relativity"
+    ]
+  },
+  {
+    "qid": "56f8b4d79b226e1400dd0e76",
+    "question": "What action by Luther added to antisemitism in Germany?",
+    "gold_id": "p40a16ad49b39",
+    "gold_idx": 19320,
+    "answers": [
+      "anti-Jewish rhetoric",
+      "anti-Jewish rhetoric",
+      "anti-Jewish rhetoric"
+    ]
+  },
+  {
+    "qid": "5733e5a14776f4190066145f",
+    "question": "According to agreement between Iroquois and British, where was a strong house to be built?",
+    "gold_id": "p6138b8c4df6b",
+    "gold_idx": 20883,
+    "answers": [
+      "mouth of the Monongahela River (the site of present-day Pittsburgh, Pennsylvania)",
+      "mouth of the Monongahela River",
+      "mouth of the Monongahela River",
+      "Pittsburgh, Pennsylvania",
+      "the mouth of the Monongahela River"
+    ]
+  },
+  {
+    "qid": "5737432bc3c5551400e51e9d",
+    "question": "What are the laws of physics of Galileo, in reference to objest in motion and rest?",
+    "gold_id": "p9bc8d438ee7a",
+    "gold_idx": 20918,
+    "answers": [
+      "the same",
+      "a Galilean transformation",
+      "Galilean transformation",
+      "the laws of physics are the same in every inertial frame of reference",
+      "the same in every inertial frame of reference"
+    ]
+  },
+  {
+    "qid": "56e7504437bdd419002c3e5e",
+    "question": "What is the role of teachers in education?",
+    "gold_id": "p65118eef52e4",
+    "gold_idx": 19187,
+    "answers": [
+      "facilitate student learning",
+      "facilitate student learning",
+      "facilitate student learning"
+    ]
+  },
+  {
+    "qid": "56d99c44dc89441400fdb5d8",
+    "question": "What Denver player caught the ball 76 times in the 2015 season?",
+    "gold_id": "pdeddc2cd66ce",
+    "gold_idx": 18904,
+    "answers": [
+      "Emmanuel Sanders",
+      "Emmanuel Sanders",
+      "Sanders"
+    ]
+  },
+  {
+    "qid": "57296eee6aef051400154e8e",
+    "question": "What is a single Plastoglobuli called?",
+    "gold_id": "pc7506ea37bef",
+    "gold_idx": 20595,
+    "answers": [
+      "plastoglobulus, sometimes spelled plastoglobule(s)",
+      "plastoglobulus",
+      "plastoglobulus"
+    ]
+  },
+  {
+    "qid": "56bead5a3aeaaa14008c91eb",
+    "question": "Who were the defending Super Bowl champions?",
+    "gold_id": "pf1b96eb26e96",
+    "gold_idx": 18892,
+    "answers": [
+      "New England Patriots",
+      "the New England Patriots",
+      "New England Patriots"
+    ]
+  },
+  {
+    "qid": "56e762fe00c9c71400d77072",
+    "question": "What increases student's motivation to learn?",
+    "gold_id": "pa8ddcd30a4c7",
+    "gold_idx": 19205,
+    "answers": [
+      "teacher enthusiasm",
+      "enthusiasm",
+      "teacher enthusiasm"
+    ]
+  },
+  {
+    "qid": "57277373dd62a815002e9d24",
+    "question": "In 1984 Thomas Murphy contacted Leonard Goldenson about merging ABC with what company?",
+    "gold_id": "p5b310084030f",
+    "gold_idx": 20026,
+    "answers": [
+      "Capital Cities Communications",
+      "Capital Cities Communications",
+      "Capital Cities Communications"
+    ]
+  },
+  {
+    "qid": "572972f46aef051400154ef6",
+    "question": "How many chloroplasts are in stomatal guard cells?",
+    "gold_id": "pa054ec495dd6",
+    "gold_idx": 20606,
+    "answers": [
+      "8\u201315 per cell",
+      "around 8\u201315",
+      "8\u201315"
+    ]
+  },
+  {
+    "qid": "57376828c3c5551400e51eba",
+    "question": "What physical quantities do not have direction?",
+    "gold_id": "pe085653341e9",
+    "gold_idx": 20925,
+    "answers": [
+      "denoted scalar quantities",
+      "scalar quantities",
+      "denoted scalar quantities",
+      "scalar quantities",
+      "scalar quantities"
+    ]
+  },
+  {
+    "qid": "5730d473b7151e1900c0155b",
+    "question": "Who appoints elders?",
+    "gold_id": "p329eb72c3a53",
+    "gold_idx": 20856,
+    "answers": [
+      "the local church",
+      "bishop",
+      "the local church"
+    ]
+  },
+  {
+    "qid": "57293b843f37b31900478133",
+    "question": "What organization is the IPCC a part of?",
+    "gold_id": "p335bcb81a23d",
+    "gold_idx": 20537,
+    "answers": [
+      "the United Nations",
+      "the United Nations",
+      "the United Nations"
+    ]
+  },
+  {
+    "qid": "571097baa58dae1900cd6a9b",
+    "question": "What church in Virginia is maintained by Huguenots as a historic shrine?",
+    "gold_id": "p75bc071506cc",
+    "gold_idx": 19443,
+    "answers": [
+      "Manakin Episcopal Church",
+      "Manakin Episcopal Church",
+      "Manakin Episcopal Church"
+    ]
+  },
+  {
+    "qid": "5726deed5951b619008f80c6",
+    "question": "Where is the oldest pharmacy stated to be located?",
+    "gold_id": "pfe34dfbdbdb6",
+    "gold_idx": 20097,
+    "answers": [
+      "Church of Santa Maria Novella in Florence, Italy",
+      "Church of Santa Maria Novella in Florence, Italy",
+      "Florence, Italy"
+    ]
+  },
+  {
+    "qid": "56e1b8f3e3433e14004230e6",
+    "question": "What are the three primary expressions used to represent case complexity?",
+    "gold_id": "p1fe9c6dfec01",
+    "gold_idx": 19150,
+    "answers": [
+      "best, worst and average",
+      "best, worst and average case",
+      "best, worst and average case complexity"
+    ]
+  },
+  {
+    "qid": "572a1dbb3f37b319004786f6",
+    "question": "What are those with lower incomes often unable to manage?",
+    "gold_id": "pf7b09c631eda",
+    "gold_idx": 20329,
+    "answers": [
+      "their finances",
+      "finances",
+      "finances"
+    ]
+  },
+  {
+    "qid": "572683f95951b619008f7526",
+    "question": "Living from 973\u20131048 CE he was one of the earliest Persian geologists, what was his name?",
+    "gold_id": "p3ec6da55e4b5",
+    "gold_idx": 19823,
+    "answers": [
+      "Abu al-Rayhan al-Biruni",
+      "Abu al-Rayhan al-Biruni",
+      "Abu al-Rayhan al-Biruni"
+    ]
+  },
+  {
+    "qid": "56de3cd0cffd8e1900b4b6bf",
+    "question": "What culture's arrival in Scotland is know as the \"Davidian Revolution\"?",
+    "gold_id": "pf9f1ea37e196",
+    "gold_idx": 19018,
+    "answers": [
+      "Norman",
+      "Norman",
+      "Norman"
+    ]
+  },
+  {
+    "qid": "5728f9cf4b864d1900165168",
+    "question": "Where are these animals mostly located?",
+    "gold_id": "p53bfdf4df6ef",
+    "gold_idx": 20488,
+    "answers": [
+      "Masai Mara",
+      "national parks",
+      "Masai Mara"
+    ]
+  },
+  {
+    "qid": "57274b35f1498d1400e8f5d6",
+    "question": "How are erg\u00e4nzungsschulen funded?",
+    "gold_id": "p36fc90ebeb04",
+    "gold_idx": 20222,
+    "answers": [
+      "tuition",
+      "tuition",
+      "tuition fees"
+    ]
+  },
+  {
+    "qid": "5726caaaf1498d1400e8eb5c",
+    "question": "What was the first international event broadcast by ABC?",
+    "gold_id": "pf65283e19500",
+    "gold_idx": 19949,
+    "answers": [
+      "coronation of Queen Elizabeth II",
+      "the coronation of Queen Elizabeth II",
+      "the coronation of Queen Elizabeth II"
+    ]
+  },
+  {
+    "qid": "56d9ccacdc89441400fdb845",
+    "question": "How many intercpetions did Newton have in Super Bowl 50?",
+    "gold_id": "p5a37b3d436c8",
+    "gold_idx": 18943,
+    "answers": [
+      "one",
+      "one",
+      "one"
+    ]
+  },
+  {
+    "qid": "572943ab1d0469140077921b",
+    "question": "When did Barton and Whitfield demand climate research records?",
+    "gold_id": "pa65bdb891ab5",
+    "gold_idx": 20552,
+    "answers": [
+      "23 June 2005",
+      "23 June 2005",
+      "23 June 2005"
+    ]
+  },
+  {
+    "qid": "5726ace8dd62a815002e8ca1",
+    "question": "Who designed the iron gates that decorate the new entrance building?",
+    "gold_id": "pb14a132d8054",
+    "gold_idx": 19894,
+    "answers": [
+      "Christopher Hay and Douglas Coyne",
+      "Christopher Hay and Douglas Coyne",
+      "Christopher Hay and Douglas Coyne"
+    ]
+  },
+  {
+    "qid": "5711669550c2381900b54ae1",
+    "question": "What does isobaric mean?",
+    "gold_id": "p5e7ff589a0c3",
+    "gold_idx": 19510,
+    "answers": [
+      "constant pressure",
+      "constant pressure",
+      "constant pressure"
+    ]
+  },
+  {
+    "qid": "5711651050c2381900b54acc",
+    "question": "In addition to recirculating water, what do condensers do?",
+    "gold_id": "p47a22bcf99e7",
+    "gold_idx": 19507,
+    "answers": [
+      "recover the latent heat of vaporisation",
+      "recover the latent heat of vaporisation",
+      "recover the latent heat of vaporisation"
+    ]
+  },
+  {
+    "qid": "57288428ff5b5019007da290",
+    "question": "Who founded the Ming dynasty?",
+    "gold_id": "p5bba2c961a9f",
+    "gold_idx": 20478,
+    "answers": [
+      "Zhu Yuanzhang",
+      "Zhu Yuanzhang",
+      "thanks"
+    ]
+  },
+  {
+    "qid": "57265700dd62a815002e820f",
+    "question": "How many were killed by plague in Naples in 1656?",
+    "gold_id": "p36e4c0203130",
+    "gold_idx": 19800,
+    "answers": [
+      "about half of Naples' 300,000 inhabitants",
+      "half of Naples' 300,000 inhabitants",
+      "half of Naples' 300,000 inhabitants"
+    ]
+  },
+  {
+    "qid": "572fce13a23a5019007fca12",
+    "question": "What are presented to parliament in addition to the bill itself?",
+    "gold_id": "peb8d0337f872",
+    "gold_idx": 20725,
+    "answers": [
+      "accompanying documents",
+      "accompanying documents",
+      "accompanying documents \u2013 Explanatory Notes"
+    ]
+  },
+  {
+    "qid": "57300a9a04bcaa1900d77066",
+    "question": "What do some believe the Treaty of Versailles assisted in?",
+    "gold_id": "p84ac2e78df32",
+    "gold_idx": 20696,
+    "answers": [
+      "Adolf Hitler's rise to power",
+      "helping Adolf Hitler's rise to power",
+      "Adolf Hitler's rise to power"
+    ]
+  },
+  {
+    "qid": "5729081d3f37b31900477faf",
+    "question": "What is a regulatory factor produced by macrophages?",
+    "gold_id": "pa0d4cee5f34a",
+    "gold_idx": 20129,
+    "answers": [
+      "interleukin 1",
+      "interleukin 1",
+      "interleukin 1"
+    ]
+  },
+  {
+    "qid": "56e765ba00c9c71400d770a2",
+    "question": "Students show more interest in classes taught by what type of teachers?",
+    "gold_id": "p5ca05ba0762f",
+    "gold_idx": 19208,
+    "answers": [
+      "friendly and supportive",
+      "friendly and supportive",
+      "friendly and supportive"
+    ]
+  },
+  {
+    "qid": "5727ee372ca10214002d99ed",
+    "question": "Survivial is at the heart of what concept for workers?",
+    "gold_id": "pc2f0784e9f39",
+    "gold_idx": 20297,
+    "answers": [
+      "Necessity-based entrepreneurship",
+      "Necessity-based entrepreneurship",
+      "Necessity-based entrepreneurship"
+    ]
+  },
+  {
+    "qid": "572649d8f1498d1400e8db36",
+    "question": "Which country is not badly hit by the embargo?",
+    "gold_id": "p1c0c03988355",
+    "gold_idx": 19564,
+    "answers": [
+      "UK",
+      "UK",
+      "UK",
+      "the UK",
+      "UK"
+    ]
+  },
+  {
+    "qid": "572faf74b2c2fd1400568347",
+    "question": "Where was Parliament's temporary home whilst the permanent building was being built?",
+    "gold_id": "p0bac524d0531",
+    "gold_idx": 20705,
+    "answers": [
+      "General Assembly Hall of the Church of Scotland",
+      "General Assembly Hall of the Church of Scotland",
+      "the General Assembly Hall of the Church of Scotland"
+    ]
+  },
+  {
+    "qid": "56e1b754cd28a01900c67abc",
+    "question": "Time and space are both examples of what type of resource?",
+    "gold_id": "p1e7e770c26dc",
+    "gold_idx": 19149,
+    "answers": [
+      "complexity resources",
+      "complexity resources",
+      "complexity"
+    ]
+  },
+  {
+    "qid": "5726b2fcf1498d1400e8e7e4",
+    "question": "In which year did the V&A opened the first permanent architectural history gallery in the UK?",
+    "gold_id": "p2cadc10de7c0",
+    "gold_idx": 19897,
+    "answers": [
+      "2004",
+      "2004",
+      "2004"
+    ]
+  },
+  {
+    "qid": "5726a9ff708984140094cd4f",
+    "question": "Which British monarch appears above the frame around the arches and entrance?",
+    "gold_id": "pcdc05686ba05",
+    "gold_idx": 19893,
+    "answers": [
+      "Queen Victoria",
+      "Prince Albert",
+      "Queen Victoria"
+    ]
+  },
+  {
+    "qid": "5725dc1638643c19005ace01",
+    "question": "What was the first problem astronauts encountered during the plugs-out test?",
+    "gold_id": "pce1438619418",
+    "gold_idx": 19614,
+    "answers": [
+      "strange odor in their spacesuits",
+      "odor",
+      "strange odor in their spacesuits",
+      "strange odor",
+      "strange odor in their spacesuits"
+    ]
+  },
+  {
+    "qid": "57294279af94a219006aa20d",
+    "question": "What Senate committee did Singer speak to in July 2000?",
+    "gold_id": "p38b7456606d1",
+    "gold_idx": 20551,
+    "answers": [
+      "United States Senate Committee on Commerce, Science and Transportation",
+      "Committee on Commerce, Science and Transportation",
+      "United States Senate Committee on Commerce, Science and Transportation"
+    ]
+  },
+  {
+    "qid": "56f82549a6d7ea1400e17416",
+    "question": "What was the style of Luther's salute at the end of his speech?",
+    "gold_id": "p519f50a93307",
+    "gold_idx": 19264,
+    "answers": [
+      "knight winning a bout",
+      "a knight winning a bout",
+      "traditional salute of a knight winning a bout"
+    ]
+  },
+  {
+    "qid": "57309564069b5314008321a8",
+    "question": "What grew on a global scale as a result of imperialism?",
+    "gold_id": "p5e1c70f06439",
+    "gold_idx": 20792,
+    "answers": [
+      "the world's economy",
+      "economy",
+      "economy",
+      "world's economy",
+      "world's economy"
+    ]
+  },
+  {
+    "qid": "572a14af3f37b319004786c4",
+    "question": "What is the immune system of the brained known as?",
+    "gold_id": "p70113353ed36",
+    "gold_idx": 20117,
+    "answers": [
+      "neuroimmune system",
+      "neuroimmune",
+      "neuroimmune system",
+      "neuroimmune system"
+    ]
+  },
+  {
+    "qid": "572746addd62a815002e9a5e",
+    "question": "Along with non-governmental and nonstate schools, what is another name for private schools?",
+    "gold_id": "p0dc902111ff2",
+    "gold_idx": 20214,
+    "answers": [
+      "independent",
+      "independent schools",
+      "independent schools"
+    ]
+  },
+  {
+    "qid": "56e77b8c00c9c71400d77194",
+    "question": "How many types of religious or spiritual teachers are there in Christianity?",
+    "gold_id": "pf97d72b6265b",
+    "gold_idx": 19232,
+    "answers": [
+      "many",
+      "three",
+      "many"
+    ]
+  },
+  {
+    "qid": "57266783f1498d1400e8de89",
+    "question": "What was the American Timothy Dexter widely regarded as?",
+    "gold_id": "p1a7ac5f87dc9",
+    "gold_idx": 19831,
+    "answers": [
+      "an eccentric",
+      "an eccentric",
+      "an eccentric,"
+    ]
+  },
+  {
+    "qid": "56f8a2969e9bad19000a022b",
+    "question": "What did Johannes Agricola preach that God's gospel revealed?",
+    "gold_id": "pca8b8e9f81d6",
+    "gold_idx": 19312,
+    "answers": [
+      "God's wrath to Christians",
+      "God's wrath",
+      "God's wrath to Christians."
+    ]
+  },
+  {
+    "qid": "56bebbbf3aeaaa14008c9317",
+    "question": "Who is the NFL's vice president of brand and creative?",
+    "gold_id": "p49dbe46e1655",
+    "gold_idx": 18915,
+    "answers": [
+      "Jaime Weston",
+      "Jaime Weston",
+      "Weston"
+    ]
+  },
+  {
+    "qid": "57113be3a58dae1900cd6d29",
+    "question": "What sort of motion did Watt's steam engine continuously produce?",
+    "gold_id": "p36e99f4bad05",
+    "gold_idx": 19472,
+    "answers": [
+      "rotary",
+      "rotary",
+      "rotary motion",
+      "continuous rotary motion"
+    ]
+  },
+  {
+    "qid": "56e759bb00c9c71400d77002",
+    "question": "Where can you find more information on a country's practices?",
+    "gold_id": "p0f160f83ea6c",
+    "gold_idx": 19197,
+    "answers": [
+      "see School corporal punishment.",
+      "School corporal punishment",
+      "School corporal punishment"
+    ]
+  },
+  {
+    "qid": "56e0ef0c231d4119001ac463",
+    "question": "How much had Westinghouse paid to Tesla, Brown and Peck?",
+    "gold_id": "p72d23508937f",
+    "gold_idx": 19065,
+    "answers": [
+      "an estimated $200,000",
+      "estimated $200,000",
+      "an estimated $200,000 in licenses and royalties"
+    ]
+  },
+  {
+    "qid": "572ffa79a23a5019007fcbed",
+    "question": "What pushed up the Pyrenees?",
+    "gold_id": "p50b813db4193",
+    "gold_idx": 20679,
+    "answers": [
+      "Iberia",
+      "Iberia",
+      "Iberia"
+    ]
+  },
+  {
+    "qid": "571c9074dd7acb1400e4c101",
+    "question": "Of what is ozone a reactive part of oxygen?",
+    "gold_id": "p979681eb1d14",
+    "gold_idx": 19525,
+    "answers": [
+      "allotrope",
+      "allotrope",
+      "allotrope",
+      "allotrope",
+      "allotrope"
+    ]
+  },
+  {
+    "qid": "57281bb84b864d190016449b",
+    "question": "In what part of the city did residents suffer from a lack of city services?",
+    "gold_id": "pf1d31915d698",
+    "gold_idx": 20281,
+    "answers": [
+      "unincorporated suburbs",
+      "suburbs",
+      "unincorporated suburbs"
+    ]
+  },
+  {
+    "qid": "56d7277c0d65d214001983ff",
+    "question": "How many first downs did Denver have for Super Bowl 50?",
+    "gold_id": "p157a3748edc8",
+    "gold_idx": 18944,
+    "answers": [
+      "11",
+      "11",
+      "11"
+    ]
+  },
+  {
+    "qid": "57273249f1498d1400e8f46e",
+    "question": "Which rival of the Mongols is suspected of inventing the story that Genghis Khan was murdered by a captured princess?",
+    "gold_id": "pfbb8d6ce0842",
+    "gold_idx": 20070,
+    "answers": [
+      "Oirads",
+      "Oirads",
+      "Oirads"
+    ]
+  },
+  {
+    "qid": "56e7667e37bdd419002c3f4c",
+    "question": "What can an enthusiastic teacher be to a young student?",
+    "gold_id": "p478578a5149a",
+    "gold_idx": 19209,
+    "answers": [
+      "very influential",
+      "influential",
+      "influential"
+    ]
+  },
+  {
+    "qid": "56e08f4a231d4119001ac2b9",
+    "question": "what did Tesla think nitrous acid contributed to? ",
+    "gold_id": "p1ef7a4118b41",
+    "gold_idx": 19070,
+    "answers": [
+      "skin damage",
+      "damage to the skin",
+      "damage to the skin"
+    ]
+  },
+  {
+    "qid": "5728f3724b864d1900165119",
+    "question": "When was the first known historical reference to immunity?",
+    "gold_id": "p576fe4c37957",
+    "gold_idx": 20120,
+    "answers": [
+      "Athens in 430 BC",
+      "430 BC",
+      "430 BC."
+    ]
+  },
+  {
+    "qid": "572698d7dd62a815002e8a9c",
+    "question": "What does the Secretariat Wing house?",
+    "gold_id": "p28edc5cf0d8f",
+    "gold_idx": 19887,
+    "answers": [
+      "offices and board room",
+      "houses the offices and board room etc. and is not open to the public",
+      "the offices and board room etc."
+    ]
+  },
+  {
+    "qid": "57292046af94a219006aa0bc",
+    "question": "What is Vision 2030?",
+    "gold_id": "p3928b174ccd3",
+    "gold_idx": 20519,
+    "answers": [
+      "an economic development programme it hopes will put the country in the same league as the Asian Economic Tigers by the year 2030",
+      "economic development programme",
+      "an economic development programme"
+    ]
+  },
+  {
+    "qid": "56e11996e3433e1400422bdf",
+    "question": "In how many countries did Tesla hold patents?",
+    "gold_id": "p942f6e253797",
+    "gold_idx": 19107,
+    "answers": [
+      "26",
+      "26",
+      "26"
+    ]
+  },
+  {
+    "qid": "5725cfd0271a42140099d226",
+    "question": "What were the reasons why residents moved to the town of Fresno Station?",
+    "gold_id": "p7c7c0989b472",
+    "gold_idx": 19729,
+    "answers": [
+      "the convenience of the railroad and worried about flooding",
+      "drawn by the convenience of the railroad and worried about flooding",
+      "the convenience of the railroad and worried about flooding"
+    ]
+  },
+  {
+    "qid": "56e7721500c9c71400d77143",
+    "question": "What funds cannot be used if a teacher is not registered?",
+    "gold_id": "p07b0155df46a",
+    "gold_idx": 19222,
+    "answers": [
+      "Oireachtas funds",
+      "Oireachtas",
+      "Oireachtas funds"
+    ]
+  },
+  {
+    "qid": "5728170d3acd2414000df443",
+    "question": "What caused the spread of the Jacksonville fire in 1901?",
+    "gold_id": "pf5840e59c95a",
+    "gold_idx": 20278,
+    "answers": [
+      "Spanish moss",
+      "kitchen fire",
+      "Spanish moss"
+    ]
+  },
+  {
+    "qid": "5726a14c708984140094cc51",
+    "question": "How long has the concept of legal certainty been recognized as one of the general principles by the EU law?",
+    "gold_id": "pd8f8f41aad64",
+    "gold_idx": 19656,
+    "answers": [
+      "since the 1960s",
+      "since the 1960s",
+      "since the 1960s"
+    ]
+  }
+]

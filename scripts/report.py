@@ -72,6 +72,8 @@ DEVIATIONS = """- **D-0.1 max_tokens**: plan says 48 in D9/H2 but 64 in Appendix
 """
 
 FAILURES = """- **Swap during benchmark**: the pagefile grew during every model's run (see the "Swap delta" column in the Phase 0 table), so the strict "no swapping" wording of H2(b) is not fully met on this 8 GB machine even for the chosen model; close browsers and other heavy apps during generation runs (H5/H10).
+- **Embedder contamination (D7, Phase 1)**: the all-MiniLM-L6-v2 model card (`results/phase1/*/contamination_check.json`) lists SQuAD among its training datasets, with a pair count equal to the SQuAD v1.1 *train* question count (Phase 0 `squad_checksums.json`). So the embedder very probably saw SQuAD train question-paragraph pairs. Evaluation questions come from *dev*, which that count does not cover, but most corpus paragraphs are train paragraphs (see the T1a table); retrieval quality may be optimistic versus an unseen domain, and the same holds for both arms (R1). The card cannot prove dev was excluded. Discuss in the manuscript limitations.
+- **Truncation (Phase 1)**: paragraphs longer than the embedder's max_seq_length are truncated before embedding (count and fraction in the Phase 1 embedding table); the gold answer may lie in the cut part for those paragraphs, lowering the classical ceiling equally for both arms.
 - **3B model**: fails the latency criterion (a) and leaves little RAM headroom; not usable on this laptop.
 """
 
@@ -190,6 +192,16 @@ def main() -> None:
     if run:
         body, index_rows = phase0_block(run)
         text = block(text, "phase0", body)
+    run1 = latest_run("phase1")
+    if run1 and (run1 / "corpus_stats.json").exists():
+        from report_phase1 import phase1_block
+
+        if "<!-- BEGIN:phase1 -->" not in text:
+            text = text.replace("## 3. Headline Findings", "### Phase 1 - Corpus, embeddings, eval set, ground truth\n"
+                                "<!-- BEGIN:phase1 -->\n<!-- END:phase1 -->\n\n## 3. Headline Findings", 1)
+        body1, rows1 = phase1_block(run1)
+        text = block(text, "phase1", body1)
+        index_rows += rows1
     text = block(text, "index", md_table(["ID", "Phase", "Key result", "Artifact"], index_rows))
     text = seed_block(text, "deviations", DEVIATIONS)
     text = seed_block(text, "failures", FAILURES)

@@ -12,7 +12,6 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 VENV_PY = ROOT / ".venv" / ("Scripts/python.exe" if sys.platform == "win32" else "bin/python")
-CURRENT_RUN = ROOT / "results" / "phase0" / ".current_run"
 
 
 def run(*args: str) -> None:
@@ -24,13 +23,14 @@ def py() -> str:
     return str(VENV_PY if VENV_PY.exists() else sys.executable)
 
 
-def run_id() -> str:
-    """Phase-0 run id: reuse the current one if set, else create a new one."""
-    if CURRENT_RUN.exists():
-        return CURRENT_RUN.read_text(encoding="utf-8").strip()
-    rid = "phase0_" + datetime.now().strftime("%Y%m%d_%H%M%S")
-    CURRENT_RUN.parent.mkdir(parents=True, exist_ok=True)
-    CURRENT_RUN.write_text(rid, encoding="utf-8")
+def run_id(phase: str = "phase0") -> str:
+    """Run id of the current run of a phase: reuse if set, else create a new one."""
+    cur = ROOT / "results" / phase / ".current_run"
+    if cur.exists():
+        return cur.read_text(encoding="utf-8").strip()
+    rid = f"{phase}_" + datetime.now().strftime("%Y%m%d_%H%M%S")
+    cur.parent.mkdir(parents=True, exist_ok=True)
+    cur.write_text(rid, encoding="utf-8")
     return rid
 
 
@@ -55,7 +55,7 @@ def bench() -> None:
 
 
 def test() -> None:
-    run(py(), "-m", "pytest", "-q", f"--junitxml=results/phase0/{run_id()}/pytest_junit.xml")
+    run(py(), "-m", "pytest", "-q", f"--junitxml=results/phase1/{run_id('phase1')}/pytest_junit.xml" if (ROOT / "results/phase1/.current_run").exists() else f"--junitxml=results/phase0/{run_id()}/pytest_junit.xml")
 
 
 def report() -> None:
@@ -63,7 +63,14 @@ def report() -> None:
 
 
 def embed() -> None:
-    raise SystemExit("embed is implemented in Phase 1 (not yet available)")
+    """Phase 1: build corpus/ladder/eval set, embed (skips if embeddings exist), ground truth is a separate step."""
+    run(py(), "scripts/run_phase1.py", "--run-id", run_id("phase1"), "--steps", "corpus", "embed")
+
+
+def phase1() -> None:
+    run(py(), "scripts/run_phase1.py", "--run-id", run_id("phase1"))
+    test()
+    report()
 
 
 def not_yet(name: str):
@@ -78,8 +85,8 @@ def phase0() -> None:
 
 
 TASKS = {"setup": setup, "env": env, "data": data, "bench": bench, "test": test, "report": report, "embed": embed,
-         "phase0": phase0}
-for _i in range(1, 11):
+         "phase0": phase0, "phase1": phase1}
+for _i in range(2, 11):
     TASKS[f"phase{_i}"] = not_yet(f"phase{_i}")
 
 

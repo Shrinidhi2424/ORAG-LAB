@@ -1,0 +1,24 @@
+{
+  "model": "sentence-transformers/all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "max_seq_length": 256,
+  "device": "cpu",
+  "torch_threads": 4,
+  "batch_size": 64,
+  "n_paragraphs": 20958,
+  "n_queries": 300,
+  "dim": 384,
+  "padded_dim": 512,
+  "paragraph_embed_s": 863.9532145999838,
+  "paragraphs_per_s": 24.258258023501536,
+  "query_embed_s": 1.728635800012853,
+  "queries_per_s": 173.54725616452546,
+  "process_rss_gb_after_embed": 0.543715328,
+  "paragraph_tokens": {
+    "mean": 154.4466552151923,
+    "median": 142.0,
+    "max": 855
+  },
+  "paragraphs_truncated": 1494,
+  "paragraphs_truncated_frac": 0.07128542799885486
+}

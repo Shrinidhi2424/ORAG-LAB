@@ -17,3 +17,4 @@ docker-volumes/
 volumes/
 *.log
 QRAG_LAB_Project_Implementation_Plan.txt
+data/paragraphs.jsonl

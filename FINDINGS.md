@@ -10,6 +10,12 @@ Do not hand-type numbers inside generated blocks (R4).
 | P0-1 | 0 | SQuAD v1.1 downloaded and checksummed | results/phase0/phase0_20261011_202243/squad_checksums.json |
 | P0-2 | 0 | Generator gate: chosen = qwen2.5:1.5b-instruct | results/phase0/phase0_20261011_202243/generator_bench_summary.json |
 | P0-3 | 0 | pytest: 7/7 passed | results/phase0/phase0_20261011_202243/pytest_junit.xml |
+| P1-1 | 1 | 20958 unique paragraphs; 300 eval questions on 275 gold paragraphs; ladder nested, gold in every rung | results/phase1/phase1_20261011_210325/corpus_stats.json |
+| P1-2 | 1 | Embedded 20958 paragraphs in 864 s (24.3/s) | results/phase1/phase1_20261011_210325/embed_info.json |
+| P1-3 | 1 | Exact-cosine ceiling Hit@1 = 72.0% (N=1000) to 49.0% (N=all) | results/phase1/phase1_20261011_210325/ceiling_by_N.csv |
+| P1-4 | 1 | Sanity: norms in [1.0000, 1.0000], NaN=False, gold-cosine median 0.583 | results/phase1/phase1_20261011_210325/sanity.json |
+| P1-5 | 1 | Model card mentions SQuAD: True (7 squad/wiki lines) | results/phase1/phase1_20261011_210325/contamination_check.json |
+| P1-6 | 1 | pytest: 14/14 passed | results/phase1/phase1_20261011_210325/pytest_junit.xml |
 <!-- END:index -->
 
 ## 1. Environment & Versions
@@ -89,6 +95,91 @@ Decision rule: largest passing (a) median<=10s (b) peak RAM<=2.5GB (c) >=8/10 cl
 **Manuscript hook**: Section 5 (Experimental setup: LLM, hardware) and Table T2.
 <!-- END:phase0 -->
 
+### Phase 1 - Corpus, embeddings, eval set, ground truth
+<!-- BEGIN:phase1 -->
+Run `phase1_20261011_210325` - manifest: `results/phase1/phase1_20261011_210325/run_manifest.json`; config: seeds 42, eval n=300, ladder 1k/2k/5k/10k/all, ground-truth k=50.
+
+**T1a corpus / eval set** (`results/phase1/phase1_20261011_210325/corpus_stats.json`)
+
+| Quantity | Value |
+|---|---|
+| Raw paragraphs train / dev | 18896 / 2067 |
+| Exact duplicates dropped | 5 |
+| Unique paragraphs | 20958 |
+| Dev questions with gold paragraph in corpus | 10570 |
+| Eval questions (seed 42) | 300 |
+| Distinct gold paragraphs among eval questions | 275 |
+| Words per paragraph mean / median / p95 / max | 117.2 / 108 / 210 / 653 |
+| Ladder nested | True |
+| Gold in every rung | True |
+
+**T1b corpus ladder** (`data/ladder_N.json`)
+
+| Rung | Paragraphs | Gold included | Distractors |
+|---|---|---|---|
+| 1000 | 1000 | 275 | 725 |
+| 2000 | 2000 | 275 | 1725 |
+| 5000 | 5000 | 275 | 4725 |
+| 10000 | 10000 | 275 | 9725 |
+| all | 20958 | 275 | 20683 |
+
+**Embedding** (`results/phase1/phase1_20261011_210325/embed_info.json`)
+
+| Item | Value |
+|---|---|
+| Model / revision | `sentence-transformers/all-MiniLM-L6-v2` @ `1110a243fdf4706b3f48f1d95db1a4f5529b4d41` |
+| Device / torch threads / batch | cpu / 4 / 64 |
+| Dim / padded dim | 384 / 512 |
+| Paragraph embedding time | 864.0 s (24.3 paragraphs/s) |
+| Query embedding time | 1.73 s (173.5 queries/s) |
+| Process RSS after embedding | 0.54 GB |
+| max_seq_length (tokens) | 256 |
+| Paragraph tokens mean / median / max | 154.4 / 142 / 855 |
+| Paragraphs truncated by max_seq_length | 1494 (7.1%) |
+
+**Classical ceiling: exact cosine vs gold paragraph, 300 queries** (`results/phase1/phase1_20261011_210325/ceiling_by_N.csv`; top-50 ground truth in `results/phase1/phase1_20261011_210325/ground_truth_N*.npz`)
+
+| N | Corpus size | Hit@1 | Hit@3 | Hit@5 | Hit@10 | P@1 | P@3 | P@5 | P@10 | MRR@10 | nDCG@10 | Median gold rank | Brute-force s (300 q) |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 1000 | 1000 | 0.720 | 0.860 | 0.900 | 0.940 | 0.720 | 0.287 | 0.180 | 0.094 | 0.796 | 0.831 | 1.0 | 0.024 |
+| 2000 | 2000 | 0.690 | 0.827 | 0.873 | 0.917 | 0.690 | 0.276 | 0.175 | 0.092 | 0.766 | 0.802 | 1.0 | 0.044 |
+| 5000 | 5000 | 0.623 | 0.777 | 0.817 | 0.880 | 0.623 | 0.259 | 0.163 | 0.088 | 0.708 | 0.749 | 1.0 | 0.099 |
+| 10000 | 10000 | 0.573 | 0.747 | 0.783 | 0.833 | 0.573 | 0.249 | 0.157 | 0.083 | 0.662 | 0.703 | 1.0 | 0.233 |
+| all | 20958 | 0.490 | 0.680 | 0.733 | 0.783 | 0.490 | 0.227 | 0.147 | 0.078 | 0.590 | 0.637 | 2.0 | 0.563 |
+
+Note: P@k is upper-bounded by 1/k with a single gold paragraph (A.4).
+
+**Data sanity** (`results/phase1/phase1_20261011_210325/sanity.json`, `results/phase1/phase1_20261011_210325/gold_cosine.csv`)
+
+| Check | Result |
+|---|---|
+| NaNs in embeddings | False |
+| Paragraph norm min / max | 1.000000 / 1.000000 |
+| Query norm min / max | 1.000000 / 1.000000 |
+| 512-d padded norm max abs deviation from 1 | 1.19e-07 |
+| Gold cosine change from padding (max abs) | 0.00e+00 |
+| Padding columns all zero | True |
+| Question-gold cosine min / p5 / median / p95 / max | 0.006 / 0.259 / 0.583 / 0.759 / 0.833 |
+| Negative cosines in exact top-10 (per rung) | 1000: 0, 2000: 0, 5000: 0, 10000: 0, all: 0 |
+| Min top-10 cosine (per rung) | 1000: 0.182, 2000: 0.198, 5000: 0.219, 10000: 0.253, all: 0.272 |
+
+**Embedder contamination check (D7)** - model card saved at `results/phase1/phase1_20261011_210325/model_card.md` (revision `1110a243fdf4706b3f48f1d95db1a4f5529b4d41`, 175 lines). Card mentions SQuAD: **True**. Lines mentioning squad/wikipedia/wiki:
+
+- line 23: `- wikihow`
+- line 29: `- embedding-data/simple-wiki`
+- line 33: `- embedding-data/WikiAnswers`
+- line 145: `| [WikiAnswers](https://github.com/afader/oqa#wikianswers-corpus) Duplicate question pairs | [paper](https://doi.org/10.1145/2623330.2623677) | 77,427,422 |`
+- line 168: `| [Wikihow](https://github.com/pvl/wikihow_pairs_dataset) | [paper](https://arxiv.org/abs/1810.09305) | 128,542 |`
+- line 171: `| [Simple Wikipedia](https://cs.pomona.edu/~dkauchak/simplification/) | [paper](https://www.aclweb.org/anthology/P11-2117/) | 102,225 |`
+- line 173: `| [SQuAD2.0](https://rajpurkar.github.io/SQuAD-explorer/) | [paper](https://aclanthology.org/P18-2124.pdf) | 87,599 |`
+
+Interpretation: see Section 5. A model card cannot prove absence of overlap.
+
+**pytest** (whole suite at Phase 1 exit): 14 tests, 0 failures, 0 errors, 0 skipped (`results/phase1/phase1_20261011_210325/pytest_junit.xml`).
+
+**Manuscript hook**: Section 5 (corpus, ladder, embeddings), Table T1; contamination discussion in Section 11.
+<!-- END:phase1 -->
+
 ## 3. Headline Findings
 (Filled in Phase 9.)
 
@@ -106,6 +197,8 @@ Decision rule: largest passing (a) median<=10s (b) peak RAM<=2.5GB (c) >=8/10 cl
 ## 5. Failures, Limitations, Threats to Validity
 <!-- BEGIN:failures -->
 - **Swap during benchmark**: the pagefile grew during every model's run (see the "Swap delta" column in the Phase 0 table), so the strict "no swapping" wording of H2(b) is not fully met on this 8 GB machine even for the chosen model; close browsers and other heavy apps during generation runs (H5/H10).
+- **Embedder contamination (D7, Phase 1)**: the all-MiniLM-L6-v2 model card (`results/phase1/*/contamination_check.json`) lists SQuAD among its training datasets, with a pair count equal to the SQuAD v1.1 *train* question count (Phase 0 `squad_checksums.json`). So the embedder very probably saw SQuAD train question-paragraph pairs. Evaluation questions come from *dev*, which that count does not cover, but most corpus paragraphs are train paragraphs (see the T1a table); retrieval quality may be optimistic versus an unseen domain, and the same holds for both arms (R1). The card cannot prove dev was excluded. Discuss in the manuscript limitations.
+- **Truncation (Phase 1)**: paragraphs longer than the embedder's max_seq_length are truncated before embedding (count and fraction in the Phase 1 embedding table); the gold answer may lie in the cut part for those paragraphs, lowering the classical ceiling equally for both arms.
 - **3B model**: fails the latency criterion (a) and leaves little RAM headroom; not usable on this laptop.
 <!-- END:failures -->
 

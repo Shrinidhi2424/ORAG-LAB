@@ -1,0 +1,36 @@
+{
+  "source": "https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "card_lines": 175,
+  "mentions_squad": true,
+  "squad_or_wiki_lines": [
+    {
+      "line": 23,
+      "text": "- wikihow"
+    },
+    {
+      "line": 29,
+      "text": "- embedding-data/simple-wiki"
+    },
+    {
+      "line": 33,
+      "text": "- embedding-data/WikiAnswers"
+    },
+    {
+      "line": 145,
+      "text": "| [WikiAnswers](https://github.com/afader/oqa#wikianswers-corpus) Duplicate question pairs | [paper](https://doi.org/10.1145/2623330.2623677) | 77,427,422 |"
+    },
+    {
+      "line": 168,
+      "text": "| [Wikihow](https://github.com/pvl/wikihow_pairs_dataset) | [paper](https://arxiv.org/abs/1810.09305) | 128,542 |"
+    },
+    {
+      "line": 171,
+      "text": "| [Simple Wikipedia](https://cs.pomona.edu/~dkauchak/simplification/) | [paper](https://www.aclweb.org/anthology/P11-2117/) | 102,225 |"
+    },
+    {
+      "line": 173,
+      "text": "| [SQuAD2.0](https://rajpurkar.github.io/SQuAD-explorer/) | [paper](https://aclanthology.org/P18-2124.pdf) | 87,599 |"
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "raw": {
+    "train": 18896,
+    "dev": 2067
+  },
+  "duplicates_dropped": 5,
+  "unique_paragraphs": 20958,
+  "candidate_questions": 10570,
+  "n_eval": 300,
+  "distinct_gold_paragraphs": 275,
+  "n_gold": 275,
+  "notes": [],
+  "dev_paragraphs_in_corpus": 2067,
+  "words_per_paragraph": {
+    "mean": 117.24706555969081,
+    "median": 108.0,
+    "p95": 210.0,
+    "max": 653
+  },
+  "ladder_sizes": {
+    "1000": 1000,
+    "2000": 2000,
+    "5000": 5000,
+    "10000": 10000,
+    "all": 20958
+  },
+  "ladder_nested": true,
+  "gold_in_every_rung": true
+}
