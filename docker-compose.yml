@@ -1,0 +1,81 @@
+# QRAG-Lab cloud-native stack (emulated locally). Resource profile = env file:
+#   docker compose --env-file configs/profiles/small.env up -d     (small | medium | large)
+# The LLM runs on the HOST via Ollama (generator-gateway calls host.docker.internal:11434); never in a container.
+# Profile limits apply to the three compute services (embedder, retriever-classical, retriever-quantum-sim);
+# orchestrator and generator-gateway are plain glue with a fixed small limit.
+x-compute: &compute
+  cpus: ${CPUS:-1}
+  mem_limit: ${MEM:-1536m}
+  environment: &compute-env
+    DATA_DIR: /data
+    QRAG_THREADS: ${CPUS:-1}
+    OMP_NUM_THREADS: ${CPUS:-1}
+    OPENBLAS_NUM_THREADS: ${CPUS:-1}
+  volumes:
+    - ./data:/data:ro
+
+x-glue: &glue
+  cpus: 0.5
+  mem_limit: 384m
+
+services:
+  embedder:
+    <<: *compute
+    image: qrag-embedder:latest
+    build: {context: ., dockerfile: docker/Dockerfile.embedder}
+    ports: ["8001:8001"]
+    healthcheck: &hc
+      test: ["CMD", "python", "-c", "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://localhost:${PORT:-8001}/health', timeout=3).status == 200 else 1)"]
+      interval: 5s
+      timeout: 5s
+      retries: 60
+
+  retriever-classical:
+    <<: *compute
+    image: qrag-light:latest
+    build: {context: ., dockerfile: docker/Dockerfile.light}
+    command: ["uvicorn", "services.retriever_classical:app", "--host", "0.0.0.0", "--port", "8002", "--workers", "1", "--log-level", "warning"]
+    ports: ["8002:8002"]
+    healthcheck:
+      <<: *hc
+      test: ["CMD", "python", "-c", "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://localhost:8002/health', timeout=3).status == 200 else 1)"]
+
+  retriever-quantum-sim:
+    <<: *compute
+    image: qrag-light:latest
+    command: ["uvicorn", "services.retriever_quantum:app", "--host", "0.0.0.0", "--port", "8003", "--workers", "1", "--log-level", "warning"]
+    ports: ["8003:8003"]
+    healthcheck:
+      <<: *hc
+      test: ["CMD", "python", "-c", "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://localhost:8003/health', timeout=3).status == 200 else 1)"]
+
+  generator-gateway:
+    <<: *glue
+    image: qrag-light:latest
+    command: ["uvicorn", "services.generator_gateway:app", "--host", "0.0.0.0", "--port", "8004", "--workers", "1", "--log-level", "warning"]
+    environment:
+      OLLAMA_HOST: http://host.docker.internal:11434
+      LLM_CACHE_DIR: /cache/llm
+    extra_hosts: ["host.docker.internal:host-gateway"]
+    volumes:
+      - ./cache:/cache
+    ports: ["8004:8004"]
+
+  orchestrator:
+    <<: *glue
+    image: qrag-light:latest
+    command: ["uvicorn", "services.orchestrator:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "1", "--log-level", "warning"]
+    environment:
+      DATA_DIR: /data
+      EMBEDDER_URL: http://embedder:8001
+      RETRIEVER_CLASSICAL_URL: http://retriever-classical:8002
+      RETRIEVER_QUANTUM_URL: http://retriever-quantum-sim:8003
+      GENERATOR_URL: http://generator-gateway:8004
+    volumes:
+      - ./data:/data:ro
+    ports: ["8000:8000"]
+    depends_on:
+      embedder: {condition: service_healthy}
+      retriever-classical: {condition: service_healthy}
+      retriever-quantum-sim: {condition: service_healthy}
+      generator-gateway: {condition: service_started}

@@ -1,0 +1,92 @@
+[
+  {
+    "profile": "small",
+    "repeat": 0,
+    "cpu_mhz_start": 2419.0,
+    "cpu_mhz_end": 2419.0
+  },
+  {
+    "profile": "small",
+    "repeat": 1,
+    "cpu_mhz_start": 2419.0,
+    "cpu_mhz_end": 2419.0
+  },
+  {
+    "profile": "small",
+    "repeat": 2,
+    "cpu_mhz_start": 2419.0,
+    "cpu_mhz_end": 2419.0
+  },
+  {
+    "profile": "small",
+    "repeat": 3,
+    "cpu_mhz_start": 2419.0,
+    "cpu_mhz_end": 2419.0
+  },
+  {
+    "profile": "small",
+    "repeat": 4,
+    "cpu_mhz_start": 2419.0,
+    "cpu_mhz_end": 2419.0
+  },
+  {
+    "profile": "medium",
+    "repeat": 0,
+    "cpu_mhz_start": 2419.0,
+    "cpu_mhz_end": 2419.0
+  },
+  {
+    "profile": "medium",
+    "repeat": 1,
+    "cpu_mhz_start": 2419.0,
+    "cpu_mhz_end": 2419.0
+  },
+  {
+    "profile": "medium",
+    "repeat": 2,
+    "cpu_mhz_start": 2419.0,
+    "cpu_mhz_end": 2419.0
+  },
+  {
+    "profile": "medium",
+    "repeat": 3,
+    "cpu_mhz_start": 2419.0,
+    "cpu_mhz_end": 1209.0
+  },
+  {
+    "profile": "medium",
+    "repeat": 4,
+    "cpu_mhz_start": 1209.0,
+    "cpu_mhz_end": 2419.0
+  },
+  {
+    "profile": "large",
+    "repeat": 0,
+    "cpu_mhz_start": 2419.0,
+    "cpu_mhz_end": 2419.0
+  },
+  {
+    "profile": "large",
+    "repeat": 1,
+    "cpu_mhz_start": 2419.0,
+    "cpu_mhz_end": 2419.0
+  },
+  {
+    "profile": "large",
+    "repeat": 2,
+    "cpu_mhz_start": 2419.0,
+    "cpu_mhz_end": 2419.0
+  },
+  {
+    "profile": "large",
+    "repeat": 3,
+    "cpu_mhz_start": 2419.0,
+    "cpu_mhz_end": 2419.0
+  },
+  {
+    "profile": "large",
+    "repeat": 4,
+    "cpu_mhz_start": 2419.0,
+    "cpu_mhz_end": 2419.0
+  }
+]

@@ -6,6 +6,7 @@ Palette: validated categorical slots 1-2 (blue, orange); theory/reference lines 
 from __future__ import annotations
 
 import csv
+import json
 import shutil
 import sys
 from pathlib import Path
@@ -314,7 +315,135 @@ def fig_f9() -> Path:
     return save(fig, "F9_hallucination_by_gold_in_context", data)
 
 
-FIGS = {"F2": fig_f2, "F3": fig_f3, "F4": fig_f4, "F5": fig_f5, "F6": fig_f6, "F8": fig_f8, "F9": fig_f9}
+PROFILE_COLORS = {"small": BLUE, "medium": ORANGE, "large": AQUA}
+PROFILE_LABELS = {"small": "small (1 CPU, 1.5 GB)", "medium": "medium (2 CPU, 2 GB)", "large": "large (4 CPU, 3 GB)"}
+
+
+def fig_f5b() -> Path:
+    p6 = current("phase6")
+    lat = rows_of(p6 / "latency_summary.csv")
+    p2, p4 = current("phase2"), current("phase4")
+    embed = float(json.loads((p2 / "query_embed_summary.json").read_text(encoding="utf-8"))["median_ms"])
+    l4 = rows_of(p4 / "latency_summary.csv")
+    fig, axes = plt.subplots(1, 2, figsize=(11, 4.4), dpi=300, sharey=True)
+    fig.patch.set_facecolor(SURFACE)
+    data = []
+    ns = ["1000", "5000", "all"]
+    x = [NX[n] for n in ns]
+    for ax, arm in zip(axes, ("classical", "quantum")):
+        style(ax)
+        base = []
+        for n in ns:
+            r = next(r for r in l4 if (r["arm"], r["N"]) == ("flat", n)) if arm == "classical" else next(r for r in l4 if (r["arm"], r["N"], r["M"], r["S"]) == ("qsim", n, "50", "1024"))
+            base.append(embed + float(r["median_ms"]))
+        ax.plot(x, base, color=INK, linewidth=1.8, linestyle=(0, (4, 3)), marker="o", markersize=5, markeredgecolor=SURFACE)
+        ax.annotate("in-process (embed + retrieve)", (x[-1], base[-1]), xytext=(-6, -14), textcoords="offset points", ha="right", color=INK2, fontsize=7.5)
+        for n, b in zip(ns, base):
+            data.append({"arm": arm, "series": "in-process", "N": NX[n], "median_ms": b})
+        for prof, color in PROFILE_COLORS.items():
+            rs = [next((r for r in lat if (r["profile"], r["arm"], r["N"]) == (prof, arm, n)), None) for n in ns]
+            if any(r is None for r in rs):
+                continue
+            ax.fill_between(x, [float(r["repeat_median_min_ms"]) for r in rs], [float(r["repeat_median_max_ms"]) for r in rs], color=color, alpha=0.12, linewidth=0)
+            ax.plot(x, [float(r["e2e_median_ms"]) for r in rs], color=color, linewidth=2, marker="s", markersize=5, markeredgecolor=SURFACE, markeredgewidth=1)
+            ax.annotate(prof, (x[-1], float(rs[-1]["e2e_median_ms"])), xytext=(6, 0), textcoords="offset points", color=INK2, fontsize=8, va="center")
+            for n, r in zip(ns, rs):
+                data.append({"arm": arm, "series": f"HTTP {prof}", "N": NX[n], "median_ms": float(r["e2e_median_ms"]), "p95_ms": float(r["e2e_p95_ms"]),
+                             "repeat_median_min_ms": float(r["repeat_median_min_ms"]), "repeat_median_max_ms": float(r["repeat_median_max_ms"])})
+        ax.set_xscale("log")
+        ax.set_xlim(900, 45000)
+        ax.set_xticks(x)
+        ax.set_xticklabels(["1k", "5k", "21k"])
+        ax.set_xlabel("Corpus size N (log scale)", color=INK, fontsize=10)
+        ax.set_title("Classical Flat" if arm == "classical" else "Quantum-sim (M=50, S=1024, emulated)", color=INK, fontsize=10, loc="left")
+    axes[0].set_ylabel("Median latency per request, ms", color=INK, fontsize=10)
+    handles = [plt.Line2D([], [], color=c, lw=2, marker="s", markersize=5) for c in PROFILE_COLORS.values()] + [plt.Line2D([], [], color=INK, lw=1.8, ls=(0, (4, 3)), marker="o", markersize=5)]
+    fig.legend(handles, [PROFILE_LABELS[p] for p in PROFILE_COLORS] + ["in-process (Phase 2 embed + Phase 4 retrieve)"], loc="lower center", ncol=4, frameon=False, fontsize=8, labelcolor=INK2)
+    fig.suptitle("F5b. HTTP end-to-end latency (retrieval-only, through the services) vs in-process; band = range of 5 repeat medians", color=INK, fontsize=10.5, x=0.01, ha="left")
+    fig.tight_layout(rect=(0, 0.07, 1, 0.95))
+    return save(fig, "F5b_http_vs_inprocess", data)
+
+
+def fig_f10() -> Path:
+    rows = rows_of(current("phase6") / "concurrency.csv")
+    fig, axes = plt.subplots(1, 2, figsize=(11, 4.4), dpi=300)
+    fig.patch.set_facecolor(SURFACE)
+    data = []
+    for ax, (metric, ylab) in zip(axes, (("throughput_rps", "Throughput, requests / s"), ("p95_ms", "p95 latency, ms"))):
+        style(ax)
+        for prof, color in PROFILE_COLORS.items():
+            for arm, ls, mk in (("classical", "-", "o"), ("quantum", (0, (4, 2)), "^")):
+                pts = []
+                for cl in ("1", "4", "16"):
+                    sel = sorted(float(r[metric]) for r in rows if (r["profile"], r["arm"], r["clients"]) == (prof, arm, cl))
+                    if sel:
+                        pts.append((int(cl), sel[len(sel) // 2]))
+                if not pts:
+                    continue
+                ax.plot([p[0] for p in pts], [p[1] for p in pts], color=color, linestyle=ls, marker=mk, markersize=6, linewidth=2, markeredgecolor=SURFACE, markeredgewidth=1)
+                data += [{"profile": prof, "arm": arm, "clients": c, metric: v} for c, v in pts]
+        ax.set_xscale("log", base=2)
+        ax.set_xticks([1, 4, 16])
+        ax.set_xticklabels(["1", "4", "16"])
+        ax.set_xlabel("Concurrent clients", color=INK, fontsize=10)
+        ax.set_ylabel(ylab, color=INK, fontsize=10)
+        if metric == "p95_ms":
+            ax.set_yscale("log")
+    handles = [plt.Line2D([], [], color=c, lw=2) for c in PROFILE_COLORS.values()] + [plt.Line2D([], [], color=INK2, lw=2, marker="o", markersize=6), plt.Line2D([], [], color=INK2, lw=2, ls=(0, (4, 2)), marker="^", markersize=6)]
+    fig.legend(handles, [PROFILE_LABELS[p] for p in PROFILE_COLORS] + ["classical Flat", "quantum-sim (emulated)"], loc="lower center", ncol=5, frameon=False, fontsize=8, labelcolor=INK2)
+    fig.suptitle("F10. Concurrency: throughput and p95 latency vs clients (N=all, retrieval-only; median of 3 runs)", color=INK, fontsize=10.5, x=0.01, ha="left")
+    fig.tight_layout(rect=(0, 0.07, 1, 0.95))
+    return save(fig, "F10_concurrency", data)
+
+
+def fig_f1() -> Path:
+    """System architecture: services, ports, resource profiles, volumes (static; edges also written to the CSV)."""
+    from matplotlib.patches import FancyBboxPatch
+
+    fig, ax = plt.subplots(figsize=(11.5, 6.2), dpi=300)
+    fig.patch.set_facecolor(SURFACE)
+    ax.set_xlim(0, 118)
+    ax.set_ylim(0, 62)
+    ax.axis("off")
+    nodes = {}
+
+    def box(key, x, y, w, h, title, sub, fill, edge, dashed=False):
+        ax.add_patch(FancyBboxPatch((x, y), w, h, boxstyle="round,pad=0.3,rounding_size=1.0", linewidth=1.6, edgecolor=edge, facecolor=fill, linestyle="--" if dashed else "-"))
+        ax.text(x + w / 2, y + h - 2.4, title, ha="center", va="center", fontsize=8.8, color=INK, fontweight="bold")
+        ax.text(x + w / 2, y + (h - 4.0) / 2, sub, ha="center", va="center", fontsize=7.1, color=INK2, linespacing=1.35)
+        nodes[key] = (x, y, w, h)
+
+    def arrow(a, b, label="", lx=0.35, dy=0.5):
+        xa, ya, wa, ha = nodes[a]
+        xb, yb, wb, hb = nodes[b]
+        p0, p1 = (xa + wa, ya + ha / 2), (xb, yb + hb / 2)
+        ax.annotate("", xy=p1, xytext=p0, arrowprops=dict(arrowstyle="-|>", color=INK2, lw=1.4))
+        if label:
+            ax.text(p0[0] + (p1[0] - p0[0]) * lx, p0[1] + (p1[1] - p0[1]) * lx + dy, label, ha="center", va="bottom", fontsize=6.8, color=INK2, backgroundcolor=SURFACE)
+
+    ax.add_patch(FancyBboxPatch((20, 1.5), 72, 52, boxstyle="round,pad=0.3,rounding_size=1.5", linewidth=1.4, edgecolor=GRID, facecolor="#f4f4f1", linestyle=":"))
+    ax.text(21.5, 51.2, "Docker Desktop WSL2 VM (cap 3 GB, 4 CPUs, 2 GB swap), compose project qraglab", fontsize=7.5, color=INK2, va="center")
+    box("client", 1, 24, 15, 13, "Client", "load generator\n(in-network\ncontainer or\nhost port)", SURFACE, INK2)
+    box("orch", 24, 24, 21, 13, "orchestrator :8000", "POST /rag\nPOST /rag/retrieval-only\n0.5 CPU, 384 MB", "#e9eef7", BLUE)
+    box("emb", 58, 40, 31, 9.5, "embedder :8001", "MiniLM-L6-v2 weights baked in\nprofile CPU / RAM", "#e9eef7", BLUE)
+    box("rc", 58, 28, 31, 9.5, "retriever-classical :8002", "FAISS IndexFlatIP, 5 ladder rungs\nprofile CPU / RAM", "#e9eef7", BLUE)
+    box("rq", 58, 16, 31, 9.5, "retriever-quantum-sim :8003", "shortlist M + SWAP-test emulator\n(emulated; profile CPU / RAM)", "#fbe9e1", ORANGE)
+    box("gen", 58, 4, 31, 9.5, "generator-gateway :8004", "cache-first Ollama client\n0.5 CPU, 384 MB", "#e9eef7", BLUE)
+    box("ollama", 97, 4, 20, 9.5, "Ollama (Windows host)", "qwen2.5:1.5b-instruct, CPU\nnot a container; idle\nduring latency tests", SURFACE, INK2, dashed=True)
+    arrow("client", "orch", "HTTP/JSON", lx=0.5, dy=0.7)
+    for k, lab in (("emb", "1 embed"), ("rc", "2a classical"), ("rq", "2b quantum-sim"), ("gen", "3 generate (full mode)")):
+        arrow("orch", k, lab, lx=0.62, dy=0.4)
+    arrow("gen", "ollama", "", lx=0.5, dy=0.7)
+    ax.text(93.0, 5.2, "host.docker.\ninternal:11434", ha="center", va="top", fontsize=6.3, color=INK2, linespacing=1.2)
+    ax.text(21.5, 2.6, "volumes: ./data read-only (embeddings, ladder, paragraphs);  ./cache for the gateway", fontsize=6.9, color=INK2, va="center")
+    ax.text(0.5, 59.5, "F1. Cloud-native architecture, emulated on one laptop", fontsize=11, color=INK, va="center", fontweight="bold")
+    ax.text(0.5, 56.8, "profiles for the three compute services: small 1 CPU / 1.5 GB, medium 2 CPU / 2 GB, large 4 CPU / 3 GB", fontsize=8, color=INK2, va="center")
+    rows = [{"from": a, "to": b, "label": lab} for a, b, lab in (("client", "orchestrator", "HTTP/JSON"), ("orchestrator", "embedder", "embed"), ("orchestrator", "retriever-classical", "retrieve/classical"),
+                                                          ("orchestrator", "retriever-quantum-sim", "retrieve/quantum"), ("orchestrator", "generator-gateway", "generate (full mode)"), ("generator-gateway", "ollama-host", "host.docker.internal:11434"))]
+    return save(fig, "F1_architecture", rows)
+
+
+FIGS = {"F1": fig_f1, "F2": fig_f2, "F3": fig_f3, "F4": fig_f4, "F5": fig_f5, "F5b": fig_f5b, "F6": fig_f6, "F8": fig_f8, "F9": fig_f9, "F10": fig_f10}
 
 if __name__ == "__main__":
     for name in sys.argv[1:] or list(FIGS):

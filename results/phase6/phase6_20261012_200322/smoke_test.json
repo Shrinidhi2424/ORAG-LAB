@@ -1,0 +1,151 @@
+{
+  "backend": "docker",
+  "ollama_reachable_on_host": true,
+  "cases": [
+    {
+      "case": "classical_N5000_parity",
+      "qi": 0,
+      "status": 200,
+      "wall_s": 0.9524322000797838,
+      "question": "In what year did Massachusetts first require children to be educated in schools?",
+      "answer": "1852",
+      "answer_cached": true,
+      "n_contexts": 3,
+      "context_idx": [
+        20238,
+        13167,
+        9505
+      ],
+      "timings": {
+        "embedder_hop_ms": 39.1309,
+        "embedder_compute_ms": 19.2934,
+        "classical_hop_ms": 79.9468,
+        "classical_compute_ms": 54.9799,
+        "retrieve_prepare_ms": 1.5854,
+        "retrieve_search_ms": 52.4701,
+        "prompt_build_ms": 0.0146,
+        "generator_hop_ms": 819.7846,
+        "generator_compute_ms": 600.9911,
+        "orchestrator_total_ms": 942.9855
+      },
+      "equals_phase5_stored_answer": true
+    },
+    {
+      "case": "classical_N5000_parity",
+      "qi": 1,
+      "status": 200,
+      "wall_s": 0.047096399939619005,
+      "question": "When were stromules discovered?",
+      "answer": "Stromules were first observed in 1962.",
+      "answer_cached": true,
+      "n_contexts": 3,
+      "context_idx": [
+        20592,
+        20120,
+        9202
+      ],
+      "timings": {
+        "embedder_hop_ms": 18.2331,
+        "embedder_compute_ms": 14.3404,
+        "classical_hop_ms": 4.218,
+        "classical_compute_ms": 0.7269,
+        "retrieve_prepare_ms": 0.0518,
+        "retrieve_search_ms": 0.6294,
+        "prompt_build_ms": 0.0096,
+        "generator_hop_ms": 20.9752,
+        "generator_compute_ms": 16.8904,
+        "orchestrator_total_ms": 43.6791
+      },
+      "equals_phase5_stored_answer": true
+    },
+    {
+      "case": "classical_N5000_parity",
+      "qi": 2,
+      "status": 200,
+      "wall_s": 0.04833309992682189,
+      "question": "Which artist who had a major influence on the Gothic Revival is represented in the V&A's British galleries?",
+      "answer": "Horace Walpole",
+      "answer_cached": true,
+      "n_contexts": 3,
+      "context_idx": [
+        19909,
+        10631,
+        19892
+      ],
+      "timings": {
+        "embedder_hop_ms": 20.2057,
+        "embedder_compute_ms": 16.0259,
+        "classical_hop_ms": 3.9005,
+        "classical_compute_ms": 0.5617,
+        "retrieve_prepare_ms": 0.0321,
+        "retrieve_search_ms": 0.511,
+        "prompt_build_ms": 0.0083,
+        "generator_hop_ms": 20.8381,
+        "generator_compute_ms": 16.752,
+        "orchestrator_total_ms": 45.2005
+      },
+      "equals_phase5_stored_answer": true
+    },
+    {
+      "case": "quantum_N5000_S1024",
+      "qi": 0,
+      "status": 200,
+      "wall_s": 14.975622600060888,
+      "question": "In what year did Massachusetts first require children to be educated in schools?",
+      "answer": "1852",
+      "answer_cached": false,
+      "n_contexts": 3,
+      "context_idx": [
+        20238,
+        13167,
+        20219
+      ],
+      "timings": {
+        "embedder_hop_ms": 16.0505,
+        "embedder_compute_ms": 12.2002,
+        "quantum_hop_ms": 127.4253,
+        "quantum_compute_ms": 93.1465,
+        "retrieve_search_ms": 35.2501,
+        "retrieve_estimate_ms": 5.7221,
+        "retrieve_rank_ms": 1.2486,
+        "prompt_build_ms": 0.0087,
+        "generator_hop_ms": 14825.534,
+        "generator_compute_ms": 14815.7422,
+        "orchestrator_total_ms": 14969.3144
+      }
+    },
+    {
+      "case": "novel_question_classical_all",
+      "qi": null,
+      "status": 200,
+      "wall_s": 10.752224400057457,
+      "question": "What is the capital city of the Indian state of Karnataka?",
+      "answer": "I cannot find the answer in the provided context.",
+      "answer_cached": false,
+      "n_contexts": 3,
+      "context_idx": [
+        16407,
+        18833,
+        16408
+      ],
+      "timings": {
+        "embedder_hop_ms": 97.2894,
+        "embedder_compute_ms": 68.696,
+        "classical_hop_ms": 208.4088,
+        "classical_compute_ms": 188.8123,
+        "retrieve_prepare_ms": 0.0959,
+        "retrieve_search_ms": 188.6477,
+        "prompt_build_ms": 0.0162,
+        "generator_hop_ms": 10431.2229,
+        "generator_compute_ms": 10418.2276,
+        "orchestrator_total_ms": 10737.8864
+      }
+    }
+  ],
+  "all_ok": true,
+  "parity_cases_equal": [
+    true,
+    true,
+    true
+  ]
+}

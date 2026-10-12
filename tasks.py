@@ -71,6 +71,15 @@ def figures() -> None:
     run(py(), "scripts/make_figures.py")
 
 
+def phase6() -> None:
+    """Needs Docker Desktop running (falls back to uvicorn processes) and Ollama idle. Builds images first."""
+    run("docker", "compose", "-p", "qraglab", "--env-file", "configs/profiles/small.env", "build")
+    run(py(), "scripts/run_phase6.py", "--run-id", run_id("phase6"))
+    figures()
+    test()
+    report()
+
+
 def phase5() -> None:
     """Resumable: build prompts, generate (P0 then P1), stop Ollama, judge with HHEM, analyse."""
     rid = run_id("phase5")
@@ -129,8 +138,8 @@ def phase0() -> None:
 
 
 TASKS = {"setup": setup, "env": env, "data": data, "bench": bench, "test": test, "report": report, "embed": embed,
-         "phase0": phase0, "phase1": phase1, "phase2": phase2, "phase3": phase3, "phase4": phase4, "phase5": phase5, "figures": figures}
-for _i in range(6, 11):
+         "phase0": phase0, "phase1": phase1, "phase2": phase2, "phase3": phase3, "phase4": phase4, "phase5": phase5, "phase6": phase6, "figures": figures}
+for _i in range(7, 11):
     TASKS[f"phase{_i}"] = not_yet(f"phase{_i}")
 
 

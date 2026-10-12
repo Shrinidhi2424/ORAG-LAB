@@ -87,6 +87,13 @@ DEVIATIONS = """- **D-0.1 max_tokens**: plan says 48 in D9/H2 but 64 in Appendix
 - **D-5.3 HHEM inputs**: premise = the k retrieved paragraphs joined by blank lines; hypothesis = 'The answer to the question "<q>" is <answer>' (a bare short span is hard to judge). HHEM-2.1-Open documents unlimited context and its `predict` does not truncate, so long premises (the flan-T5 tokenizer warns above 512 tokens) were scored in full. Abstained and closed-book answers are not HHEM-scored (the taxonomy does not need F for them).
 - **D-5.4 Retrieval in the RAG runs is read from saved rankings**: classical contexts are the Phase 1 exact top-3, quantum contexts the seeded Phase 3 top-3 (seed 0 unless stated), via `qrag/pipeline.py` `PrecomputedRetrieval`; a live retriever with the same semantics exists for the services. Random-context control: 3 paragraphs drawn uniformly from the whole corpus with seed [42, question], gold excluded.
 - **D-5.5 Run matrix**: all P0 and P1 rows of plan 5.3 were run (P1: S=4096 at N=5000/all; N=1000 classical + S 64/256/1024/4096; seeds 1-2 at S=256 for N=5000/all). P2 (k=5, SQuAD v2 probe) not run.
+- **D-6.1 Profiles apply to the compute services**: small / medium / large (1 CPU 1.5 GB, 2 CPU 2 GB, 4 CPU 3 GB) limit the embedder and the two retrievers; orchestrator and generator-gateway have a fixed 0.5 CPU / 384 MB limit. Limits are cgroup caps on a 3 GB / 4-CPU WSL2 VM, not reservations.
+- **D-6.2 Primary HTTP load generator is a container on the Docker network**: a first full run used a client on the Windows host through Docker Desktop's published port. A diagnostic (Phase 6 `network_diagnostic.json`) showed that on this machine keep-alive POSTs with a body pick up a constant extra delay on that path (not fixed by TCP_NODELAY, absent for new connections and for a client inside the network). That run is kept, clearly labelled, as the secondary layer (T4c-b); the primary tables use the in-network client. Both ran the same protocol and code (`scripts/http_bench.py`; the first run used an earlier driver revision that contained the same measurement code).
+- **D-6.3 "Ollama stopped"**: for latency and concurrency the model was unloaded (`ollama ps` shows no model) but the idle Ollama server process stayed running (Windows tray app); the smoke test was run last, separately. A hard stop was not done to avoid interfering with the user's session.
+- **D-6.4 Host environment**: `%UserProfile%/.wslconfig` (memory 3 GB, processors 4, swap 2 GB; H6) was created by this phase and WSL was shut down once to apply it. Three unrelated idle containers of another project were already running in the same Docker VM and were left untouched (listed in the hygiene file). Host free RAM at the start of the runs was low (see hygiene).
+- **D-6.5 No-container fallback implemented but not used**: `scripts/launch_services.py` (uvicorn processes + cpu_affinity) exists, but Docker worked, so every reported number comes from containers.
+- **D-6.6 P2 item 6.6 (free-tier cloud rerun) not done.**
+- **D-6.7 Smoke test via the published port**: the end-to-end `/rag` smoke test (with generation) goes through the host port, which is fine because it is a functional test, not a latency measurement.
 """
 
 FAILURES = """- **Swap during benchmark**: the pagefile grew during every model's run (see the "Swap delta" column in the Phase 0 table), so the strict "no swapping" wording of H2(b) is not fully met on this 8 GB machine even for the chosen model; close browsers and other heavy apps during generation runs (H5/H10).
@@ -104,6 +111,10 @@ FAILURES = """- **Swap during benchmark**: the pagefile grew during every model'
 - **Hallucination measurement limits (Phase 5)**: correctness is SQuAD-style string containment (misses paraphrases, accepts answers that merely mention the span); faithfulness is one automatic judge (HHEM) without human validation until the audit sheet is labelled; T-c covers only seed 0. Generation ran under heavy memory pressure (free RAM fell to the low hundreds of MB, see the generation session file); this affects generation time only, not outputs (deterministic decoding, cached).
 - **Generation is not bit-reproducible (Phase 5)**: with temperature 0 and a fixed seed, re-running the same prompts on this CPU without the cache sometimes yields different wording (and rarely different content), even for an immediate repeat of the same request (counts in the regeneration check). Correctness and abstention labels were unchanged in every sampled case, so the reported outcome rates are not sensitive to this in the sample, but R6's "exact reruns" holds only through the answer cache (`cache/llm`, git-ignored; the committed `generations.jsonl` carries every answer text and cache key). Prompts with identical contexts share one cached answer across arms, so arm comparisons are exactly paired where contexts coincide. Likely cause (not tested): non-deterministic parallel floating-point reductions or KV-cache reuse in the CPU runner.
 - **LLM contamination looks low (Phase 5)**: the closed-book control answers few questions correctly (Phase 5 table), so the generator's parametric knowledge of SQuAD dev explains little of the RAG accuracy. The embedder contamination (Phase 1) remains.
+- **Docker Desktop published-port artefact (Phase 6)**: latency measured from the Windows host through the published port includes a large constant client-side delay that is neither service nor network cost in a cloud-like deployment (network diagnostic). Numbers from that path (T4c-b) must not be quoted as service overhead.
+- **More CPU did not mean lower latency at low load (Phase 6)**: the embedder's per-request compute time was not lower under the large profile (4 threads) than under small or medium (1-2 threads) in the in-network run, and single-client throughput was lower for large; the cause was not investigated (candidates: thread oversubscription of a 4-core/8-thread laptop that also hosts the load generator, small-batch thread overhead). The profile comparison is therefore about this host, not about cloud instance types.
+- **Shared-host measurement (Phase 6)**: the services, the load generator, Docker Desktop and Windows share one 8 GB laptop; power plan Balanced; temperature not monitored; host free RAM was low at the start of the runs. The embedding step (a transformer forward pass of ~15-25 ms) dominates the request in every profile and masks retrieval differences: classical and quantum-sim arms are indistinguishable at N <= 5000 over HTTP, and the arm and N effects at N=all are small compared with the run-to-run range.
+- **Concurrency is a closed-loop test (Phase 6)**: N concurrent clients each wait for their response; there is no open-loop arrival process, so tail latencies at saturation are not queueing-theory estimates. Occasional multi-second p95 values in single runs (visible in the raw concurrency CSVs) were not investigated; medians over 3 runs are reported.
 """
 
 
@@ -271,6 +282,16 @@ def main() -> None:
         body5, rows5 = phase5_block(run5)
         text = block(text, "phase5", body5)
         index_rows += rows5
+    run6 = latest_run("phase6")
+    if run6 and (run6 / "hygiene.json").exists() and ((run6 / "latency_summary.csv").exists() or (run6 / "smoke_test.json").exists()):
+        from report_phase6 import phase6_block
+
+        if "<!-- BEGIN:phase6 -->" not in text:
+            text = text.replace("## 3. Headline Findings", "### Phase 6 - Cloud-native deployment\n"
+                                "<!-- BEGIN:phase6 -->\n<!-- END:phase6 -->\n\n## 3. Headline Findings", 1)
+        body6, rows6 = phase6_block(run6)
+        text = block(text, "phase6", body6)
+        index_rows += rows6
     text = block(text, "index", md_table(["ID", "Phase", "Key result", "Artifact"], index_rows))
     text = seed_block(text, "deviations", DEVIATIONS)
     text = seed_block(text, "failures", FAILURES)

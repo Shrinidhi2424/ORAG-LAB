@@ -1,0 +1,9 @@
+.venv
+.git
+results
+cache
+tests
+__pycache__
+*.npy
+*.faiss
+data/raw

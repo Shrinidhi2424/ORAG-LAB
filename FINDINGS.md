@@ -38,6 +38,10 @@ Do not hand-type numbers inside generated blocks (R4).
 | P5-3 | 5 | T-c hallucination McNemar (Holm) at N=all: S=64 p=0.000, S=256 p=0.071, S=1024 p=0.728 | results/phase5/phase5_20261011_225152/paired_tests.csv |
 | P5-4 | 5 | Audit sheet (50 rows) ready for human labels | results/audit_template.csv |
 | P5-5 | 5 | pytest: 47/47 passed | results/phase5/phase5_20261011_225152/pytest_junit.xml |
+| P6-1 | 6 | HTTP E2E median, medium profile, classical N=all: 32.5 ms (p95 51.6) | results/phase6/phase6_20261012_203559/latency_summary.csv |
+| P6-2 | 6 | Peak throughput (medium, classical): 35.1 req/s at 16 clients; total errors 0 | results/phase6/phase6_20261012_203559/concurrency.csv |
+| P6-3 | 6 | Smoke test /rag: all ok = True; Phase 5 parity [True, True, True] | results/phase6/phase6_20261012_200322/smoke_test.json |
+| P6-4 | 6 | pytest: 53/53 passed | results/phase6/phase6_20261012_203559/pytest_junit.xml |
 <!-- END:index -->
 
 ## 1. Environment & Versions
@@ -872,6 +876,183 @@ Generation sessions (`results/phase5/phase5_20261011_225152/generate_session_*.j
 **Manuscript hook**: Section 8 (hallucination analysis), Table T5, figures F8-F9.
 <!-- END:phase5 -->
 
+### Phase 6 - Cloud-native deployment
+<!-- BEGIN:phase6 -->
+Run `phase6_20261012_203559` - manifest: `results/phase6/phase6_20261012_203559/run_manifest.json`. Backend: **docker**; primary HTTP load generator: **in_network** (container on the stack's Docker network). Services: embedder, retriever-classical, retriever-quantum-sim, generator-gateway, orchestrator (FastAPI + pydantic, `/health`, JSON logs on stdout, per-stage timings in body and `Server-Timing`/`X-Stage-Timings` headers). Cloud-native architecture EMULATED on commodity hardware: no claim about real cloud performance.
+
+Docker server 29.8.2; WSL2 VM memory visible to Docker 3.05 GB (`.wslconfig`: `[wsl2]; memory=3GB; processors=4; swap=2GB`). Other containers on the host left untouched: ['hostelops-frontend|hostelproject-frontend', 'hostelops-backend|hostelproject-backend', 'hostelops-db|postgres:15-alpine']. Ollama loaded models at start: `NAME    ID    SIZE    PROCESSOR    CONTEXT    RUNNER    UNTIL`. Profiles apply to the three compute services; orchestrator and generator-gateway have a fixed 0.5 CPU / 384 MB limit.
+
+Image sizes (`results/phase6/phase6_20261012_203559/docker_images.json`): `qrag-embedder:latest` 2.15GB, `qrag-light:latest` 387MB.
+
+Stack start-up (`results/phase6/phase6_20261012_203559/startup.csv`): small: compose up 35.3 s (+3.6 s until all /health ready); medium: compose up 25.5 s (+3.7 s until all /health ready); large: compose up 18.3 s (+2.4 s until all /health ready).
+
+**T4c HTTP latency per request, retrieval-only mode (6.3)** (`results/phase6/phase6_20261012_203559/latency_summary.csv`; raw `results/phase6/phase6_20261012_203559/latency_raw.csv`). Client -> orchestrator -> embedder -> retriever; k=3; quantum-sim M=50, S=1024 (emulated estimator); 10 warm-up discarded, 100 timed requests, 5 repeats, arm x N conditions shuffled per repeat; the load generator runs on the same laptop. Medians in ms; 'overhead' = hop wall time minus the service's own compute time (network, serialisation, framework); 'client<->orchestrator' = client wall time minus orchestrator total.
+
+| Profile | Arm | N | E2E median | E2E p95 | Repeat medians range | Embed compute | Embed svc overhead | Retrieve compute | Retrieve svc overhead | Client<->orch overhead | Errors |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| small (1 CPU / 1.5 GB) | classical | 1000 | 28.35 | 61.69 | 24.57-36.79 | 15.80 | 4.62 | 0.22 | 4.55 | 2.39 | 0 |
+| small (1 CPU / 1.5 GB) | classical | 5000 | 27.26 | 68.34 | 23.38-40.89 | 15.29 | 4.42 | 0.65 | 4.52 | 2.33 | 0 |
+| small (1 CPU / 1.5 GB) | classical | all | 29.07 | 55.60 | 25.86-35.14 | 15.26 | 4.35 | 2.07 | 4.47 | 2.31 | 0 |
+| small (1 CPU / 1.5 GB) | quantum | 1000 | 29.34 | 70.19 | 26.79-31.82 | 16.26 | 4.65 | 0.55 | 4.69 | 2.46 | 0 |
+| small (1 CPU / 1.5 GB) | quantum | 5000 | 29.18 | 57.04 | 25.61-32.57 | 15.98 | 4.53 | 1.00 | 4.69 | 2.42 | 0 |
+| small (1 CPU / 1.5 GB) | quantum | all | 30.27 | 81.71 | 26.21-47.74 | 15.77 | 4.48 | 2.46 | 4.74 | 2.40 | 0 |
+| medium (2 CPU / 2 GB) | classical | 1000 | 26.64 | 43.27 | 25.48-28.52 | 14.30 | 4.48 | 0.22 | 4.62 | 2.42 | 0 |
+| medium (2 CPU / 2 GB) | classical | 5000 | 26.50 | 44.27 | 25.25-29.11 | 14.29 | 4.39 | 0.64 | 4.44 | 2.30 | 0 |
+| medium (2 CPU / 2 GB) | classical | all | 32.50 | 51.65 | 30.80-33.82 | 15.24 | 4.75 | 3.52 | 5.03 | 2.67 | 0 |
+| medium (2 CPU / 2 GB) | quantum | 1000 | 26.64 | 47.24 | 23.97-31.06 | 14.12 | 4.43 | 0.53 | 4.63 | 2.42 | 0 |
+| medium (2 CPU / 2 GB) | quantum | 5000 | 27.83 | 42.18 | 26.55-31.59 | 14.50 | 4.60 | 0.99 | 4.76 | 2.44 | 0 |
+| medium (2 CPU / 2 GB) | quantum | all | 32.93 | 50.40 | 29.82-35.48 | 15.57 | 4.73 | 3.91 | 5.10 | 2.59 | 0 |
+| large (4 CPU / 3 GB) | classical | 1000 | 33.22 | 47.54 | 31.26-34.55 | 21.45 | 4.33 | 0.23 | 4.50 | 2.36 | 0 |
+| large (4 CPU / 3 GB) | classical | 5000 | 34.54 | 51.05 | 33.46-35.57 | 21.81 | 4.40 | 0.69 | 4.58 | 2.40 | 0 |
+| large (4 CPU / 3 GB) | classical | all | 44.81 | 82.34 | 40.48-51.42 | 25.22 | 5.39 | 3.27 | 5.16 | 3.08 | 0 |
+| large (4 CPU / 3 GB) | quantum | 1000 | 32.33 | 49.39 | 26.01-36.08 | 20.35 | 4.20 | 0.54 | 4.34 | 2.34 | 0 |
+| large (4 CPU / 3 GB) | quantum | 5000 | 35.23 | 57.14 | 30.03-40.45 | 22.04 | 4.46 | 1.04 | 4.65 | 2.43 | 0 |
+| large (4 CPU / 3 GB) | quantum | all | 44.42 | 74.92 | 40.32-47.54 | 25.02 | 5.15 | 3.61 | 5.10 | 3.02 | 0 |
+
+**Service overhead vs the in-process baseline (6.3)**: in-process = Phase 2 query-embedding median (batch 1, 4 torch threads) + Phase 4 retrieval-only median (Flat k=10 / quantum-sim shortlist M=50 S=1024, 1 thread). Different protocol and thread counts, so the difference is indicative, not a pure network cost.
+
+| Profile | Arm | N | In-process embed | In-process retrieve | In-process total | HTTP E2E median | Difference | Ratio |
+|---|---|---|---|---|---|---|---|---|
+| small | classical | 1000 | 13.02 | 0.109 | 13.13 | 28.35 | 15.22 | 2.16x |
+| small | classical | 5000 | 13.02 | 0.578 | 13.60 | 27.26 | 13.66 | 2.00x |
+| small | classical | all | 13.02 | 2.918 | 15.94 | 29.07 | 13.13 | 1.82x |
+| small | quantum | 1000 | 13.02 | 0.177 | 13.20 | 29.34 | 16.14 | 2.22x |
+| small | quantum | 5000 | 13.02 | 0.930 | 13.95 | 29.18 | 15.23 | 2.09x |
+| small | quantum | all | 13.02 | 2.903 | 15.92 | 30.27 | 14.35 | 1.90x |
+| medium | classical | 1000 | 13.02 | 0.109 | 13.13 | 26.64 | 13.51 | 2.03x |
+| medium | classical | 5000 | 13.02 | 0.578 | 13.60 | 26.50 | 12.90 | 1.95x |
+| medium | classical | all | 13.02 | 2.918 | 15.94 | 32.50 | 16.56 | 2.04x |
+| medium | quantum | 1000 | 13.02 | 0.177 | 13.20 | 26.64 | 13.44 | 2.02x |
+| medium | quantum | 5000 | 13.02 | 0.930 | 13.95 | 27.83 | 13.88 | 1.99x |
+| medium | quantum | all | 13.02 | 2.903 | 15.92 | 32.93 | 17.01 | 2.07x |
+| large | classical | 1000 | 13.02 | 0.109 | 13.13 | 33.22 | 20.09 | 2.53x |
+| large | classical | 5000 | 13.02 | 0.578 | 13.60 | 34.54 | 20.95 | 2.54x |
+| large | classical | all | 13.02 | 2.918 | 15.94 | 44.81 | 28.87 | 2.81x |
+| large | quantum | 1000 | 13.02 | 0.177 | 13.20 | 32.33 | 19.14 | 2.45x |
+| large | quantum | 5000 | 13.02 | 0.930 | 13.95 | 35.23 | 21.28 | 2.53x |
+| large | quantum | all | 13.02 | 2.903 | 15.92 | 44.42 | 28.50 | 2.79x |
+
+**F5b HTTP vs in-process latency**: ![F5b](results/figures/F5b_http_vs_inprocess.png) (data `results/figures/F5b_http_vs_inprocess.csv`).
+
+**T4d Concurrency (6.4) [P1]** (`results/phase6/phase6_20261012_203559/concurrency.csv`): N=all, retrieval-only through the orchestrator, 1 / 4 / 16 concurrent clients (asyncio + httpx), 300 requests per run after a 20-request warm-up, 3 repeats; throughput = requests / wall time; latencies are per request; the load generator shares the laptop.
+
+| Profile | Arm | Clients | Throughput rps (median of runs) | Throughput range | Median latency ms | p95 ms | Errors | Requests |
+|---|---|---|---|---|---|---|---|---|
+| small (1 CPU / 1.5 GB) | classical | 1 | 27.7 | 24.0-27.9 | 33.6 | 51.9 | 0 | 900 |
+| small (1 CPU / 1.5 GB) | classical | 4 | 25.0 | 23.6-26.2 | 154.1 | 282.9 | 0 | 900 |
+| small (1 CPU / 1.5 GB) | classical | 16 | 19.6 | 16.3-20.3 | 790.3 | 1122.2 | 0 | 900 |
+| small (1 CPU / 1.5 GB) | quantum | 1 | 27.4 | 26.8-28.1 | 34.5 | 50.0 | 0 | 900 |
+| small (1 CPU / 1.5 GB) | quantum | 4 | 26.1 | 26.0-27.0 | 143.7 | 259.7 | 0 | 900 |
+| small (1 CPU / 1.5 GB) | quantum | 16 | 20.2 | 19.5-20.7 | 785.1 | 1122.3 | 0 | 900 |
+| medium (2 CPU / 2 GB) | classical | 1 | 25.5 | 25.4-26.1 | 36.5 | 55.0 | 0 | 900 |
+| medium (2 CPU / 2 GB) | classical | 4 | 33.8 | 33.3-34.0 | 112.8 | 166.1 | 0 | 900 |
+| medium (2 CPU / 2 GB) | classical | 16 | 33.3 | 31.6-35.1 | 465.6 | 686.4 | 0 | 900 |
+| medium (2 CPU / 2 GB) | quantum | 1 | 23.6 | 23.3-25.7 | 40.4 | 59.9 | 0 | 900 |
+| medium (2 CPU / 2 GB) | quantum | 4 | 33.5 | 32.8-34.6 | 114.9 | 168.2 | 0 | 900 |
+| medium (2 CPU / 2 GB) | quantum | 16 | 30.0 | 29.1-31.6 | 526.4 | 760.0 | 0 | 900 |
+| large (4 CPU / 3 GB) | classical | 1 | 20.5 | 20.4-20.5 | 44.2 | 73.7 | 0 | 900 |
+| large (4 CPU / 3 GB) | classical | 4 | 33.2 | 32.8-34.7 | 113.2 | 166.8 | 0 | 900 |
+| large (4 CPU / 3 GB) | classical | 16 | 34.5 | 33.6-35.3 | 428.5 | 739.6 | 0 | 900 |
+| large (4 CPU / 3 GB) | quantum | 1 | 20.9 | 19.6-22.4 | 43.9 | 72.7 | 0 | 900 |
+| large (4 CPU / 3 GB) | quantum | 4 | 31.7 | 30.7-34.6 | 120.1 | 195.5 | 0 | 900 |
+| large (4 CPU / 3 GB) | quantum | 16 | 35.6 | 35.4-35.9 | 410.3 | 740.5 | 0 | 900 |
+
+**F10 concurrency**: ![F10](results/figures/F10_concurrency.png) (data `results/figures/F10_concurrency.csv`).
+
+**Memory footprint (6.5) [P1]** (`results/phase6/phase6_20261012_203559/memory.csv`; `docker stats` per container: idle after start-up and peak sampled every ~0.5 s during the whole load test (latency + concurrency); limit as configured). Each retriever holds all five ladder rungs in memory.
+
+| Profile | Service | Idle MB | Peak during load tests MB | Limit MB |
+|---|---|---|---|---|
+| small | orchestrator | 69.0 | 73.3 | 384 |
+| small | retriever-quantum-sim | 193.7 | 211.3 | 1536 |
+| small | generator-gateway | 39.8 | 40.0 | 384 |
+| small | retriever-classical | 193.0 | 207.5 | 1536 |
+| small | embedder | 368.0 | 411.8 | 1536 |
+| medium | orchestrator | 68.6 | 73.0 | 384 |
+| medium | generator-gateway | 39.6 | 39.6 | 384 |
+| medium | retriever-classical | 207.5 | 229.2 | 2048 |
+| medium | embedder | 388.1 | 427.6 | 2048 |
+| medium | retriever-quantum-sim | 193.1 | 213.9 | 2048 |
+| large | orchestrator | 68.8 | 73.1 | 384 |
+| large | generator-gateway | 39.4 | 39.6 | 384 |
+| large | embedder | 375.9 | 419.8 | 2911 |
+| large | retriever-quantum-sim | 193.5 | 215.5 | 2911 |
+| large | retriever-classical | 196.9 | 220.7 | 2911 |
+
+Index size on disk / serialised, per N (Phase 2 `build.csv`): N=1000: 1.54 MB, N=2000: 3.07 MB, N=5000: 7.68 MB, N=10000: 15.36 MB, N=all: 32.19 MB.
+
+**Network-path diagnostic** (`results/phase6/phase6_20261012_203559/network_diagnostic.json`; small profile, 60 requests per variant after 10 warm-up): the same request from the Windows host through Docker Desktop's published port versus from a container on the stack's Docker network. Medians in ms; 'overhead' = client time minus the orchestrator's own total.
+
+| Variant | Host -> published port: client | overhead | Container on Docker network: client | overhead |
+|---|---|---|---|---|
+| A: keep-alive POST (the benchmark's pattern) | 70.6 | 44.4 | 23.9 | 1.9 |
+| B: tiny GET /health | 2.0 | - | 1.3 | - |
+| C: keep-alive POST + TCP_NODELAY | 71.0 | 45.7 | 26.1 | 2.1 |
+| D: new connection per request | 29.7 | 7.4 | 26.4 | 3.1 |
+
+**T4c-b Secondary layer: load generator on the Windows host through the published port** (run `phase6_20261012_200322`, `results/phase6/phase6_20261012_200322/latency_summary.csv`): same protocol, same stack, but the client is on the host. The 'client<->orchestrator overhead' column is the ~45 ms artefact of Docker Desktop's port proxy on keep-alive POSTs (see the diagnostic), not a property of the services; it is reported because it is what a developer on this machine experiences and because it must not be mistaken for service overhead.
+
+| Profile | Arm | N | E2E median | E2E p95 | Repeat medians range | Orchestrator total (median) | Client<->orch overhead | Errors |
+|---|---|---|---|---|---|---|---|---|
+| small | classical | 1000 | 69.03 | 76.60 | 67.65-69.72 | 23.74 | 45.12 | 0 |
+| small | classical | 5000 | 69.53 | 78.54 | 69.00-69.96 | 24.27 | 45.03 | 0 |
+| small | classical | all | 70.81 | 79.62 | 70.04-71.93 | 25.26 | 45.54 | 0 |
+| small | quantum | 1000 | 69.30 | 78.13 | 68.82-69.51 | 24.33 | 45.15 | 0 |
+| small | quantum | 5000 | 69.39 | 79.30 | 68.97-69.98 | 24.21 | 45.22 | 0 |
+| small | quantum | all | 71.35 | 83.09 | 70.54-71.75 | 26.18 | 45.18 | 0 |
+| medium | classical | 1000 | 66.77 | 75.55 | 66.36-67.92 | 21.42 | 45.37 | 0 |
+| medium | classical | 5000 | 67.39 | 78.76 | 66.72-69.64 | 22.23 | 45.27 | 0 |
+| medium | classical | all | 69.36 | 82.27 | 68.58-70.53 | 24.08 | 45.26 | 0 |
+| medium | quantum | 1000 | 67.12 | 78.23 | 66.06-68.47 | 22.04 | 45.22 | 0 |
+| medium | quantum | 5000 | 67.56 | 76.35 | 67.13-68.28 | 21.90 | 45.33 | 0 |
+| medium | quantum | all | 70.01 | 82.32 | 69.63-70.21 | 24.66 | 45.38 | 0 |
+| large | classical | 1000 | 73.15 | 83.92 | 72.66-73.92 | 28.35 | 44.90 | 0 |
+| large | classical | 5000 | 73.71 | 84.21 | 73.11-74.16 | 28.81 | 44.85 | 0 |
+| large | classical | all | 75.64 | 94.70 | 74.65-76.22 | 32.95 | 44.76 | 0 |
+| large | quantum | 1000 | 73.59 | 84.66 | 71.20-73.89 | 29.29 | 45.03 | 0 |
+| large | quantum | 5000 | 73.93 | 83.24 | 73.04-74.81 | 29.16 | 44.90 | 0 |
+| large | quantum | all | 75.54 | 94.17 | 74.37-76.07 | 32.09 | 45.19 | 0 |
+
+Concurrency through the published port (`results/phase6/phase6_20261012_200322/concurrency.csv`), same protocol as T4d:
+
+| Profile | Arm | Clients | Throughput rps (median of runs) | Throughput range | Median latency ms | p95 ms | Errors | Requests |
+|---|---|---|---|---|---|---|---|---|
+| small (1 CPU / 1.5 GB) | classical | 1 | 13.6 | 13.1-13.7 | 73.9 | 86.4 | 0 | 900 |
+| small (1 CPU / 1.5 GB) | classical | 4 | 28.3 | 27.3-28.4 | 124.2 | 219.3 | 0 | 900 |
+| small (1 CPU / 1.5 GB) | classical | 16 | 19.9 | 15.5-22.0 | 781.1 | 1219.2 | 0 | 900 |
+| small (1 CPU / 1.5 GB) | quantum | 1 | 13.6 | 13.4-13.7 | 74.1 | 82.9 | 0 | 900 |
+| small (1 CPU / 1.5 GB) | quantum | 4 | 27.6 | 24.4-31.1 | 128.6 | 210.9 | 0 | 900 |
+| small (1 CPU / 1.5 GB) | quantum | 16 | 19.7 | 19.0-20.2 | 801.2 | 1131.5 | 0 | 900 |
+| medium (2 CPU / 2 GB) | classical | 1 | 13.9 | 13.9-14.0 | 73.2 | 87.4 | 0 | 900 |
+| medium (2 CPU / 2 GB) | classical | 4 | 34.3 | 32.7-36.0 | 109.3 | 166.1 | 0 | 900 |
+| medium (2 CPU / 2 GB) | classical | 16 | 30.5 | 21.8-34.0 | 492.9 | 844.0 | 0 | 900 |
+| medium (2 CPU / 2 GB) | quantum | 1 | 13.8 | 13.5-13.8 | 72.9 | 87.5 | 0 | 900 |
+| medium (2 CPU / 2 GB) | quantum | 4 | 36.7 | 35.8-37.7 | 105.4 | 161.7 | 0 | 900 |
+| medium (2 CPU / 2 GB) | quantum | 16 | 33.0 | 32.1-33.4 | 468.9 | 666.2 | 0 | 900 |
+| large (4 CPU / 3 GB) | classical | 1 | 14.1 | 13.9-14.7 | 76.4 | 105.0 | 0 | 900 |
+| large (4 CPU / 3 GB) | classical | 4 | 29.3 | 27.0-33.1 | 125.3 | 229.8 | 0 | 900 |
+| large (4 CPU / 3 GB) | classical | 16 | 32.4 | 28.9-32.8 | 481.4 | 798.8 | 0 | 900 |
+| large (4 CPU / 3 GB) | quantum | 1 | 13.2 | 11.9-14.5 | 72.8 | 113.8 | 0 | 900 |
+| large (4 CPU / 3 GB) | quantum | 4 | 32.3 | 32.2-32.6 | 114.1 | 183.8 | 0 | 900 |
+| large (4 CPU / 3 GB) | quantum | 16 | 33.6 | 21.4-33.9 | 469.6 | 785.7 | 0 | 900 |
+
+**End-to-end smoke test, `/rag` with generation (separate run, Ollama on the host; 6.7)** (`results/phase6/phase6_20261012_200322/smoke_test.json`): Ollama reachable from the stack: True; all calls OK: **True**; classical N=5000 answers equal the Phase 5 stored answers (parity of live retrieval + prompt + cache with the offline pipeline): [True, True, True].
+
+| Case | Status | Cached | Wall s | Contexts | Answer |
+|---|---|---|---|---|---|
+| classical_N5000_parity | 200 | True | 1.0 | 3 | 1852 |
+| classical_N5000_parity | 200 | True | 0.0 | 3 | Stromules were first observed in 1962. |
+| classical_N5000_parity | 200 | True | 0.0 | 3 | Horace Walpole |
+| quantum_N5000_S1024 | 200 | False | 15.0 | 3 | 1852 |
+| novel_question_classical_all | 200 | False | 10.8 | 3 | I cannot find the answer in the provided context. |
+
+**Measurement hygiene (H7)** (`results/phase6/phase6_20261012_203559/hygiene.json`): plugged in = True, battery 100%, power scheme `Power Scheme GUID: 381b4222-f694-41f0-9685-ff5bb260df2e  (Balanced)`, host free RAM at start 0.62 GB, CPU temperature: not monitored; cpu_freq at repeat boundaries logged (not available inside containers). CPU MHz at repeat boundaries: min 2419, max 2419. container on the stack's Docker network.
+
+**pytest** (whole suite at Phase 6 exit, includes the in-process service integration tests): 53 tests, 0 failures, 0 errors, 0 skipped (`results/phase6/phase6_20261012_203559/pytest_junit.xml`).
+
+**Manuscript hook**: Section 4 (system design: services, profiles; Figure F1), Section 9 (latency, cloud overheads, concurrency); Tables T4c, T4d; figures F5b, F10.
+<!-- END:phase6 -->
+
 ## 3. Headline Findings
 (Filled in Phase 9.)
 
@@ -902,6 +1083,13 @@ Generation sessions (`results/phase5/phase5_20261011_225152/generate_session_*.j
 - **D-5.3 HHEM inputs**: premise = the k retrieved paragraphs joined by blank lines; hypothesis = 'The answer to the question "<q>" is <answer>' (a bare short span is hard to judge). HHEM-2.1-Open documents unlimited context and its `predict` does not truncate, so long premises (the flan-T5 tokenizer warns above 512 tokens) were scored in full. Abstained and closed-book answers are not HHEM-scored (the taxonomy does not need F for them).
 - **D-5.4 Retrieval in the RAG runs is read from saved rankings**: classical contexts are the Phase 1 exact top-3, quantum contexts the seeded Phase 3 top-3 (seed 0 unless stated), via `qrag/pipeline.py` `PrecomputedRetrieval`; a live retriever with the same semantics exists for the services. Random-context control: 3 paragraphs drawn uniformly from the whole corpus with seed [42, question], gold excluded.
 - **D-5.5 Run matrix**: all P0 and P1 rows of plan 5.3 were run (P1: S=4096 at N=5000/all; N=1000 classical + S 64/256/1024/4096; seeds 1-2 at S=256 for N=5000/all). P2 (k=5, SQuAD v2 probe) not run.
+- **D-6.1 Profiles apply to the compute services**: small / medium / large (1 CPU 1.5 GB, 2 CPU 2 GB, 4 CPU 3 GB) limit the embedder and the two retrievers; orchestrator and generator-gateway have a fixed 0.5 CPU / 384 MB limit. Limits are cgroup caps on a 3 GB / 4-CPU WSL2 VM, not reservations.
+- **D-6.2 Primary HTTP load generator is a container on the Docker network**: a first full run used a client on the Windows host through Docker Desktop's published port. A diagnostic (Phase 6 `network_diagnostic.json`) showed that on this machine keep-alive POSTs with a body pick up a constant extra delay on that path (not fixed by TCP_NODELAY, absent for new connections and for a client inside the network). That run is kept, clearly labelled, as the secondary layer (T4c-b); the primary tables use the in-network client. Both ran the same protocol and code (`scripts/http_bench.py`; the first run used an earlier driver revision that contained the same measurement code).
+- **D-6.3 "Ollama stopped"**: for latency and concurrency the model was unloaded (`ollama ps` shows no model) but the idle Ollama server process stayed running (Windows tray app); the smoke test was run last, separately. A hard stop was not done to avoid interfering with the user's session.
+- **D-6.4 Host environment**: `%UserProfile%\.wslconfig` (memory 3 GB, processors 4, swap 2 GB; H6) was created by this phase and WSL was shut down once to apply it. Three unrelated idle containers of another project were already running in the same Docker VM and were left untouched (listed in the hygiene file). Host free RAM at the start of the runs was low (see hygiene).
+- **D-6.5 No-container fallback implemented but not used**: `scripts/launch_services.py` (uvicorn processes + cpu_affinity) exists, but Docker worked, so every reported number comes from containers.
+- **D-6.6 P2 item 6.6 (free-tier cloud rerun) not done.**
+- **D-6.7 Smoke test via the published port**: the end-to-end `/rag` smoke test (with generation) goes through the host port, which is fine because it is a functional test, not a latency measurement.
 <!-- END:deviations -->
 
 ## 5. Failures, Limitations, Threats to Validity
@@ -921,6 +1109,10 @@ Generation sessions (`results/phase5/phase5_20261011_225152/generate_session_*.j
 - **Hallucination measurement limits (Phase 5)**: correctness is SQuAD-style string containment (misses paraphrases, accepts answers that merely mention the span); faithfulness is one automatic judge (HHEM) without human validation until the audit sheet is labelled; T-c covers only seed 0. Generation ran under heavy memory pressure (free RAM fell to the low hundreds of MB, see the generation session file); this affects generation time only, not outputs (deterministic decoding, cached).
 - **LLM contamination looks low (Phase 5)**: the closed-book control answers few questions correctly (Phase 5 table), so the generator's parametric knowledge of SQuAD dev explains little of the RAG accuracy. The embedder contamination (Phase 1) remains.
 - **Generation is not bit-reproducible (Phase 5)**: with temperature 0 and a fixed seed, re-running the same prompts on this CPU without the cache sometimes yields different wording (and rarely different content), even for an immediate repeat of the same request (counts in the regeneration check). Correctness and abstention labels were unchanged in every sampled case, so the reported outcome rates are not sensitive to this in the sample, but R6's "exact reruns" holds only through the answer cache (`cache/llm`, git-ignored; the committed `generations.jsonl` carries every answer text and cache key). Prompts with identical contexts share one cached answer across arms, so arm comparisons are exactly paired where contexts coincide. Likely cause (not tested): non-deterministic parallel floating-point reductions or KV-cache reuse in the CPU runner.
+- **Docker Desktop published-port artefact (Phase 6)**: latency measured from the Windows host through the published port includes a large constant client-side delay that is neither service nor network cost in a cloud-like deployment (network diagnostic). Numbers from that path (T4c-b) must not be quoted as service overhead.
+- **More CPU did not mean lower latency at low load (Phase 6)**: the embedder's per-request compute time was not lower under the large profile (4 threads) than under small or medium (1-2 threads) in the in-network run, and single-client throughput was lower for large; the cause was not investigated (candidates: thread oversubscription of a 4-core/8-thread laptop that also hosts the load generator, small-batch thread overhead). The profile comparison is therefore about this host, not about cloud instance types.
+- **Shared-host measurement (Phase 6)**: the services, the load generator, Docker Desktop and Windows share one 8 GB laptop; power plan Balanced; temperature not monitored; host free RAM was low at the start of the runs. The embedding step (a transformer forward pass of ~15-25 ms) dominates the request in every profile and masks retrieval differences: classical and quantum-sim arms are indistinguishable at N <= 5000 over HTTP, and the arm and N effects at N=all are small compared with the run-to-run range.
+- **Concurrency is a closed-loop test (Phase 6)**: N concurrent clients each wait for their response; there is no open-loop arrival process, so tail latencies at saturation are not queueing-theory estimates. Occasional multi-second p95 values in single runs (visible in the raw concurrency CSVs) were not investigated; medians over 3 runs are reported.
 <!-- END:failures -->
 
 ## 6. Reproduction Commands

@@ -1,0 +1,22 @@
+{
+  "backend": "docker",
+  "power_plugged": true,
+  "battery_percent": 100,
+  "power_scheme": "Power Scheme GUID: 381b4222-f694-41f0-9685-ff5bb260df2e  (Balanced)",
+  "host_free_ram_gb_at_start": 0.57976832,
+  "cpu_temperature": "not monitored; cpu_freq at repeat boundaries logged",
+  "load_generator": "runs on the same laptop (python httpx client)",
+  "interleaving": "arm x N conditions shuffled per repeat (seeded)",
+  "warmup_requests_discarded_per_condition": 10,
+  "timed_requests_per_condition_per_repeat": 100,
+  "repeats": 5,
+  "docker_server": "29.8.2",
+  "docker_vm_mem_gb": 3.052679168,
+  "other_running_containers_untouched": [
+    "hostelops-frontend|hostelproject-frontend",
+    "hostelops-backend|hostelproject-backend",
+    "hostelops-db|postgres:15-alpine"
+  ],
+  "wslconfig": "[wsl2]\nmemory=3GB\nprocessors=4\nswap=2GB\n",
+  "ollama_loaded_models": "unavailable: [WinError 2] The system cannot find the file specified"
+}

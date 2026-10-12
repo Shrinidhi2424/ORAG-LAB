@@ -1,0 +1,107 @@
+[
+  {
+    "profile": "small",
+    "client": "in_network",
+    "repeat": 0,
+    "cpu_mhz_start": 2419.2,
+    "cpu_mhz_end": 2419.2
+  },
+  {
+    "profile": "small",
+    "client": "in_network",
+    "repeat": 1,
+    "cpu_mhz_start": 2419.2,
+    "cpu_mhz_end": 2419.2
+  },
+  {
+    "profile": "small",
+    "client": "in_network",
+    "repeat": 2,
+    "cpu_mhz_start": 2419.2,
+    "cpu_mhz_end": 2419.2
+  },
+  {
+    "profile": "small",
+    "client": "in_network",
+    "repeat": 3,
+    "cpu_mhz_start": 2419.2,
+    "cpu_mhz_end": 2419.2
+  },
+  {
+    "profile": "small",
+    "client": "in_network",
+    "repeat": 4,
+    "cpu_mhz_start": 2419.2,
+    "cpu_mhz_end": 2419.2
+  },
+  {
+    "profile": "medium",
+    "client": "in_network",
+    "repeat": 0,
+    "cpu_mhz_start": 2419.2,
+    "cpu_mhz_end": 2419.2
+  },
+  {
+    "profile": "medium",
+    "client": "in_network",
+    "repeat": 1,
+    "cpu_mhz_start": 2419.2,
+    "cpu_mhz_end": 2419.2
+  },
+  {
+    "profile": "medium",
+    "client": "in_network",
+    "repeat": 2,
+    "cpu_mhz_start": 2419.2,
+    "cpu_mhz_end": 2419.2
+  },
+  {
+    "profile": "medium",
+    "client": "in_network",
+    "repeat": 3,
+    "cpu_mhz_start": 2419.2,
+    "cpu_mhz_end": 2419.2
+  },
+  {
+    "profile": "medium",
+    "client": "in_network",
+    "repeat": 4,
+    "cpu_mhz_start": 2419.2,
+    "cpu_mhz_end": 2419.2
+  },
+  {
+    "profile": "large",
+    "client": "in_network",
+    "repeat": 0,
+    "cpu_mhz_start": 2419.2,
+    "cpu_mhz_end": 2419.2
+  },
+  {
+    "profile": "large",
+    "client": "in_network",
+    "repeat": 1,
+    "cpu_mhz_start": 2419.2,
+    "cpu_mhz_end": 2419.2
+  },
+  {
+    "profile": "large",
+    "client": "in_network",
+    "repeat": 2,
+    "cpu_mhz_start": 2419.2,
+    "cpu_mhz_end": 2419.2
+  },
+  {
+    "profile": "large",
+    "client": "in_network",
+    "repeat": 3,
+    "cpu_mhz_start": 2419.2,
+    "cpu_mhz_end": 2419.2
+  },
+  {
+    "profile": "large",
+    "client": "in_network",
+    "repeat": 4,
+    "cpu_mhz_start": 2419.2,
+    "cpu_mhz_end": 2419.2
+  }
+]

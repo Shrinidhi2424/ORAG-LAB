@@ -1,0 +1,7 @@
+retriever-classical-1  | {"ts": 1791816738.86, "service": "retriever-classical", "event": "index_loaded", "seconds": 1.64, "rungs": ["1000", "2000", "5000", "10000", "all"]}
+orchestrator-1         | {"ts": 1791816760.48, "service": "orchestrator", "event": "ready", "paragraphs": 20958}
+retriever-quantum-sim-1  | {"ts": 1791816738.981, "service": "retriever-quantum-sim", "event": "index_loaded", "seconds": 1.76, "rungs": ["1000", "2000", "5000", "10000", "all"]}
+embedder-1               | 
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 103/103 [00:00<00:00, 2230.08it/s]
+embedder-1               | {"ts": 1791816753.86, "service": "embedder", "event": "model_loaded", "seconds": 16.68, "threads": 4}

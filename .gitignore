@@ -19,3 +19,6 @@ volumes/
 QRAG_LAB_Project_Implementation_Plan.txt
 data/paragraphs.jsonl
 results/phase3/*/rankings/
+
+# built artifacts
+models/

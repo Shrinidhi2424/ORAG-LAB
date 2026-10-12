@@ -1,0 +1,53 @@
+{
+  "profile": "small",
+  "requests_per_variant": 60,
+  "warmup": 10,
+  "host_to_published_port": {
+    "A_keepalive_post": {
+      "n": 60,
+      "client_median_ms": 70.5615000333637,
+      "orchestrator_total_median_ms": 26.17955,
+      "client_minus_orchestrator_ms": 44.3819500333637
+    },
+    "B_tiny_get_health": {
+      "n": 60,
+      "client_median_ms": 1.9556499901227653
+    },
+    "C_keepalive_post_tcp_nodelay": {
+      "n": 60,
+      "client_median_ms": 70.95915003446862,
+      "orchestrator_total_median_ms": 25.29385,
+      "client_minus_orchestrator_ms": 45.66530003446862
+    },
+    "D_new_connection_per_request": {
+      "n": 60,
+      "client_median_ms": 29.705699940677732,
+      "orchestrator_total_median_ms": 22.2696,
+      "client_minus_orchestrator_ms": 7.436099940677732
+    }
+  },
+  "container_on_docker_network": {
+    "A_keepalive_post": {
+      "n": 60,
+      "client_median_ms": 23.89728300022398,
+      "orchestrator_total_median_ms": 21.94865,
+      "client_minus_orchestrator_ms": 1.9486330002239782
+    },
+    "B_tiny_get_health": {
+      "n": 60,
+      "client_median_ms": 1.2927604998367315
+    },
+    "C_keepalive_post_tcp_nodelay": {
+      "n": 60,
+      "client_median_ms": 26.08866950004085,
+      "orchestrator_total_median_ms": 24.0247,
+      "client_minus_orchestrator_ms": 2.0639695000408516
+    },
+    "D_new_connection_per_request": {
+      "n": 60,
+      "client_median_ms": 26.44371900009901,
+      "orchestrator_total_median_ms": 23.3806,
+      "client_minus_orchestrator_ms": 3.0631190000990074
+    }
+  }
+}

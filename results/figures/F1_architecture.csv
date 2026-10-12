@@ -1,0 +1,7 @@
+from,to,label
+client,orchestrator,HTTP/JSON
+orchestrator,embedder,embed
+orchestrator,retriever-classical,retrieve/classical
+orchestrator,retriever-quantum-sim,retrieve/quantum
+orchestrator,generator-gateway,generate (full mode)
+generator-gateway,ollama-host,host.docker.internal:11434

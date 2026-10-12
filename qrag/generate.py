@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import time
 from pathlib import Path
 
@@ -38,7 +39,7 @@ class OllamaGenerator:
     def __init__(self, model: str = MODEL, options: dict | None = None, cache_dir: Path = CACHE_DIR, keep_alive: str = "5m"):
         import ollama
 
-        self.client = ollama.Client()
+        self.client = ollama.Client(host=os.environ.get("OLLAMA_HOST") or None)  # host.docker.internal inside containers
         self.model, self.options, self.keep_alive = model, dict(options or OPTIONS), keep_alive
         self.cache_dir = Path(cache_dir)
         self.cache_dir.mkdir(parents=True, exist_ok=True)

@@ -1,0 +1,16 @@
+profile,client,backend,service,idle_mb,peak_during_load_mb,limit_mb
+small,in_network,docker,orchestrator,69.04,73.29,384.0
+small,in_network,docker,retriever-quantum-sim,193.7,211.3,1536.0
+small,in_network,docker,generator-gateway,39.77,40.04,384.0
+small,in_network,docker,retriever-classical,193.0,207.5,1536.0
+small,in_network,docker,embedder,368.0,411.8,1536.0
+medium,in_network,docker,orchestrator,68.61,73.05,384.0
+medium,in_network,docker,generator-gateway,39.59,39.62,384.0
+medium,in_network,docker,retriever-classical,207.5,229.2,2048.0
+medium,in_network,docker,embedder,388.1,427.6,2048.0
+medium,in_network,docker,retriever-quantum-sim,193.1,213.9,2048.0
+large,in_network,docker,orchestrator,68.84,73.09,384.0
+large,in_network,docker,generator-gateway,39.38,39.62,384.0
+large,in_network,docker,embedder,375.9,419.8,2911.232
+large,in_network,docker,retriever-quantum-sim,193.5,215.5,2911.232
+large,in_network,docker,retriever-classical,196.9,220.7,2911.232

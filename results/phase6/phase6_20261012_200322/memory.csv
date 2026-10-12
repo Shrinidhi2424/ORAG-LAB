@@ -1,0 +1,16 @@
+profile,backend,service,idle_mb,peak_during_concurrency_mb,limit_mb
+small,docker,orchestrator,82.28,83.61,384.0
+small,docker,embedder,460.6,478.2,1536.0
+small,docker,generator-gateway,39.35,39.35,384.0
+small,docker,retriever-classical,203.5,215.9,1536.0
+small,docker,retriever-quantum-sim,203.3,215.8,1536.0
+medium,docker,orchestrator,77.63,80.87,384.0
+medium,docker,embedder,406.8,441.7,2048.0
+medium,docker,generator-gateway,39.35,39.35,384.0
+medium,docker,retriever-quantum-sim,199.7,227.7,2048.0
+medium,docker,retriever-classical,212.0,232.0,2048.0
+large,docker,orchestrator,69.64,73.33,384.0
+large,docker,retriever-classical,197.3,219.1,2911.232
+large,docker,retriever-quantum-sim,217.1,236.2,2911.232
+large,docker,embedder,398.8,434.9,2911.232
+large,docker,generator-gateway,39.87,39.87,384.0

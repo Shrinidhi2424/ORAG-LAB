@@ -1,0 +1,4 @@
+profile,backend,compose_up_s,extra_wait_until_all_ready_s
+small,docker,35.25349409994669,3.612777700065635
+medium,docker,25.516345500014722,3.678843399975449
+large,docker,18.302266499958932,2.4484658000292256
