@@ -32,6 +32,12 @@ Do not hand-type numbers inside generated blocks (R4).
 | P4-3 | 4 | Failure analysis N=all S=256: 42 dropped / 6 gained vs classical top-3 | results/phase4/phase4_20261011_223158/failure_summary.json |
 | P4-4 | 4 | Pre-registered tests: 20/30 significant after Holm | results/phase4/phase4_20261011_223158/tests.csv |
 | P4-5 | 4 | pytest: 37/37 passed | results/phase4/phase4_20261011_223158/pytest_junit.xml |
+| P5-1 | 5 | Classical N=all: correct 0.575, hallucination rate 0.390 | results/phase5/phase5_20261011_225152/outcomes_by_arm.csv |
+| P5-6 | 5 | Regeneration check: text identical 54/60, correctness label unchanged 60/60 | results/phase5/phase5_20261011_225152/regeneration_check.json |
+| P5-2 | 5 | Controls: oracle 0.860 vs closed-book 0.095 vs random 0.075 correct | results/phase5/phase5_20261011_225152/controls_check.json |
+| P5-3 | 5 | T-c hallucination McNemar (Holm) at N=all: S=64 p=0.000, S=256 p=0.071, S=1024 p=0.728 | results/phase5/phase5_20261011_225152/paired_tests.csv |
+| P5-4 | 5 | Audit sheet (50 rows) ready for human labels | results/audit_template.csv |
+| P5-5 | 5 | pytest: 47/47 passed | results/phase5/phase5_20261011_225152/pytest_junit.xml |
 <!-- END:index -->
 
 ## 1. Environment & Versions
@@ -683,6 +689,189 @@ T-c (hallucination rate, McNemar at N=all) belongs to Phase 5.
 **Manuscript hook**: Sections 7 (retrieval quality and scalability) and 9 (latency); Tables T3, T4, T5a; figures F3-F6.
 <!-- END:phase4 -->
 
+### Phase 5 - RAG pipeline + hallucination experiments
+<!-- BEGIN:phase5 -->
+Run `phase5_20261011_225152` (manifests in `results/phase5/phase5_20261011_225152/manifests`). Generator `qwen2.5:1.5b-instruct` digest `65ec06548149`, options `{"temperature": 0, "seed": 42, "num_ctx": 2048, "num_predict": 48, "num_gpu": 0}`; 200 questions (first 200 of the fixed 300, H4); k=3 contexts; prompt Appendix A.5 (closed-book prompt: see Deviations). Run matrix: 4400 records, 2061 unique P0 prompts + 1657 extra for P1 (`results/phase5/phase5_20261011_225152/build_info.json`, all prompts in `results/phase5/phase5_20261011_225152/prompts.jsonl`). Answers: `results/phase5/phase5_20261011_225152/generations.jsonl`; judged: `results/phase5/phase5_20261011_225152/judged.csv`.
+
+**T5b Outcome rates by arm (HHEM threshold 0.5)** (`results/phase5/phase5_20261011_225152/outcomes_by_arm.csv`). Hallucination rate = (hallucinated + misread) / all questions; for closed-book = wrong non-abstained answers / all. Ungrounded-answer rate = non-abstained answers with HHEM < 0.5. 95% bootstrap CIs over questions; generation time is the median wall time of the original (uncached) call, CPU-only.
+
+| Arm | Pri. | Gold in context | Correct | Hallucination rate | Abstention | Ungrounded-answer rate | Gen. s (median) |
+|---|---|---|---|---|---|---|---|
+| Control: closed-book | P0 | - | 0.095 [0.055, 0.140] | 0.865 [0.815, 0.910] | 0.040 [0.015, 0.070] | - | 1.50 |
+| Control: oracle (gold only) | P0 | 1.000 | 0.860 [0.810, 0.905] | 0.140 [0.095, 0.190] | 0.000 [0.000, 0.000] | 0.030 [0.010, 0.055] | 5.18 |
+| Control: random context | P0 | 0.000 | 0.075 [0.040, 0.115] | 0.445 [0.375, 0.515] | 0.480 [0.410, 0.550] | 0.942 [0.894, 0.981] | 8.79 |
+| Classical Flat N=5000 | P0 | 0.765 | 0.685 [0.620, 0.745] | 0.295 [0.235, 0.360] | 0.020 [0.005, 0.040] | 0.051 [0.020, 0.082] | 10.10 |
+| Classical Flat N=all | P0 | 0.665 | 0.575 [0.505, 0.645] | 0.390 [0.325, 0.460] | 0.035 [0.010, 0.060] | 0.078 [0.041, 0.119] | 9.74 |
+| Quantum-sim N=5000 S=64 seed 0 | P0 | 0.460 | 0.440 [0.370, 0.510] | 0.480 [0.410, 0.550] | 0.080 [0.045, 0.120] | 0.196 [0.141, 0.255] | 10.30 |
+| Quantum-sim N=5000 S=256 seed 0 | P0 | 0.700 | 0.620 [0.550, 0.685] | 0.365 [0.300, 0.435] | 0.015 [0.000, 0.035] | 0.147 [0.096, 0.198] | 6.80 |
+| Quantum-sim N=5000 S=1024 seed 0 | P0 | 0.735 | 0.650 [0.585, 0.715] | 0.320 [0.255, 0.385] | 0.030 [0.010, 0.055] | 0.057 [0.026, 0.093] | 6.63 |
+| Quantum-sim N=all S=64 seed 0 | P0 | 0.375 | 0.355 [0.290, 0.425] | 0.575 [0.505, 0.645] | 0.070 [0.035, 0.105] | 0.253 [0.194, 0.317] | 7.54 |
+| Quantum-sim N=all S=256 seed 0 | P0 | 0.530 | 0.485 [0.415, 0.555] | 0.465 [0.395, 0.535] | 0.050 [0.020, 0.085] | 0.142 [0.095, 0.195] | 7.09 |
+| Quantum-sim N=all S=1024 seed 0 | P0 | 0.600 | 0.560 [0.490, 0.630] | 0.405 [0.335, 0.475] | 0.035 [0.010, 0.060] | 0.135 [0.088, 0.187] | 7.43 |
+| Quantum-sim N=5000 S=4096 seed 0 | P1 | 0.745 | 0.665 [0.600, 0.730] | 0.305 [0.245, 0.370] | 0.030 [0.010, 0.055] | 0.077 [0.041, 0.119] | 7.56 |
+| Quantum-sim N=all S=4096 seed 0 | P1 | 0.650 | 0.570 [0.500, 0.640] | 0.395 [0.325, 0.465] | 0.035 [0.010, 0.065] | 0.067 [0.036, 0.104] | 7.45 |
+| Classical Flat N=1000 | P1 | 0.855 | 0.735 [0.675, 0.795] | 0.245 [0.185, 0.305] | 0.020 [0.005, 0.040] | 0.077 [0.041, 0.117] | 7.13 |
+| Quantum-sim N=1000 S=64 seed 0 | P1 | 0.615 | 0.550 [0.480, 0.620] | 0.360 [0.295, 0.425] | 0.090 [0.055, 0.130] | 0.137 [0.088, 0.187] | 7.10 |
+| Quantum-sim N=1000 S=256 seed 0 | P1 | 0.745 | 0.630 [0.565, 0.695] | 0.330 [0.265, 0.395] | 0.040 [0.015, 0.070] | 0.073 [0.036, 0.109] | 6.72 |
+| Quantum-sim N=1000 S=1024 seed 0 | P1 | 0.835 | 0.705 [0.640, 0.765] | 0.255 [0.195, 0.315] | 0.040 [0.015, 0.070] | 0.062 [0.031, 0.099] | 6.33 |
+| Quantum-sim N=1000 S=4096 seed 0 | P1 | 0.840 | 0.710 [0.645, 0.775] | 0.270 [0.210, 0.330] | 0.020 [0.005, 0.040] | 0.071 [0.036, 0.107] | 6.42 |
+| Quantum-sim N=5000 S=256 seed 1 | P1 | 0.645 | 0.560 [0.490, 0.630] | 0.390 [0.325, 0.460] | 0.050 [0.020, 0.080] | 0.111 [0.068, 0.158] | 7.43 |
+| Quantum-sim N=5000 S=256 seed 2 | P1 | 0.700 | 0.610 [0.545, 0.680] | 0.340 [0.275, 0.405] | 0.050 [0.020, 0.080] | 0.068 [0.037, 0.105] | 7.14 |
+| Quantum-sim N=all S=256 seed 1 | P1 | 0.560 | 0.490 [0.420, 0.560] | 0.475 [0.405, 0.545] | 0.035 [0.010, 0.065] | 0.119 [0.078, 0.166] | 7.32 |
+| Quantum-sim N=all S=256 seed 2 | P1 | 0.525 | 0.460 [0.390, 0.530] | 0.480 [0.410, 0.550] | 0.060 [0.030, 0.095] | 0.128 [0.085, 0.176] | 6.91 |
+
+**F8 data: five-way outcome taxonomy counts (threshold 0.5)**
+
+| Arm | Correct-grounded | Correct-ungrounded | Misread | Hallucinated | Abstained | Closed-book correct | Closed-book wrong |
+|---|---|---|---|---|---|---|---|
+| Control: closed-book | 0 | 0 | 0 | 0 | 8 | 19 | 173 |
+| Control: oracle (gold only) | 167 | 5 | 28 | 0 | 0 | 0 | 0 |
+| Control: random context | 0 | 15 | 0 | 89 | 96 | 0 | 0 |
+| Classical Flat N=5000 | 137 | 0 | 21 | 38 | 4 | 0 | 0 |
+| Classical Flat N=all | 114 | 1 | 24 | 54 | 7 | 0 | 0 |
+| Quantum-sim N=5000 S=64 seed 0 | 86 | 2 | 12 | 84 | 16 | 0 | 0 |
+| Quantum-sim N=5000 S=256 seed 0 | 121 | 3 | 22 | 51 | 3 | 0 | 0 |
+| Quantum-sim N=5000 S=1024 seed 0 | 129 | 1 | 21 | 43 | 6 | 0 | 0 |
+| Quantum-sim N=all S=64 seed 0 | 69 | 2 | 13 | 102 | 14 | 0 | 0 |
+| Quantum-sim N=all S=256 seed 0 | 95 | 2 | 21 | 72 | 10 | 0 | 0 |
+| Quantum-sim N=all S=1024 seed 0 | 110 | 2 | 16 | 65 | 7 | 0 | 0 |
+| Quantum-sim N=5000 S=4096 seed 0 | 132 | 1 | 23 | 38 | 6 | 0 | 0 |
+| Quantum-sim N=all S=4096 seed 0 | 113 | 1 | 24 | 55 | 7 | 0 | 0 |
+| Classical Flat N=1000 | 146 | 1 | 27 | 22 | 4 | 0 | 0 |
+| Quantum-sim N=1000 S=64 seed 0 | 106 | 4 | 21 | 51 | 18 | 0 | 0 |
+| Quantum-sim N=1000 S=256 seed 0 | 125 | 1 | 27 | 39 | 8 | 0 | 0 |
+| Quantum-sim N=1000 S=1024 seed 0 | 140 | 1 | 26 | 25 | 8 | 0 | 0 |
+| Quantum-sim N=1000 S=4096 seed 0 | 142 | 0 | 28 | 26 | 4 | 0 | 0 |
+| Quantum-sim N=5000 S=256 seed 1 | 111 | 1 | 23 | 55 | 10 | 0 | 0 |
+| Quantum-sim N=5000 S=256 seed 2 | 122 | 0 | 24 | 44 | 10 | 0 | 0 |
+| Quantum-sim N=all S=256 seed 1 | 95 | 3 | 21 | 74 | 7 | 0 | 0 |
+| Quantum-sim N=all S=256 seed 2 | 91 | 1 | 21 | 75 | 12 | 0 | 0 |
+
+Answers stopped by the 48-token limit (done_reason=length): 45 of 4400 (`results/phase5/phase5_20261011_225152/judged.csv`).
+
+**Integrity / reproducibility check** (`results/phase5/phase5_20261011_225152/regeneration_check.json`, rows `results/phase5/phase5_20261011_225152/regeneration_check.csv`; `scripts/check_regeneration.py`): 60 prompts sampled with seed 7 were re-generated without the cache. Identical text: 54/60; same correctness label: 60/60; same abstention label: 60/60; an immediate second call of the same request matched the first in 51/60 cases. Stored answers are therefore a faithful, internally consistent record (see also the audit of cache keys, completeness and context provenance below), but CPU generation is not bit-reproducible, so exact reruns rely on the cache.
+
+**Controls sanity (exit gate)** (`results/phase5/phase5_20261011_225152/controls_check.json`): oracle correct 0.860, closed-book 0.095, random 0.075. Oracle above closed-book (CI-separated): **True**; random not above closed-book: **True** (oracle CI entirely above closed-book CI; random point estimate not above closed-book upper CI).
+
+**T5c Paired comparisons vs classical at the same N (exact McNemar)** (`results/phase5/phase5_20261011_225152/paired_tests.csv`). Pre-registered family T-c = hallucination indicator at N=all, S in {64, 256, 1024}, seed 0, Holm-corrected; all other rows are exploratory (uncorrected).
+
+| Family | Metric | N | S | Seed | Classical | Quantum | Diff [95% CI] | Quantum-only / classical-only | p McNemar | p Holm (T-c) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| exploratory | hallucinated_or_misread | 5000 | 64 | 0 | 0.295 | 0.480 | +0.185 [+0.115, +0.255] | 48/11 | 0.0000 | - |
+| exploratory | correct | 5000 | 64 | 0 | 0.685 | 0.440 | -0.245 [-0.315, -0.180] | 5/54 | 0.0000 | - |
+| exploratory | hallucinated_or_misread | 5000 | 256 | 0 | 0.295 | 0.365 | +0.070 [+0.015, +0.125] | 24/10 | 0.0243 | - |
+| exploratory | correct | 5000 | 256 | 0 | 0.685 | 0.620 | -0.065 [-0.120, -0.010] | 10/23 | 0.0351 | - |
+| exploratory | hallucinated_or_misread | 5000 | 1024 | 0 | 0.295 | 0.320 | +0.025 [-0.015, +0.065] | 11/6 | 0.3323 | - |
+| exploratory | correct | 5000 | 1024 | 0 | 0.685 | 0.650 | -0.035 [-0.075, +0.005] | 5/12 | 0.1435 | - |
+| T-c | hallucinated_or_misread | all | 64 | 0 | 0.390 | 0.575 | +0.185 [+0.115, +0.255] | 47/10 | 0.0000 | 0.0000 |
+| exploratory | correct | all | 64 | 0 | 0.575 | 0.355 | -0.220 [-0.290, -0.150] | 8/52 | 0.0000 | - |
+| T-c | hallucinated_or_misread | all | 256 | 0 | 0.390 | 0.465 | +0.075 [+0.010, +0.140] | 30/15 | 0.0357 | 0.0714 |
+| exploratory | correct | all | 256 | 0 | 0.575 | 0.485 | -0.090 [-0.150, -0.030] | 10/28 | 0.0051 | - |
+| T-c | hallucinated_or_misread | all | 1024 | 0 | 0.390 | 0.405 | +0.015 [-0.040, +0.070] | 18/15 | 0.7283 | 0.7283 |
+| exploratory | correct | all | 1024 | 0 | 0.575 | 0.560 | -0.015 [-0.070, +0.040] | 14/17 | 0.7201 | - |
+| exploratory | hallucinated_or_misread | 5000 | 4096 | 0 | 0.295 | 0.305 | +0.010 [-0.025, +0.045] | 7/5 | 0.7744 | - |
+| exploratory | correct | 5000 | 4096 | 0 | 0.685 | 0.665 | -0.020 [-0.055, +0.015] | 4/8 | 0.3877 | - |
+| exploratory | hallucinated_or_misread | all | 4096 | 0 | 0.390 | 0.395 | +0.005 [-0.030, +0.045] | 8/7 | 1.0000 | - |
+| exploratory | correct | all | 4096 | 0 | 0.575 | 0.570 | -0.005 [-0.040, +0.030] | 6/7 | 1.0000 | - |
+| exploratory | hallucinated_or_misread | 1000 | 64 | 0 | 0.245 | 0.360 | +0.115 [+0.045, +0.185] | 37/14 | 0.0018 | - |
+| exploratory | correct | 1000 | 64 | 0 | 0.735 | 0.550 | -0.185 [-0.250, -0.120] | 7/44 | 0.0000 | - |
+| exploratory | hallucinated_or_misread | 1000 | 256 | 0 | 0.245 | 0.330 | +0.085 [+0.035, +0.135] | 23/6 | 0.0023 | - |
+| exploratory | correct | 1000 | 256 | 0 | 0.735 | 0.630 | -0.105 [-0.155, -0.060] | 3/24 | 0.0000 | - |
+| exploratory | hallucinated_or_misread | 1000 | 1024 | 0 | 0.245 | 0.255 | +0.010 [-0.030, +0.050] | 10/8 | 0.8145 | - |
+| exploratory | correct | 1000 | 1024 | 0 | 0.735 | 0.705 | -0.030 [-0.065, +0.005] | 4/10 | 0.1796 | - |
+| exploratory | hallucinated_or_misread | 1000 | 4096 | 0 | 0.245 | 0.270 | +0.025 [-0.005, +0.055] | 7/2 | 0.1797 | - |
+| exploratory | correct | 1000 | 4096 | 0 | 0.735 | 0.710 | -0.025 [-0.050, +0.000] | 1/6 | 0.1250 | - |
+| exploratory | hallucinated_or_misread | 5000 | 256 | 1 | 0.295 | 0.390 | +0.095 [+0.045, +0.150] | 24/5 | 0.0005 | - |
+| exploratory | correct | 5000 | 256 | 1 | 0.685 | 0.560 | -0.125 [-0.175, -0.075] | 2/27 | 0.0000 | - |
+| exploratory | hallucinated_or_misread | 5000 | 256 | 2 | 0.295 | 0.340 | +0.045 [+0.000, +0.095] | 17/8 | 0.1078 | - |
+| exploratory | correct | 5000 | 256 | 2 | 0.685 | 0.610 | -0.075 [-0.120, -0.035] | 3/18 | 0.0015 | - |
+| exploratory | hallucinated_or_misread | all | 256 | 1 | 0.390 | 0.475 | +0.085 [+0.020, +0.150] | 31/14 | 0.0161 | - |
+| exploratory | correct | all | 256 | 1 | 0.575 | 0.490 | -0.085 [-0.150, -0.020] | 14/31 | 0.0161 | - |
+| exploratory | hallucinated_or_misread | all | 256 | 2 | 0.390 | 0.480 | +0.090 [+0.030, +0.150] | 28/10 | 0.0051 | - |
+| exploratory | correct | all | 256 | 2 | 0.575 | 0.460 | -0.115 [-0.175, -0.055] | 7/30 | 0.0002 | - |
+
+**Mediation view (5.5): outcomes split by whether the gold paragraph reached the context** (`results/phase5/phase5_20261011_225152/mediation_by_gold_in_context.csv`)
+
+| Arm | Gold in context | n | Correct | Hallucinated/misread | Abstained |
+|---|---|---|---|---|---|
+| oracle | True | 200 | 0.860 | 0.140 | 0.000 |
+| random | False | 200 | 0.075 | 0.445 | 0.480 |
+| classical_N5000_k3 | True | 153 | 0.863 | 0.137 | 0.000 |
+| classical_N5000_k3 | False | 47 | 0.106 | 0.809 | 0.085 |
+| classical_Nall_k3 | True | 133 | 0.820 | 0.180 | 0.000 |
+| classical_Nall_k3 | False | 67 | 0.090 | 0.806 | 0.104 |
+| quantum_N5000_M50_S64_seed0_k3 | True | 92 | 0.870 | 0.130 | 0.000 |
+| quantum_N5000_M50_S64_seed0_k3 | False | 108 | 0.074 | 0.778 | 0.148 |
+| quantum_N5000_M50_S256_seed0_k3 | True | 140 | 0.843 | 0.157 | 0.000 |
+| quantum_N5000_M50_S256_seed0_k3 | False | 60 | 0.100 | 0.850 | 0.050 |
+| quantum_N5000_M50_S1024_seed0_k3 | True | 147 | 0.857 | 0.143 | 0.000 |
+| quantum_N5000_M50_S1024_seed0_k3 | False | 53 | 0.075 | 0.811 | 0.113 |
+| quantum_Nall_M50_S64_seed0_k3 | True | 75 | 0.827 | 0.173 | 0.000 |
+| quantum_Nall_M50_S64_seed0_k3 | False | 125 | 0.072 | 0.816 | 0.112 |
+| quantum_Nall_M50_S256_seed0_k3 | True | 106 | 0.802 | 0.198 | 0.000 |
+| quantum_Nall_M50_S256_seed0_k3 | False | 94 | 0.128 | 0.766 | 0.106 |
+| quantum_Nall_M50_S1024_seed0_k3 | True | 120 | 0.867 | 0.133 | 0.000 |
+| quantum_Nall_M50_S1024_seed0_k3 | False | 80 | 0.100 | 0.812 | 0.087 |
+| quantum_N5000_M50_S4096_seed0_k3 | True | 149 | 0.846 | 0.154 | 0.000 |
+| quantum_N5000_M50_S4096_seed0_k3 | False | 51 | 0.137 | 0.745 | 0.118 |
+| quantum_Nall_M50_S4096_seed0_k3 | True | 130 | 0.815 | 0.185 | 0.000 |
+| quantum_Nall_M50_S4096_seed0_k3 | False | 70 | 0.114 | 0.786 | 0.100 |
+| classical_N1000_k3 | True | 171 | 0.842 | 0.158 | 0.000 |
+| classical_N1000_k3 | False | 29 | 0.103 | 0.759 | 0.138 |
+| quantum_N1000_M50_S64_seed0_k3 | True | 123 | 0.829 | 0.171 | 0.000 |
+| quantum_N1000_M50_S64_seed0_k3 | False | 77 | 0.104 | 0.662 | 0.234 |
+| quantum_N1000_M50_S256_seed0_k3 | True | 149 | 0.819 | 0.181 | 0.000 |
+| quantum_N1000_M50_S256_seed0_k3 | False | 51 | 0.078 | 0.765 | 0.157 |
+| quantum_N1000_M50_S1024_seed0_k3 | True | 167 | 0.838 | 0.156 | 0.006 |
+| quantum_N1000_M50_S1024_seed0_k3 | False | 33 | 0.030 | 0.758 | 0.212 |
+| quantum_N1000_M50_S4096_seed0_k3 | True | 168 | 0.833 | 0.167 | 0.000 |
+| quantum_N1000_M50_S4096_seed0_k3 | False | 32 | 0.062 | 0.812 | 0.125 |
+| quantum_N5000_M50_S256_seed1_k3 | True | 129 | 0.822 | 0.178 | 0.000 |
+| quantum_N5000_M50_S256_seed1_k3 | False | 71 | 0.085 | 0.775 | 0.141 |
+| quantum_N5000_M50_S256_seed2_k3 | True | 140 | 0.829 | 0.171 | 0.000 |
+| quantum_N5000_M50_S256_seed2_k3 | False | 60 | 0.100 | 0.733 | 0.167 |
+| quantum_Nall_M50_S256_seed1_k3 | True | 112 | 0.812 | 0.188 | 0.000 |
+| quantum_Nall_M50_S256_seed1_k3 | False | 88 | 0.080 | 0.841 | 0.080 |
+| quantum_Nall_M50_S256_seed2_k3 | True | 105 | 0.800 | 0.200 | 0.000 |
+| quantum_Nall_M50_S256_seed2_k3 | False | 95 | 0.084 | 0.789 | 0.126 |
+
+**HHEM threshold sensitivity (D10b)** (`results/phase5/phase5_20261011_225152/threshold_sweep.csv`): ungrounded-answer rate and correct-grounded / correct-ungrounded counts at thresholds 0.3 / 0.5 / 0.7. Hallucinated and misread counts do not depend on the threshold (they use correctness and gold-in-context only).
+
+| Arm | Ungrounded @0.3 | @0.5 | @0.7 | C-grounded/C-ungrounded @0.3 | @0.5 | @0.7 |
+|---|---|---|---|---|---|---|
+| Control: oracle (gold only) | 0.005 | 0.030 | 0.085 | 171/1 | 167/5 | 156/16 |
+| Control: random context | 0.933 | 0.942 | 0.962 | 0/15 | 0/15 | 0/15 |
+| Classical Flat N=5000 | 0.031 | 0.051 | 0.112 | 137/0 | 137/0 | 132/5 |
+| Classical Flat N=all | 0.047 | 0.078 | 0.155 | 114/1 | 114/1 | 110/5 |
+| Quantum-sim N=5000 S=64 seed 0 | 0.136 | 0.196 | 0.283 | 87/1 | 86/2 | 84/4 |
+| Quantum-sim N=5000 S=256 seed 0 | 0.091 | 0.147 | 0.208 | 123/1 | 121/3 | 116/8 |
+| Quantum-sim N=5000 S=1024 seed 0 | 0.041 | 0.057 | 0.134 | 130/0 | 129/1 | 125/5 |
+| Quantum-sim N=all S=64 seed 0 | 0.220 | 0.253 | 0.366 | 69/2 | 69/2 | 66/5 |
+| Quantum-sim N=all S=256 seed 0 | 0.105 | 0.142 | 0.226 | 96/1 | 95/2 | 93/4 |
+| Quantum-sim N=all S=1024 seed 0 | 0.104 | 0.135 | 0.207 | 110/2 | 110/2 | 102/10 |
+| Quantum-sim N=5000 S=4096 seed 0 | 0.067 | 0.077 | 0.134 | 132/1 | 132/1 | 128/5 |
+| Quantum-sim N=all S=4096 seed 0 | 0.041 | 0.067 | 0.155 | 113/1 | 113/1 | 106/8 |
+| Classical Flat N=1000 | 0.051 | 0.077 | 0.102 | 147/0 | 146/1 | 143/4 |
+| Quantum-sim N=1000 S=64 seed 0 | 0.104 | 0.137 | 0.165 | 107/3 | 106/4 | 104/6 |
+| Quantum-sim N=1000 S=256 seed 0 | 0.062 | 0.073 | 0.099 | 126/0 | 125/1 | 125/1 |
+| Quantum-sim N=1000 S=1024 seed 0 | 0.036 | 0.062 | 0.089 | 141/0 | 140/1 | 137/4 |
+| Quantum-sim N=1000 S=4096 seed 0 | 0.066 | 0.071 | 0.112 | 142/0 | 142/0 | 139/3 |
+| Quantum-sim N=5000 S=256 seed 1 | 0.074 | 0.111 | 0.163 | 111/1 | 111/1 | 106/6 |
+| Quantum-sim N=5000 S=256 seed 2 | 0.047 | 0.068 | 0.147 | 122/0 | 122/0 | 116/6 |
+| Quantum-sim N=all S=256 seed 1 | 0.073 | 0.119 | 0.212 | 96/2 | 95/3 | 93/5 |
+| Quantum-sim N=all S=256 seed 2 | 0.090 | 0.128 | 0.218 | 91/1 | 91/1 | 84/8 |
+
+Judge (`results/phase5/phase5_20261011_225152/judge_info.json`): `vectara/hallucination_evaluation_model` @ `de9a5e6ba9ba49531a022dba17e35ffeb2a6fad8`; hypothesis template `The answer to the question "<question>" is <answer>`; premise: the k retrieved paragraphs joined by blank lines; not scored: closed-book (no premise) and abstained answers; peak RSS of the judging process 1.52 GB.
+
+**Audit sheet (5.6) [P1]**: 50 random P0 RAG answers with automatic labels for human labelling: `results/audit_template.csv` (copy: `results/phase5/phase5_20261011_225152/audit_template.csv`). Agreement (Cohen's kappa) is computed in Phase 8 once labels are returned.
+
+Generation sessions (`results/phase5/phase5_20261011_225152/generate_session_*.json`): 3718 new answers in 7.55 h, min free RAM 0.07 GB.
+
+**pytest** (whole suite at Phase 5 exit): 47 tests, 0 failures, 0 errors, 0 skipped (`results/phase5/phase5_20261011_225152/pytest_junit.xml`).
+
+**Manuscript hook**: Section 8 (hallucination analysis), Table T5, figures F8-F9.
+<!-- END:phase5 -->
+
 ## 3. Headline Findings
 (Filled in Phase 9.)
 
@@ -708,6 +897,11 @@ T-c (hallucination rate, McNemar at N=all) belongs to Phase 5.
 - **D-4.2 Latency k**: Phase 4 times k=10 (what the pipeline needs) whereas Phase 2 timed k=50; Flat latency was re-measured here, so Phase 2 and Phase 4 Flat numbers are not directly comparable. Power plan was again "Balanced" (see D-2.1).
 - **D-4.3 Primary test choice (4.6)**: the plan pre-lists Hit@3 and MRR classical vs quantum with McNemar/paired-bootstrap and Holm. Because the quantum arm has 5 seeds, the primary test is a paired bootstrap on the per-query difference between the seed-averaged quantum outcome and the classical outcome (Holm within each 15-test family). Wilcoxon and exact McNemar (seed 0 only) are reported as uncorrected secondary checks and are not used for conclusions.
 - **D-4.4 Memory (4.2)**: "memory vs N" is accounted from serialised index bytes and array sizes (Phase 2 `build.csv`), not from per-process RSS.
+- **D-5.1 Closed-book prompt**: Appendix A.5 only defines the context prompt, whose instruction makes a context-free model abstain by construction. The closed-book control therefore uses "Answer the question from your own knowledge. If you do not know the answer, reply exactly: I don't know." (`qrag/generate.py`); the abstention regex accepts both phrases.
+- **D-5.2 max_tokens = 48** for every arm (H2/D9 value; A.5 says 64; see D-0.1). Truncated answers are counted in the Phase 5 report.
+- **D-5.3 HHEM inputs**: premise = the k retrieved paragraphs joined by blank lines; hypothesis = 'The answer to the question "<q>" is <answer>' (a bare short span is hard to judge). HHEM-2.1-Open documents unlimited context and its `predict` does not truncate, so long premises (the flan-T5 tokenizer warns above 512 tokens) were scored in full. Abstained and closed-book answers are not HHEM-scored (the taxonomy does not need F for them).
+- **D-5.4 Retrieval in the RAG runs is read from saved rankings**: classical contexts are the Phase 1 exact top-3, quantum contexts the seeded Phase 3 top-3 (seed 0 unless stated), via `qrag/pipeline.py` `PrecomputedRetrieval`; a live retriever with the same semantics exists for the services. Random-context control: 3 paragraphs drawn uniformly from the whole corpus with seed [42, question], gold excluded.
+- **D-5.5 Run matrix**: all P0 and P1 rows of plan 5.3 were run (P1: S=4096 at N=5000/all; N=1000 classical + S 64/256/1024/4096; seeds 1-2 at S=256 for N=5000/all). P2 (k=5, SQuAD v2 probe) not run.
 <!-- END:deviations -->
 
 ## 5. Failures, Limitations, Threats to Validity
@@ -723,6 +917,10 @@ T-c (hallucination rate, McNemar at N=all) belongs to Phase 5.
 - **Latency noise limits the scaling claims (Phase 4)**: the range of the 5 repeat medians is wide for the larger corpora (T4b, last column), the power plan was Balanced and temperature was not monitored. The log-log exponent confidence intervals are correspondingly wide and several overlap (Flat, shortlist, full scan); the data do not support ranking those three by scaling exponent. IVF has the lowest exponent estimate, but its interval also overlaps the others at its upper end.
 - **No latency advantage for the quantum-sim arm (Phase 4)**: with the shortlist protocol the exact Flat search is executed first, so the arm's latency is the Flat search plus a small estimator cost (stage breakdown table); full scan costs more than Flat. This is emulated-estimator latency and says nothing about quantum hardware; modelled shot and gate counts are listed separately and are not wall-clock times.
 - **Tier B emulator at low shot counts (Phase 4)**: quality at S=256 is far below classical at every N (Table T3); the shot budget needed to be statistically indistinguishable grows with N (Phase 3 threshold table), consistent with the 1/sqrt(S) noise vs a shrinking score margin among more distractors. This is an observation, not a tested mechanism.
+- **Single small generator (Phase 5)**: all answers come from one 1.5B model (H2). It rarely abstains when the gold paragraph is missing (see the mediation table), so most retrieval misses turn into confident wrong answers; a larger or better-calibrated model may abstain more. Absolute rates are specific to this model; the claim is only about differences between retrieval arms with the generator held fixed (R1).
+- **Hallucination measurement limits (Phase 5)**: correctness is SQuAD-style string containment (misses paraphrases, accepts answers that merely mention the span); faithfulness is one automatic judge (HHEM) without human validation until the audit sheet is labelled; T-c covers only seed 0. Generation ran under heavy memory pressure (free RAM fell to the low hundreds of MB, see the generation session file); this affects generation time only, not outputs (deterministic decoding, cached).
+- **LLM contamination looks low (Phase 5)**: the closed-book control answers few questions correctly (Phase 5 table), so the generator's parametric knowledge of SQuAD dev explains little of the RAG accuracy. The embedder contamination (Phase 1) remains.
+- **Generation is not bit-reproducible (Phase 5)**: with temperature 0 and a fixed seed, re-running the same prompts on this CPU without the cache sometimes yields different wording (and rarely different content), even for an immediate repeat of the same request (counts in the regeneration check). Correctness and abstention labels were unchanged in every sampled case, so the reported outcome rates are not sensitive to this in the sample, but R6's "exact reruns" holds only through the answer cache (`cache/llm`, git-ignored; the committed `generations.jsonl` carries every answer text and cache key). Prompts with identical contexts share one cached answer across arms, so arm comparisons are exactly paired where contexts coincide. Likely cause (not tested): non-deterministic parallel floating-point reductions or KV-cache reuse in the CPU runner.
 <!-- END:failures -->
 
 ## 6. Reproduction Commands

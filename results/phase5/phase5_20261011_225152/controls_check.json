@@ -1,0 +1,8 @@
+{
+  "oracle_correct_gt_closed_book": true,
+  "random_correct_le_closed_book": true,
+  "oracle_correct": 0.86,
+  "closed_book_correct": 0.095,
+  "random_correct": 0.075,
+  "rule": "oracle CI entirely above closed-book CI; random point estimate not above closed-book upper CI"
+}

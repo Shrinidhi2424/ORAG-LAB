@@ -1,0 +1,30 @@
+{
+  "n_sampled": 60,
+  "seed": 7,
+  "identical_text": 54,
+  "same_correct_label": 60,
+  "same_abstain_label": 60,
+  "immediate_repeat_identical": 51,
+  "correct_old": 31,
+  "correct_new": 31,
+  "seconds": 484.4009859999642,
+  "by_kind": {
+    "classical": {
+      "n": 8,
+      "identical": 6
+    },
+    "oracle": {
+      "n": 3,
+      "identical": 3
+    },
+    "quantum": {
+      "n": 40,
+      "identical": 36
+    },
+    "random": {
+      "n": 9,
+      "identical": 9
+    }
+  },
+  "note": "stored answers come from the cache; this check re-ran the model without the cache, in a different request order than the original run"
+}

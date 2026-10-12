@@ -1,0 +1,55 @@
+{
+  "phase": "phase5",
+  "run_id": "phase5_20261011_225152",
+  "timestamp_utc": "2026-10-12T00:55:13+00:00",
+  "git": {
+    "commit": "9325e5206d99df22c153aa0bed173ac4eb4cd25c",
+    "dirty": true
+  },
+  "seeds": {
+    "global": 42,
+    "ollama": 42,
+    "random_context": "[42, qi]",
+    "audit": 42
+  },
+  "config": {
+    "step": "generate",
+    "questions": 200,
+    "max_priority": "P1",
+    "thresholds": [
+      0.3,
+      0.5,
+      0.7
+    ]
+  },
+  "host": {
+    "os": "Windows-11-10.0.26200-SP0",
+    "machine": "AMD64",
+    "processor": "Intel64 Family 6 Model 140 Stepping 1, GenuineIntel",
+    "cpu_physical_cores": 4,
+    "cpu_logical_cores": 8,
+    "ram_total_bytes": 8334729216,
+    "python": "3.12.6"
+  },
+  "packages": {
+    "numpy": "2.5.4",
+    "scipy": "1.18.1",
+    "pandas": "3.0.6",
+    "faiss-cpu": "1.15.1",
+    "sentence-transformers": "6.1.0",
+    "torch": "2.14.1+cpu",
+    "transformers": "5.19.0",
+    "qiskit": "2.5.2",
+    "qiskit-aer": "0.17.2",
+    "fastapi": "0.143.0",
+    "uvicorn": "0.54.0",
+    "httpx": "0.28.1",
+    "pydantic": "2.14.0",
+    "pytest": "9.1.1",
+    "matplotlib": "3.11.2",
+    "pyyaml": "6.0.3",
+    "datasets": "5.1.0",
+    "ollama": "0.6.3",
+    "psutil": "7.2.2"
+  }
+}

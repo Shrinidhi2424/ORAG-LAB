@@ -1,0 +1,40 @@
+arm,label,gold_in_context,n,hallucinated_or_misread_rate
+classical_N5000_k3,Classical N=5k,True,153,0.13725490196078433
+classical_Nall_k3,Classical N=21k,True,133,0.18045112781954886
+quantum_N5000_M50_S64_seed0_k3,Quantum-sim N=5k S=64,True,92,0.13043478260869565
+quantum_N5000_M50_S256_seed0_k3,Quantum-sim N=5k S=256,True,140,0.15714285714285714
+quantum_N5000_M50_S1024_seed0_k3,Quantum-sim N=5k S=1024,True,147,0.14285714285714285
+quantum_Nall_M50_S64_seed0_k3,Quantum-sim N=21k S=64,True,75,0.17333333333333334
+quantum_Nall_M50_S256_seed0_k3,Quantum-sim N=21k S=256,True,106,0.19811320754716982
+quantum_Nall_M50_S1024_seed0_k3,Quantum-sim N=21k S=1024,True,120,0.13333333333333333
+quantum_N5000_M50_S4096_seed0_k3,Quantum-sim N=5k S=4096,True,149,0.15436241610738255
+quantum_Nall_M50_S4096_seed0_k3,Quantum-sim N=21k S=4096,True,130,0.18461538461538463
+classical_N1000_k3,Classical N=1k,True,171,0.15789473684210525
+quantum_N1000_M50_S64_seed0_k3,Quantum-sim N=1k S=64,True,123,0.17073170731707318
+quantum_N1000_M50_S256_seed0_k3,Quantum-sim N=1k S=256,True,149,0.18120805369127516
+quantum_N1000_M50_S1024_seed0_k3,Quantum-sim N=1k S=1024,True,167,0.15568862275449102
+quantum_N1000_M50_S4096_seed0_k3,Quantum-sim N=1k S=4096,True,168,0.16666666666666666
+quantum_N5000_M50_S256_seed1_k3,Quantum-sim N=5k S=256 (seed 1),True,129,0.17829457364341086
+quantum_N5000_M50_S256_seed2_k3,Quantum-sim N=5k S=256 (seed 2),True,140,0.17142857142857143
+quantum_Nall_M50_S256_seed1_k3,Quantum-sim N=21k S=256 (seed 1),True,112,0.1875
+quantum_Nall_M50_S256_seed2_k3,Quantum-sim N=21k S=256 (seed 2),True,105,0.2
+random,Random context,False,200,0.445
+classical_N5000_k3,Classical N=5k,False,47,0.8085106382978723
+classical_Nall_k3,Classical N=21k,False,67,0.8059701492537313
+quantum_N5000_M50_S64_seed0_k3,Quantum-sim N=5k S=64,False,108,0.7777777777777778
+quantum_N5000_M50_S256_seed0_k3,Quantum-sim N=5k S=256,False,60,0.85
+quantum_N5000_M50_S1024_seed0_k3,Quantum-sim N=5k S=1024,False,53,0.8113207547169812
+quantum_Nall_M50_S64_seed0_k3,Quantum-sim N=21k S=64,False,125,0.816
+quantum_Nall_M50_S256_seed0_k3,Quantum-sim N=21k S=256,False,94,0.7659574468085106
+quantum_Nall_M50_S1024_seed0_k3,Quantum-sim N=21k S=1024,False,80,0.8125
+quantum_N5000_M50_S4096_seed0_k3,Quantum-sim N=5k S=4096,False,51,0.7450980392156863
+quantum_Nall_M50_S4096_seed0_k3,Quantum-sim N=21k S=4096,False,70,0.7857142857142857
+classical_N1000_k3,Classical N=1k,False,29,0.7586206896551724
+quantum_N1000_M50_S64_seed0_k3,Quantum-sim N=1k S=64,False,77,0.6623376623376623
+quantum_N1000_M50_S256_seed0_k3,Quantum-sim N=1k S=256,False,51,0.7647058823529411
+quantum_N1000_M50_S1024_seed0_k3,Quantum-sim N=1k S=1024,False,33,0.7575757575757576
+quantum_N1000_M50_S4096_seed0_k3,Quantum-sim N=1k S=4096,False,32,0.8125
+quantum_N5000_M50_S256_seed1_k3,Quantum-sim N=5k S=256 (seed 1),False,71,0.7746478873239436
+quantum_N5000_M50_S256_seed2_k3,Quantum-sim N=5k S=256 (seed 2),False,60,0.7333333333333333
+quantum_Nall_M50_S256_seed1_k3,Quantum-sim N=21k S=256 (seed 1),False,88,0.8409090909090909
+quantum_Nall_M50_S256_seed2_k3,Quantum-sim N=21k S=256 (seed 2),False,95,0.7894736842105263

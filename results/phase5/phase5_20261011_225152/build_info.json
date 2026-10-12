@@ -1,0 +1,238 @@
+{
+  "questions": 200,
+  "arms": [
+    {
+      "priority": "P0",
+      "kind": "closed_book",
+      "N": "",
+      "S": 0,
+      "seed": 0,
+      "M": 50,
+      "k": 3,
+      "name": "closed_book"
+    },
+    {
+      "priority": "P0",
+      "kind": "oracle",
+      "N": "",
+      "S": 0,
+      "seed": 0,
+      "M": 50,
+      "k": 3,
+      "name": "oracle"
+    },
+    {
+      "priority": "P0",
+      "kind": "random",
+      "N": "",
+      "S": 0,
+      "seed": 42,
+      "M": 50,
+      "k": 3,
+      "name": "random"
+    },
+    {
+      "priority": "P0",
+      "kind": "classical",
+      "N": "5000",
+      "S": 0,
+      "seed": 0,
+      "M": 50,
+      "k": 3,
+      "name": "classical_N5000_k3"
+    },
+    {
+      "priority": "P0",
+      "kind": "classical",
+      "N": "all",
+      "S": 0,
+      "seed": 0,
+      "M": 50,
+      "k": 3,
+      "name": "classical_Nall_k3"
+    },
+    {
+      "priority": "P0",
+      "kind": "quantum",
+      "N": "5000",
+      "S": 64,
+      "seed": 0,
+      "M": 50,
+      "k": 3,
+      "name": "quantum_N5000_M50_S64_seed0_k3"
+    },
+    {
+      "priority": "P0",
+      "kind": "quantum",
+      "N": "5000",
+      "S": 256,
+      "seed": 0,
+      "M": 50,
+      "k": 3,
+      "name": "quantum_N5000_M50_S256_seed0_k3"
+    },
+    {
+      "priority": "P0",
+      "kind": "quantum",
+      "N": "5000",
+      "S": 1024,
+      "seed": 0,
+      "M": 50,
+      "k": 3,
+      "name": "quantum_N5000_M50_S1024_seed0_k3"
+    },
+    {
+      "priority": "P0",
+      "kind": "quantum",
+      "N": "all",
+      "S": 64,
+      "seed": 0,
+      "M": 50,
+      "k": 3,
+      "name": "quantum_Nall_M50_S64_seed0_k3"
+    },
+    {
+      "priority": "P0",
+      "kind": "quantum",
+      "N": "all",
+      "S": 256,
+      "seed": 0,
+      "M": 50,
+      "k": 3,
+      "name": "quantum_Nall_M50_S256_seed0_k3"
+    },
+    {
+      "priority": "P0",
+      "kind": "quantum",
+      "N": "all",
+      "S": 1024,
+      "seed": 0,
+      "M": 50,
+      "k": 3,
+      "name": "quantum_Nall_M50_S1024_seed0_k3"
+    },
+    {
+      "priority": "P1",
+      "kind": "quantum",
+      "N": "5000",
+      "S": 4096,
+      "seed": 0,
+      "M": 50,
+      "k": 3,
+      "name": "quantum_N5000_M50_S4096_seed0_k3"
+    },
+    {
+      "priority": "P1",
+      "kind": "quantum",
+      "N": "all",
+      "S": 4096,
+      "seed": 0,
+      "M": 50,
+      "k": 3,
+      "name": "quantum_Nall_M50_S4096_seed0_k3"
+    },
+    {
+      "priority": "P1",
+      "kind": "classical",
+      "N": "1000",
+      "S": 0,
+      "seed": 0,
+      "M": 50,
+      "k": 3,
+      "name": "classical_N1000_k3"
+    },
+    {
+      "priority": "P1",
+      "kind": "quantum",
+      "N": "1000",
+      "S": 64,
+      "seed": 0,
+      "M": 50,
+      "k": 3,
+      "name": "quantum_N1000_M50_S64_seed0_k3"
+    },
+    {
+      "priority": "P1",
+      "kind": "quantum",
+      "N": "1000",
+      "S": 256,
+      "seed": 0,
+      "M": 50,
+      "k": 3,
+      "name": "quantum_N1000_M50_S256_seed0_k3"
+    },
+    {
+      "priority": "P1",
+      "kind": "quantum",
+      "N": "1000",
+      "S": 1024,
+      "seed": 0,
+      "M": 50,
+      "k": 3,
+      "name": "quantum_N1000_M50_S1024_seed0_k3"
+    },
+    {
+      "priority": "P1",
+      "kind": "quantum",
+      "N": "1000",
+      "S": 4096,
+      "seed": 0,
+      "M": 50,
+      "k": 3,
+      "name": "quantum_N1000_M50_S4096_seed0_k3"
+    },
+    {
+      "priority": "P1",
+      "kind": "quantum",
+      "N": "5000",
+      "S": 256,
+      "seed": 1,
+      "M": 50,
+      "k": 3,
+      "name": "quantum_N5000_M50_S256_seed1_k3"
+    },
+    {
+      "priority": "P1",
+      "kind": "quantum",
+      "N": "5000",
+      "S": 256,
+      "seed": 2,
+      "M": 50,
+      "k": 3,
+      "name": "quantum_N5000_M50_S256_seed2_k3"
+    },
+    {
+      "priority": "P1",
+      "kind": "quantum",
+      "N": "all",
+      "S": 256,
+      "seed": 1,
+      "M": 50,
+      "k": 3,
+      "name": "quantum_Nall_M50_S256_seed1_k3"
+    },
+    {
+      "priority": "P1",
+      "kind": "quantum",
+      "N": "all",
+      "S": 256,
+      "seed": 2,
+      "M": 50,
+      "k": 3,
+      "name": "quantum_Nall_M50_S256_seed2_k3"
+    }
+  ],
+  "records": 4400,
+  "unique_prompts_P0": 2061,
+  "unique_prompts_P1_extra": 1657,
+  "already_cached": 0,
+  "model": "qwen2.5:1.5b-instruct",
+  "digest": "65ec06548149b04c096a120e4a6da9d4017ea809c91734ea5631e89f96ddc57b",
+  "options": {
+    "temperature": 0,
+    "seed": 42,
+    "num_ctx": 2048,
+    "num_predict": 48,
+    "num_gpu": 0
+  }
+}

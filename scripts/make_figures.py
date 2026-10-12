@@ -234,7 +234,87 @@ def fig_f6() -> Path:
     return save(fig, "F6_overlap_rbo_vs_shots", data)
 
 
-FIGS = {"F2": fig_f2, "F3": fig_f3, "F4": fig_f4, "F5": fig_f5, "F6": fig_f6}
+OUTCOME_COLORS = {"correct_grounded": BLUE, "correct_ungrounded": ORANGE, "misread": AQUA, "hallucinated": "#eda100", "abstained": "#e87ba4"}
+OUTCOME_LABELS = {"correct_grounded": "Correct-grounded", "correct_ungrounded": "Correct-ungrounded", "misread": "Misread (gold in context)",
+                  "hallucinated": "Hallucinated (gold not in context)", "abstained": "Abstained"}
+
+
+def arm_label(r: dict) -> str:
+    k = r["kind"]
+    if k == "quantum":
+        return f"Quantum-sim N={NLAB.get(r['N'], r['N'])} S={r['S']}" + (f" (seed {r['seed']})" if r["seed"] != "0" else "")
+    if k == "classical":
+        return f"Classical N={NLAB.get(r['N'], r['N'])}"
+    return {"closed_book": "Closed-book*", "oracle": "Oracle (gold only)", "random": "Random context"}[k]
+
+
+def p5_rows() -> list[dict]:
+    return rows_of(current("phase5") / "outcomes_by_arm.csv")
+
+
+def fig_f8() -> Path:
+    rows = p5_rows()
+    fig, ax = plt.subplots(figsize=(9, 0.42 * len(rows) + 1.8), dpi=300)
+    fig.patch.set_facecolor(SURFACE)
+    style(ax)
+    ax.grid(False, axis="y")
+    data = []
+    for i, r in enumerate(rows):
+        n = int(r["n"])
+        counts = {o: int(r[f"n_{o}"]) for o in OUTCOME_COLORS}
+        if r["kind"] == "closed_book":  # no context: correct answers are ungrounded by definition, wrong ones are hallucinations
+            counts["correct_ungrounded"] += int(r["n_correct_closed_book"])
+            counts["hallucinated"] += int(r["n_wrong_closed_book"])
+        left = 0.0
+        for o, c in counts.items():
+            w = c / n
+            ax.barh(i, w, left=left, color=OUTCOME_COLORS[o], edgecolor=SURFACE, linewidth=1.5, height=0.72)
+            if w >= 0.07:
+                ax.text(left + w / 2, i, f"{100 * w:.0f}", ha="center", va="center", fontsize=7, color=SURFACE if o in ("correct_grounded",) else INK)
+            left += w
+            data.append({"arm": r["arm"], "label": arm_label(r), "outcome": o, "count": c, "share": w})
+    ax.set_yticks(range(len(rows)))
+    ax.set_yticklabels([arm_label(r) for r in rows], fontsize=8, color=INK)
+    ax.invert_yaxis()
+    ax.set_xlim(0, 1)
+    ax.set_xlabel("Share of 200 questions (labels in %)", color=INK, fontsize=9)
+    handles = [plt.Rectangle((0, 0), 1, 1, color=c) for c in OUTCOME_COLORS.values()]
+    ax.legend(handles, list(OUTCOME_LABELS.values()), ncol=3, frameon=False, fontsize=7.5, labelcolor=INK2, loc="upper center", bbox_to_anchor=(0.45, -0.12))
+    ax.set_title("F8. Five-way outcome taxonomy per arm (HHEM threshold 0.5)", color=INK, fontsize=11, loc="left")
+    fig.text(0.01, 0.005, "* Closed-book has no context: correct answers count as correct-ungrounded, wrong answers as hallucinated.", color=INK2, fontsize=7)
+    fig.tight_layout(rect=(0, 0.02, 1, 1))
+    return save(fig, "F8_outcome_taxonomy", data)
+
+
+def fig_f9() -> Path:
+    med = rows_of(current("phase5") / "mediation_by_gold_in_context.csv")
+    lab = {r["arm"]: arm_label(r) for r in p5_rows()}
+    arms = [a for a in dict.fromkeys(r["arm"] for r in med) if a in lab and a not in ("oracle",)]
+    fig, ax = plt.subplots(figsize=(9.5, 4.6), dpi=300)
+    fig.patch.set_facecolor(SURFACE)
+    style(ax)
+    ax.grid(False, axis="x")
+    data, w = [], 0.38
+    for j, g in enumerate(("True", "False")):
+        xs, ys = [], []
+        for i, a in enumerate(arms):
+            r = next((x for x in med if x["arm"] == a and x["gold_in_context"] == g), None)
+            if r:
+                xs.append(i + (j - 0.5) * w)
+                ys.append(float(r["hallucinated_or_misread_rate"]))
+                data.append({"arm": a, "label": lab[a], "gold_in_context": g, "n": int(r["n"]), "hallucinated_or_misread_rate": ys[-1]})
+        ax.bar(xs, ys, width=w - 0.04, color=BLUE if g == "True" else ORANGE, label="Gold paragraph in context" if g == "True" else "Gold paragraph NOT in context")
+    ax.set_xticks(range(len(arms)))
+    ax.set_xticklabels([lab[a] for a in arms], rotation=35, ha="right", fontsize=7.5, color=INK)
+    ax.set_ylabel("Hallucinated or misread (share)", color=INK, fontsize=9)
+    ax.set_ylim(0, 1)
+    ax.legend(frameon=False, fontsize=8, labelcolor=INK2, loc="lower right", bbox_to_anchor=(1.0, 1.0), ncol=2)
+    ax.set_title("F9. Confident wrong answers, split by whether retrieval\ndelivered the gold paragraph", color=INK, fontsize=10.5, loc="left")
+    fig.tight_layout()
+    return save(fig, "F9_hallucination_by_gold_in_context", data)
+
+
+FIGS = {"F2": fig_f2, "F3": fig_f3, "F4": fig_f4, "F5": fig_f5, "F6": fig_f6, "F8": fig_f8, "F9": fig_f9}
 
 if __name__ == "__main__":
     for name in sys.argv[1:] or list(FIGS):

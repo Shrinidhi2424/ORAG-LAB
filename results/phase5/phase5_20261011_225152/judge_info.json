@@ -1,0 +1,10 @@
+{
+  "model": "vectara/hallucination_evaluation_model",
+  "revision": "de9a5e6ba9ba49531a022dba17e35ffeb2a6fad8",
+  "pairs_scored_this_run": 3262,
+  "seconds": 5864.262767499953,
+  "peak_rss_gb": 1.51855104,
+  "hypothesis_template": "The answer to the question \"<question>\" is <answer>",
+  "premise": "the k retrieved paragraphs joined by blank lines",
+  "not_scored": "closed-book (no premise) and abstained answers"
+}

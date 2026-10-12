@@ -71,6 +71,17 @@ def figures() -> None:
     run(py(), "scripts/make_figures.py")
 
 
+def phase5() -> None:
+    """Resumable: build prompts, generate (P0 then P1), stop Ollama, judge with HHEM, analyse."""
+    rid = run_id("phase5")
+    run(py(), "scripts/run_phase5.py", "--run-id", rid, "--steps", "build", "generate", "--max-priority", "P1")
+    subprocess.run(["ollama", "stop", "qwen2.5:1.5b-instruct"], cwd=ROOT)  # H5: never LLM and judge in RAM together
+    run(py(), "scripts/run_phase5.py", "--run-id", rid, "--steps", "judge", "analyze")
+    figures()
+    test()
+    report()
+
+
 def phase4() -> None:
     run(py(), "scripts/run_phase4.py", "--run-id", run_id("phase4"))
     figures()
@@ -118,8 +129,8 @@ def phase0() -> None:
 
 
 TASKS = {"setup": setup, "env": env, "data": data, "bench": bench, "test": test, "report": report, "embed": embed,
-         "phase0": phase0, "phase1": phase1, "phase2": phase2, "phase3": phase3, "phase4": phase4, "figures": figures}
-for _i in range(5, 11):
+         "phase0": phase0, "phase1": phase1, "phase2": phase2, "phase3": phase3, "phase4": phase4, "phase5": phase5, "figures": figures}
+for _i in range(6, 11):
     TASKS[f"phase{_i}"] = not_yet(f"phase{_i}")
 
 
