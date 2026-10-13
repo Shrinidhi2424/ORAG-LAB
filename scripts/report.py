@@ -103,6 +103,13 @@ DEVIATIONS = """- **D-0.1 max_tokens**: plan says 48 in D9/H2 but 64 in Appendix
 - **D-8.3 Hand audit (8.4) is pending**: `results/audit_template.csv` has no human labels yet, so no kappa is reported. The agreement step runs automatically once labels are filled in and `python tasks.py phase8` (or `python scripts/run_phase8.py --run-id <id> --steps audit threats` followed by `python scripts/report.py`) is re-run.
 - **D-8.4 Qualitative examples (8.3)** are drawn at one setting only (classical Flat vs quantum-sim S=256 seed 0, N=all, first 200 questions), seeded random within four categories; they illustrate mechanisms and are not a representative sample.
 - **D-8.5 Phase 8 adds no new generation**: all outcome analyses re-use the stored Phase 5 answers and judge scores.
+- **D-9.1 Clean room without a fresh virtual environment**: the clone runs with the existing pinned interpreter instead of `python tasks.py setup` (a full reinstall of torch and friends was not repeated); `pip freeze` is compared with `requirements.lock` and mismatches are reported in the clean-room summary.
+- **D-9.2 Small config for embeddings**: the clean room re-embeds the evaluation queries and the smallest ladder rung and compares them with the stored arrays; the full stored embeddings are then copied in (a full re-embed is a long CPU job). Every later stage is re-run in full.
+- **D-9.3 Out of clean-room scope**: latency and throughput (non-deterministic by nature), LLM generation (verified instead through the cache keys of prompts rebuilt from the regenerated rankings, which must equal the keys of the stored answers), HHEM and NLI scoring (scores re-used), the T6 circuit decomposition and the containers.
+- **D-9.4 SQuAD not re-downloaded**: the raw files are copied from the working tree and verified against the committed sha256 checksums (no network during runs, R6).
+- **D-9.5 The clean room tests the committed HEAD**: it clones the last human commit, so it runs the committed scripts; Phase 9 code itself enters the clean room only after the Phase 9 commit.
+- **D-9.6 Line endings**: on Windows, `git clone` checks text files out with CRLF (`.gitattributes` text=auto) while `report.py` writes LF; text files are therefore also compared after CRLF to LF normalisation, and that status is reported separately.
+- **D-9.7 Automated acceptance**: headline findings are generated with programmatic claim checks; the acceptance checklist is evaluated from the artifacts; the numbers audit allows a fixed list of plan design constants in hand-written text and flags every other number.
 """
 
 FAILURES = """- **Swap during benchmark**: the pagefile grew during every model's run (see the "Swap delta" column in the Phase 0 table), so the strict "no swapping" wording of H2(b) is not fully met on this 8 GB machine even for the chosen model; close browsers and other heavy apps during generation runs (H5/H10).
@@ -124,8 +131,8 @@ FAILURES = """- **Swap during benchmark**: the pagefile grew during every model'
 - **More CPU did not mean lower latency at low load (Phase 6)**: the embedder's per-request compute time was not lower under the large profile (4 threads) than under small or medium (1-2 threads) in the in-network run, and single-client throughput was lower for large; the cause was not investigated (candidates: thread oversubscription of a 4-core/8-thread laptop that also hosts the load generator, small-batch thread overhead). The profile comparison is therefore about this host, not about cloud instance types.
 - **Shared-host measurement (Phase 6)**: the services, the load generator, Docker Desktop and Windows share one 8 GB laptop; power plan Balanced; temperature not monitored; host free RAM was low at the start of the runs. The embedding step (a transformer forward pass of ~15-25 ms) dominates the request in every profile and masks retrieval differences: classical and quantum-sim arms are indistinguishable at N <= 5000 over HTTP, and the arm and N effects at N=all are small compared with the run-to-run range.
 - **Concurrency is a closed-loop test (Phase 6)**: N concurrent clients each wait for their response; there is no open-loop arrival process, so tail latencies at saturation are not queueing-theory estimates. Occasional multi-second p95 values in single runs (visible in the raw concurrency CSVs) were not investigated; medians over 3 runs are reported.
-- **Pareto latency axis is nearly flat between arms (Phase 7)**: the shortlist arm executes the exact Flat search first, so its emulated latency is Flat plus a small estimator cost; differences between arms at a given N are inside the run-to-run range of repeat medians (and one quantum-sim point at N=all is nominally 'non-dominated' only because of a 0.015 ms median difference). The tradeoff conclusions rest on the hallucination axis; no latency advantage can be claimed.
-- **Break-even is limited by sample size (Phase 7)**: with 200 questions the paired CI of a hallucination-rate difference has a half-width of roughly 0.03-0.06 even at high shots, so equivalence within +-0.05 is hard to show; 'indistinguishable' at S=1024 means 'no detectable difference at this n', not 'no difference'. Hallucination break-even uses seed 0 only.
+- **Pareto latency axis is nearly flat between arms (Phase 7)**: the shortlist arm executes the exact Flat search first, so its emulated latency is Flat plus a small estimator cost; differences between arms at a given N are inside the run-to-run range of repeat medians (the one quantum-sim point that is nominally 'non-dominated' at N=all differs from Flat by a median latency gap far inside that range; see T7b). The tradeoff conclusions rest on the hallucination axis; no latency advantage can be claimed.
+- **Break-even is limited by sample size (Phase 7)**: with 200 questions the paired CI of a hallucination-rate difference stays wide even at high shots (see the CI columns of T7d), so equivalence within the narrowest margin is hard to show; 'indistinguishable' at S=1024 means 'no detectable difference at this n', not 'no difference'. Hallucination break-even uses seed 0 only.
 - **Phase 8 limitations are collected in the threats matrix (plan T7)**: see the Phase 8 report (table T8f), where every threat carries its evidence and artifact. Items not covered by a number there: the NLI judge is a chunked, uncalibrated cross-check (D-8.1) and does not validate either judge against humans; the qualitative examples are illustrative; hallucination seed variability rests on three seeds at one shot setting.
 - **The NLI cross-check agrees only weakly with HHEM (Phase 8)**: the two judges disagree on many individual answers (kappa and agreement in table T8d) and the NLI model labels far fewer answers faithful, plausibly because short-answer hypotheses are hard for a per-paragraph NLI model. The cross-check therefore does not validate HHEM at the level of individual answers; it only shows whether the arm-level direction of the ungrounded-rate difference survives a second judge (see T8d). Faithfulness conclusions rest mainly on HHEM and stay unvalidated until the human audit is returned.
 """
@@ -236,8 +243,8 @@ def phase0_block(run: Path) -> tuple[str, list[list]]:
     return "\n".join(lines), index_rows
 
 
-def main() -> None:
-    text = FINDINGS.read_text(encoding="utf-8") if FINDINGS.exists() else TEMPLATE
+def render(text: str) -> str:
+    """Rewrite every generated block of `text` from the artifacts; returns the new text (no I/O on FINDINGS.md)."""
     index_rows: list[list] = []
     run = latest_run("phase0")
     if run and (run / "env.json").exists():
@@ -325,11 +332,35 @@ def main() -> None:
         body8, rows8 = phase8_block(run8)
         text = block(text, "phase8", body8)
         index_rows += rows8
+    run9 = latest_run("phase9")
+    if run8 and latest_run("phase7"):
+        from report_phase9 import REPRO, headline_block, phase9_block
+
+        if "<!-- BEGIN:headline -->" not in text:
+            text = text.replace("## 3. Headline Findings\n(Filled in Phase 9.)", "## 3. Headline Findings\n<!-- BEGIN:headline -->\n<!-- END:headline -->", 1)
+        if "<!-- BEGIN:repro -->" not in text:
+            text = re.sub(r"(## 6\. Reproduction Commands\n)```.*?```", lambda m: m.group(1) + "<!-- BEGIN:repro -->\n<!-- END:repro -->", text, count=1, flags=re.S)
+        bodyh, rowsh, _ = headline_block()
+        text = block(text, "headline", bodyh)
+        text = block(text, "repro", REPRO)
+        if run9:
+            if "<!-- BEGIN:phase9 -->" not in text:
+                text = text.replace("## 3. Headline Findings", "### Phase 9 - End-to-end testing and acceptance\n"
+                                    "<!-- BEGIN:phase9 -->\n<!-- END:phase9 -->\n\n## 3. Headline Findings", 1)
+            body9, rows9 = phase9_block(run9)
+            text = block(text, "phase9", body9)
+            index_rows += rows9
+        index_rows += rowsh
     text = block(text, "index", md_table(["ID", "Phase", "Key result", "Artifact"], index_rows))
     text = seed_block(text, "deviations", DEVIATIONS)
     text = seed_block(text, "failures", FAILURES)
     text = seed_block(text, "open", "(None recorded yet.)\n")
-    FINDINGS.write_text(text, encoding="utf-8", newline="\n")
+    return text
+
+
+def main() -> None:
+    text = FINDINGS.read_text(encoding="utf-8") if FINDINGS.exists() else TEMPLATE
+    FINDINGS.write_text(render(text), encoding="utf-8", newline="\n")
     print(f"updated {FINDINGS}")
 
 

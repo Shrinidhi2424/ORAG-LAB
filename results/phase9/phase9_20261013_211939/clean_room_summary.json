@@ -1,0 +1,36 @@
+{
+  "clone_of_commit": "fba2de903c526a60ea428a18c756dcc4268647d5",
+  "dest": "C:\\Users\\SHRINI~1\\AppData\\Local\\Temp\\qrag_cleanroom",
+  "comparisons": 85,
+  "identical": 76,
+  "equal_ignoring_timing": 8,
+  "equal_ignoring_line_endings": 1,
+  "different": 0,
+  "missing": 0,
+  "stage_seconds": {
+    "report": 0.8027052999241278,
+    "phase1": 14.355551599990577,
+    "embed": 86.32449769997038,
+    "phase2": 11.511442599934526,
+    "phase3": 558.5257739999797,
+    "phase4": 20.44385219994001,
+    "phase5": 10.664943699957803,
+    "phase7": 0.5633986999746412,
+    "phase8": 11.979768899967894
+  },
+  "total_seconds": 723.4441607000772,
+  "environment": {
+    "interpreter": "C:\\Users\\Shrinidhi Shetty\\OneDrive\\Desktop\\QRAG-LAB\\ORAG-LAB\\.venv\\Scripts\\python.exe",
+    "locked_packages": 84,
+    "mismatches": {},
+    "extra_installed_not_in_lock": []
+  },
+  "small_config": "embedding check on 300 queries + 1000-paragraph rung; full stored embeddings re-used afterwards",
+  "excluded": [
+    "latency/throughput (Phases 2, 4, 6): non-deterministic by nature",
+    "LLM generation: checked via cache keys of rebuilt prompts",
+    "HHEM / NLI scoring: scores re-used",
+    "Phase 3 timing and T6 resource decomposition",
+    "Phase 6 containers"
+  ]
+}

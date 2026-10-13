@@ -1,0 +1,86 @@
+stage,artifact,status,detail,sha256_committed,sha256_regenerated
+report,FINDINGS.md regenerated from committed artifacts,equal_ignoring_line_endings,identical after CRLF -> LF (git checkout with text=auto on Windows),44ca19b46e4d638e,389c5d122a77fb7e
+data,SQuAD train-v1.1.json sha256,identical,expected 3527663986b8295a,,
+data,SQuAD dev-v1.1.json sha256,identical,expected 95aa6a52d5d6a735,,
+phase1,data/eval_set.json rebuilt from SQuAD,identical,git diff against committed file: no change,,
+phase1,data/ladder_N.json rebuilt from SQuAD,identical,git diff against committed file: no change,,
+phase1,data/paragraphs.jsonl (git-ignored) rebuilt,identical,sha256 vs this working tree,,
+phase1,corpus_stats.json,identical,sha256 5e79c268242a8c87,5e79c268242a8c87,5e79c268242a8c87
+embed,300 query embeddings re-embedded vs stored,identical,"max abs diff 0.00e+00, min cosine 0.9999998",,
+embed,1000-rung paragraph embeddings re-embedded vs stored,identical,"max abs diff 1.75e-07, min cosine 0.9999998",,
+phase1,ground_truth_N1000.npz,identical,sha256 942c5e82555df147,942c5e82555df147,942c5e82555df147
+phase1,ground_truth_N2000.npz,identical,sha256 30a472f176923da2,30a472f176923da2,30a472f176923da2
+phase1,ground_truth_N5000.npz,identical,sha256 56af7accec54f6a7,56af7accec54f6a7,56af7accec54f6a7
+phase1,ground_truth_N10000.npz,identical,sha256 273d2230209b272b,273d2230209b272b,273d2230209b272b
+phase1,ground_truth_Nall.npz,identical,sha256 17a9b26d18f0a936,17a9b26d18f0a936,17a9b26d18f0a936
+phase1,ceiling_by_N.csv,equal_ignoring_timing,5 rows; ignored columns ['brute_force_s'],a6667d827604d23a,f08a6a757515c86b
+phase1,sanity.json,identical,sha256 57573da64244600b,57573da64244600b,57573da64244600b
+phase1,gold_cosine.csv,identical,sha256 13dec2f526e40bb4,13dec2f526e40bb4,13dec2f526e40bb4
+phase2,quality.csv,identical,sha256 12ea53821a733dcd,12ea53821a733dcd,12ea53821a733dcd
+phase2,best_nprobe.json,identical,sha256 bfeb8bb878e0dc1e,bfeb8bb878e0dc1e,bfeb8bb878e0dc1e
+phase2,flat_vs_numpy_check.json,identical,sha256 eecb400bd67e39a4,eecb400bd67e39a4,eecb400bd67e39a4
+phase3,validation.json,equal_ignoring_timing,49 fields; 1 ignored,543de4ef0e3d7bef,f3beeb590bb39bf2
+phase3,validation_pairs.csv,equal_ignoring_timing,500 rows; ignored columns ['tierA_seconds'],2317fe51949629d3,eeb593715da74a77
+phase3,f2_error_vs_shots.csv,identical,sha256 eb338f37ce953abf,eb338f37ce953abf,eb338f37ce953abf
+phase3,negative_cosine_audit.json,identical,sha256 34fe77f08fa552ff,34fe77f08fa552ff,34fe77f08fa552ff
+phase3,retrieval_metrics.csv,identical,sha256 524aeb0fe7d4ae62,524aeb0fe7d4ae62,524aeb0fe7d4ae62
+phase3,shot_thresholds.csv,identical,sha256 3ded887c058cd4a6,3ded887c058cd4a6,3ded887c058cd4a6
+phase3,tierA_e2e.csv,equal_ignoring_timing,60 rows; ignored columns ['circuit_seconds_for_query'],2b8e9e477de1b7c0,c9b8f42879a4b38b
+phase3,tierA_e2e_summary.json,equal_ignoring_timing,17 fields; 2 ignored,1a976265fbb077a9,0c96f04a583592b1
+phase3,validation_repeated.npz,identical,sha256 cae723a640192671,cae723a640192671,cae723a640192671
+phase3,rankings/N10000_M100_tieclassical.npz (vs this working tree; git-ignored),identical,sha256 0012e233d7c357ba,0012e233d7c357ba,0012e233d7c357ba
+phase3,rankings/N10000_M20_tieclassical.npz (vs this working tree; git-ignored),identical,sha256 2c377e1c4a623afc,2c377e1c4a623afc,2c377e1c4a623afc
+phase3,rankings/N10000_M50_tieclassical.npz (vs this working tree; git-ignored),identical,sha256 f7bd4b62eb8fd94f,f7bd4b62eb8fd94f,f7bd4b62eb8fd94f
+phase3,rankings/N10000_M50_tierandom.npz (vs this working tree; git-ignored),identical,sha256 d22ad91868d7fa43,d22ad91868d7fa43,d22ad91868d7fa43
+phase3,rankings/N10000_Mfull_tieclassical.npz (vs this working tree; git-ignored),identical,sha256 ea621857af4005be,ea621857af4005be,ea621857af4005be
+phase3,rankings/N1000_M100_tieclassical.npz (vs this working tree; git-ignored),identical,sha256 3bd2a96b118684e6,3bd2a96b118684e6,3bd2a96b118684e6
+phase3,rankings/N1000_M20_tieclassical.npz (vs this working tree; git-ignored),identical,sha256 0176673f8f28c869,0176673f8f28c869,0176673f8f28c869
+phase3,rankings/N1000_M50_tieclassical.npz (vs this working tree; git-ignored),identical,sha256 c30d830e383145f5,c30d830e383145f5,c30d830e383145f5
+phase3,rankings/N1000_M50_tierandom.npz (vs this working tree; git-ignored),identical,sha256 6f09b948dfcd7766,6f09b948dfcd7766,6f09b948dfcd7766
+phase3,rankings/N1000_Mfull_tieclassical.npz (vs this working tree; git-ignored),identical,sha256 13d645badf3ea5b4,13d645badf3ea5b4,13d645badf3ea5b4
+phase3,rankings/N2000_M100_tieclassical.npz (vs this working tree; git-ignored),identical,sha256 23ebb8630e4eb97d,23ebb8630e4eb97d,23ebb8630e4eb97d
+phase3,rankings/N2000_M20_tieclassical.npz (vs this working tree; git-ignored),identical,sha256 f2278103d91f2756,f2278103d91f2756,f2278103d91f2756
+phase3,rankings/N2000_M50_tieclassical.npz (vs this working tree; git-ignored),identical,sha256 4c327e24d437be1a,4c327e24d437be1a,4c327e24d437be1a
+phase3,rankings/N2000_M50_tierandom.npz (vs this working tree; git-ignored),identical,sha256 eb46c714c00578d8,eb46c714c00578d8,eb46c714c00578d8
+phase3,rankings/N2000_Mfull_tieclassical.npz (vs this working tree; git-ignored),identical,sha256 bca78d45769977bb,bca78d45769977bb,bca78d45769977bb
+phase3,rankings/N5000_M100_tieclassical.npz (vs this working tree; git-ignored),identical,sha256 789a2a4784cea3b7,789a2a4784cea3b7,789a2a4784cea3b7
+phase3,rankings/N5000_M20_tieclassical.npz (vs this working tree; git-ignored),identical,sha256 03881b3e45505949,03881b3e45505949,03881b3e45505949
+phase3,rankings/N5000_M50_tieclassical.npz (vs this working tree; git-ignored),identical,sha256 7851cb8c7602dea7,7851cb8c7602dea7,7851cb8c7602dea7
+phase3,rankings/N5000_M50_tierandom.npz (vs this working tree; git-ignored),identical,sha256 cbeb699f964bb5d1,cbeb699f964bb5d1,cbeb699f964bb5d1
+phase3,rankings/N5000_Mfull_tieclassical.npz (vs this working tree; git-ignored),identical,sha256 7916b59fb13b2704,7916b59fb13b2704,7916b59fb13b2704
+phase3,rankings/Nall_M100_tieclassical.npz (vs this working tree; git-ignored),identical,sha256 c6eac3b1dcf51d75,c6eac3b1dcf51d75,c6eac3b1dcf51d75
+phase3,rankings/Nall_M20_tieclassical.npz (vs this working tree; git-ignored),identical,sha256 7e8ec08d2209c685,7e8ec08d2209c685,7e8ec08d2209c685
+phase3,rankings/Nall_M50_tieclassical.npz (vs this working tree; git-ignored),identical,sha256 3b28eb4577d457c8,3b28eb4577d457c8,3b28eb4577d457c8
+phase3,rankings/Nall_M50_tierandom.npz (vs this working tree; git-ignored),identical,sha256 66534da1238b4b97,66534da1238b4b97,66534da1238b4b97
+phase3,rankings/Nall_Mfull_tieclassical.npz (vs this working tree; git-ignored),identical,sha256 f0ee301e6329c0a5,f0ee301e6329c0a5,f0ee301e6329c0a5
+phase4,main_table.csv,identical,sha256 d43e3e4562851419,d43e3e4562851419,d43e3e4562851419
+phase4,failure_summary.json,identical,sha256 63a2f584c9c9d1a7,63a2f584c9c9d1a7,63a2f584c9c9d1a7
+phase4,failure_examples.csv,identical,sha256 7394295337757bb2,7394295337757bb2,7394295337757bb2
+phase4,tests.csv,identical,sha256 e3a124dfcdb88486,e3a124dfcdb88486,e3a124dfcdb88486
+phase5,prompt contexts rebuilt from regenerated rankings,identical,4400/4400 identical (committed 4400),,
+phase5,LLM cache keys of rebuilt prompts,identical,4400/4400 identical,,
+phase5,every stored answer is keyed to its prompt,identical,4400/4400,,
+phase5,correctness / abstention relabelled from stored answers,identical,4400/4400 identical,,
+phase5,outcomes_by_arm.csv,identical,sha256 f66cb7a5108cd47b,f66cb7a5108cd47b,f66cb7a5108cd47b
+phase5,threshold_sweep.csv,identical,sha256 3cf8eb490cade9a3,3cf8eb490cade9a3,3cf8eb490cade9a3
+phase5,paired_tests.csv,identical,sha256 84ffa3886d161654,84ffa3886d161654,84ffa3886d161654
+phase5,mediation_by_gold_in_context.csv,identical,sha256 a33052d7fa112e56,a33052d7fa112e56,a33052d7fa112e56
+phase5,controls_check.json,identical,sha256 37f301767686f031,37f301767686f031,37f301767686f031
+phase5,audit_template.csv,equal_ignoring_timing,50 rows; ignored columns [],230c27c9e7f87327,ac5b1b920cfd87f4
+phase7,combined_table.csv,identical,sha256 9c0ff3285ecdb429,9c0ff3285ecdb429,9c0ff3285ecdb429
+phase7,pareto_hallucination.csv,identical,sha256 c483ba68eaa798bd,c483ba68eaa798bd,c483ba68eaa798bd
+phase7,pareto_retrieval_miss.csv,identical,sha256 2456e4744aeb3c92,2456e4744aeb3c92,2456e4744aeb3c92
+phase7,break_even_hallucination.csv,identical,sha256 f9c4695303848009,f9c4695303848009,f9c4695303848009
+phase7,break_even_retrieval.csv,identical,sha256 4d0df64aa3d50435,4d0df64aa3d50435,4d0df64aa3d50435
+phase7,break_even_modelled_cost.csv,identical,sha256 195e21c982e5bef1,195e21c982e5bef1,195e21c982e5bef1
+phase7,sensitivity_shortlist_M.csv,identical,sha256 337cb0f4fb9fff9d,337cb0f4fb9fff9d,337cb0f4fb9fff9d
+phase7,sensitivity_tie_breaking.csv,identical,sha256 ae0c348ad173b8a5,ae0c348ad173b8a5,ae0c348ad173b8a5
+phase7,synthesis_meta.json,equal_ignoring_timing,11 fields; 6 ignored,323fa337d1eed79a,3bbae704ef4f2a13
+phase8,seed_robustness_outcomes.csv,identical,sha256 e16ef3004c551e5d,e16ef3004c551e5d,e16ef3004c551e5d
+phase8,seed_robustness_retrieval.csv,identical,sha256 e3fd7d70e820c931,e3fd7d70e820c931,e3fd7d70e820c931
+phase8,threshold_sensitivity_tests.csv,identical,sha256 bf631db01ae16512,bf631db01ae16512,bf631db01ae16512
+phase8,threshold_invariance.json,identical,sha256 3d4b2bbff9e845f9,3d4b2bbff9e845f9,3d4b2bbff9e845f9
+phase8,qualitative_examples.csv,identical,sha256 619a26b34ace3d69,619a26b34ace3d69,619a26b34ace3d69
+phase8,qualitative_category_counts.json,identical,sha256 ca6c3d3577581941,ca6c3d3577581941,ca6c3d3577581941
+phase8,audit_agreement.json,identical,sha256 65a794db28ba52db,65a794db28ba52db,65a794db28ba52db
+phase8,threats_matrix.csv,equal_ignoring_timing,14 rows; ignored columns ['artifact'],feb1ec9e48fd8fc7,72998c46447a755f

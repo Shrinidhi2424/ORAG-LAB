@@ -1,0 +1,9 @@
+{
+  "generated_blocks_checked": 14,
+  "generated_blocks_not_reproducible": [],
+  "artifact_paths_checked": 135,
+  "missing_paths": [],
+  "hand_numbers_allowed_design_constants": 106,
+  "unflagged_hand_numbers": [],
+  "passed": true
+}

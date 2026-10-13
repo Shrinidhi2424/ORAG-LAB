@@ -57,6 +57,14 @@ Do not hand-type numbers inside generated blocks (R4).
 | P8-6 | 8 | Hand audit: 0/50 rows labelled; pending: human labels not returned; kappa not computed | results/phase8/phase8_20261013_201227/audit_agreement.json |
 | P8-7 | 8 | Threats-to-validity matrix: 14 threats with artifact evidence | results/phase8/phase8_20261013_201227/threats_matrix.csv |
 | P8-8 | 8 | pytest: 66/66 passed | results/phase8/phase8_20261013_201227/pytest_junit.xml |
+| P9-1 | 9 | Clean room: 85/85 artifacts reproduced, 0 different | results/phase9/phase9_20261013_211939/clean_room_summary.json |
+| P9-2 | 9 | Numbers audit passed: True | results/phase9/phase9_20261013_211939/number_audit.json |
+| P9-3 | 9 | pytest: 72/72 passed | results/phase9/phase9_20261013_211939/pytest_junit.xml |
+| P9-4 | 9 | Acceptance checklist: 13/16 ticked | results/phase9/phase9_20261013_211939 |
+| H-1 | 9 | RQ1: hallucination rises at S=64 (Holm-significant), no detectable change at S>=1024; mediated by gold-in-context | results/phase5/phase5_20261011_225152/paired_tests.csv |
+| H-2 | 9 | RQ2: N=all retrieval median Flat 2.918 ms vs quantum-sim 2.903 ms (emulated; within noise) | results/phase4/phase4_20261011_223158/latency_summary.csv |
+| H-3 | 9 | RQ3: Hit@3 gap at S=1024 widens from -0.024 (N=1k) to -0.054 (N=all); shots needed grow with N | results/phase4/phase4_20261011_223158/tests.csv |
+| H-4 | 9 | RQ4: Flat on the Pareto front at every N; hallucination break-even (+-0.075) at S=1024/1024/1024 | results/phase7/phase7_20261013_200015/pareto_hallucination.csv |
 <!-- END:index -->
 
 ## 1. Environment & Versions
@@ -1381,8 +1389,96 @@ Ungrounded-answer rate by arm under each judge (threshold 0.5; `results/phase8/p
 **Manuscript hook**: Section 8 (hallucination analysis: robustness, error analysis) and Section 11 (limitations and threats to validity); Tables T8a-T8f.
 <!-- END:phase8 -->
 
+### Phase 9 - End-to-end testing and acceptance
+<!-- BEGIN:phase9 -->
+Run `phase9_20261013_211939` - manifest: `results/phase9/phase9_20261013_211939/run_manifest.json`.
+
+**9.1 Clean-room reproduction** (`results/phase9/phase9_20261013_211939/clean_room_summary.json`, per-artifact rows `results/phase9/phase9_20261013_211939/clean_room.csv`, logs in `results/phase9/phase9_20261013_211939/logs/`): fresh `git clone` of commit `fba2de903c`, run with the pinned interpreter (84 locked packages, 0 version mismatches vs `requirements.lock`). 85 comparisons: 76 byte-identical, 8 equal after ignoring timing / run-id fields, 1 equal after normalising CRLF line endings (git checkout on Windows), 0 different, 0 missing. Small config: embedding check on 300 queries + 1000-paragraph rung; full stored embeddings re-used afterwards. Excluded: latency/throughput (Phases 2, 4, 6): non-deterministic by nature; LLM generation: checked via cache keys of rebuilt prompts; HHEM / NLI scoring: scores re-used; Phase 3 timing and T6 resource decomposition; Phase 6 containers. Wall time 12.1 min.
+
+| Stage | Artifacts compared | Reproduced | Not reproduced |
+|---|---|---|---|
+| report | 1 | 1 | - |
+| data | 2 | 2 | - |
+| phase1 | 12 | 12 | - |
+| embed | 2 | 2 | - |
+| phase2 | 3 | 3 | - |
+| phase3 | 34 | 34 | - |
+| phase4 | 4 | 4 | - |
+| phase5 | 10 | 10 | - |
+| phase7 | 9 | 9 | - |
+| phase8 | 8 | 8 | - |
+
+**9.4 Numbers audit** (`results/phase9/phase9_20261013_211939/number_audit.json`, `scripts/check_numbers.py`): 14 generated blocks re-rendered from the artifacts, not reproducible: none; 135 quoted artifact paths, missing: none; hand-authored text: 106 design-constant numbers, 0 unlabelled hand-typed numbers. Passed: **True**. (The Manuscript Numbers Sheet itself is a Phase 10 deliverable and will be added to this audit.)
+
+**9.2 / 9.3 pytest** (whole suite, incl. determinism tests in `tests/test_phase9.py`: same seed -> identical quantum-sim rankings for shortlist and full scan; different seeds -> different rankings at low S and convergence to the classical order at very high S; seed-to-seed variance of the estimator matches sqrt((1 - c^4)/S); stored rankings: seeds differ at S=64 and coincide with the classical list at S=inf): 72 tests, 0 failures, 0 errors, 0 skipped (`results/phase9/phase9_20261013_211939/pytest_junit.xml`).
+
+**9.6 Acceptance checklist (plan section 9)**, each item evaluated by `scripts/report_phase9.py` on the artifacts; unticked items are pending or failed, as stated.
+
+|  | Item | Evidence |
+|---|---|---|
+| [x] | Generator benchmark table recorded; model chosen by the H2 rule | chosen qwen2.5:1.5b-instruct; passing ['qwen2.5:1.5b-instruct', 'llama3.2:1b'] (`results/phase0/phase0_20261011_202243/generator_bench_summary.json`) |
+| [x] | Environment recorded; versions pinned; seeds fixed; manifests written | env.json, requirements.lock; run manifests for 9/9 phase runs 0-8 |
+| [x] | Corpus ladder nested, gold always included; 300 questions fixed | `results/phase1/phase1_20261011_210325/corpus_stats.json` |
+| [x] | Classical Flat (and IVF) metrics + latency for all N | `results/phase2/phase2_20261011_212701/quality.csv`, `results/phase4/phase4_20261011_223158/latency_summary.csv` |
+| [x] | Tier B emulator validated vs theory and vs Tier A (F2) | RMSE slope -0.499 (theory -0.5); KS A vs B p=0.258; repeated-estimate KS caveat in Failures |
+| [x] | Quantum arm results: all S, M, N, R=5 seeds | 180/180 (N, M, S) configurations with 5-seed sd (`results/phase3/phase3_20261011_221127/retrieval_metrics.csv`) |
+| [x] | Controls run (closed-book, oracle, random) and sane | `results/phase5/phase5_20261011_225152/controls_check.json` |
+| [x] | Hallucination taxonomy + HHEM + threshold sensitivity | thresholds ['0.3', '0.5', '0.7']; NLI cross-check in Phase 8 |
+| [x] | McNemar/bootstrap tests with Holm correction | T-a/T-b (Phase 4, 30 tests), T-c (Phase 5, 3 tests) |
+| [x] | Cloud-native stack runs (Docker or logged fallback); HTTP latency measured | Docker compose stack; T4c |
+| [x] | Concurrency test (P1) or logged skip | `results/phase6/phase6_20261012_203559/concurrency.csv` |
+| [x] | Clean-room reproduction passes; pytest passes | 85/85 artifacts reproduced; pytest 72/72 |
+| [ ] | FINDINGS.md complete incl. Deviations, Limitations, Numbers Sheet | Deviations and Limitations present; Numbers Sheet is a Phase 10 deliverable |
+| [ ] | README complete; figures F1-F10 with CSVs | figures with CSV 10/10; README.md missing (Phase 10 deliverable) |
+| [ ] | Every phase 0-10 was committed (by the human) before the next began | phase commits found for [0, 1, 2, 3, 4, 5, 6, 7, 8] in order=True, authors ['Shrinidhi Shetty']; phases [9, 10] pending |
+| [x] | No claim of quantum speedup anywhere; terminology defined once | 6 lines mention speedup, all negated: True; definition occurs 1x |
+
+**Manuscript hook**: Section 3 of FINDINGS (Headline Findings) feeds chapter sections 7-10 and 12; the checklist and clean-room result support the reproducibility statement (Section 5).
+<!-- END:phase9 -->
+
 ## 3. Headline Findings
-(Filled in Phase 9.)
+<!-- BEGIN:headline -->
+**Terminology (defined once).** In this work, *quantum-inspired retrieval* means a retrieval stage whose similarity scores are obtained by classically simulating a quantum similarity-estimation procedure (the SWAP test), including its finite-shot measurement statistics. No quantum hardware is used and no speedup is claimed. This is distinct from strictly 'dequantised' algorithms such as Tang's.
+
+Each answer below cites the table / figure that supports it; every number is generated from the artifacts by `scripts/report_phase9.py`. 'Quantum-sim' = the SWAP-test simulation arm (two-stage: Flat shortlist M=50, then the shot-limited estimator), 'classical' = FAISS Flat (exact cosine).
+
+### RQ1 - Hallucination: does swapping the retrieval stage change the rate / type of hallucinated answers?
+
+- Yes at low shot budgets, no detectable change at high ones. Pre-registered T-c (N=all, seed 0, 200 questions, exact McNemar, Holm): S=64: +0.185 [+0.115, +0.255], p_Holm=0.000; S=256: +0.075 [+0.010, +0.140], p_Holm=0.071; S=1024: +0.015 [-0.040, +0.070], p_Holm=0.728 (hallucination rate quantum - classical; classical = 0.390).
+- Only S=64 survives Holm correction; S=256 is nominally significant uncorrected and seeds 1-2 at S=256 also show more hallucination than classical (all three seeds positive: True). At S=4096 (exploratory) the difference is +0.005 [-0.030, +0.045].
+- Mechanism: the effect runs through retrieval. Whether the gold paragraph reached the top-3 dominates the outcome: across all classical and quantum-sim RAG arms, the hallucinated-or-misread rate is 0.130-0.200 when gold is in context and 0.662-0.850 when it is not; the spread within either stratum (0.188) is smaller than the gap between strata (0.462). Low shot counts lower the gold-in-context rate (N=all: classical 0.665 vs S=64 0.375), and the small generator rarely abstains when gold is missing (abstention at most 0.234 in that stratum).
+- Evidence: Table T5c (`results/phase5/phase5_20261011_225152/paired_tests.csv`), mediation table and F9 (`results/phase5/phase5_20261011_225152/mediation_by_gold_in_context.csv`), F8, seed table T8a (`results/phase8/phase8_20261013_201227/seed_robustness_outcomes.csv`).
+- Strength of evidence: **moderate**. One generator (1.5B), one dataset, 200 questions, T-c on seed 0 only; the outcome definition does not depend on the HHEM threshold, but the faithfulness judge is unvalidated by humans (audit pending) and agrees only weakly with an NLI cross-check (T8d).
+
+### RQ2 - Latency: cost / benefit of the quantum-inspired stage, shot dependence, end-to-end vs retrieval-only
+
+- Retrieval-only, in-process (emulated estimator, N=all): Flat 2.918 ms vs quantum-sim M=50 S=1024 2.903 ms median; the quantum-sim median lies inside Flat's run-to-run range of repeat medians (2.121-5.841 ms), i.e. no measurable difference. The estimator stage itself costs 0.120 ms of it; the shortlist arm runs the exact Flat search first, so it cannot be faster than Flat. Full-scan estimation costs 5.175 ms.
+- Shot budget barely moves emulated latency (it draws one binomial per candidate), but it sets the MODELLED quantum cost: at S=1024, 50 circuits and 51,200 shots per query (shortlist), 21,460,992 shots for a full scan. Simulating the real 19-qubit circuit classically (Tier A) took 0.110 s per circuit on this laptop. None of these is wall-clock quantum time.
+- End-to-end over HTTP (containers, medium profile, N=all): classical 32.5 ms vs quantum-sim 32.9 ms median; query embedding (15.2 ms compute) and service hops dominate, and retrieval compute is 3.5 / 3.9 ms. Generation dwarfs all of it (median 9.7 s per uncached answer on this CPU, classical N=all).
+- Evidence: T4b and stage breakdown (`results/phase4/phase4_20261011_223158/latency_summary.csv`), F5, T4c / F5b (`results/phase6/phase6_20261012_203559/latency_summary.csv`), T7f (`results/phase7/phase7_20261013_200015/break_even_modelled_cost.csv`).
+- Strength of evidence: **strong for 'no latency benefit from the emulated estimator'**; no evidence at all about quantum hardware latency (not measured, by design). Absolute numbers are specific to a shared, CPU-only laptop (Balanced power plan, temperature not monitored).
+
+### RQ3 - Scalability: quality, latency and memory as the corpus grows
+
+- At a fixed shot budget the quantum-sim quality gap is larger at N=all than at N=1k (not monotone at every rung): Hit@3 difference (quantum - classical, M=50, S=1024, mean of 5 seeds) N=1k -0.024, N=2k -0.021, N=5k -0.040, N=10k -0.051, N=all (20,958) -0.054.
+- Equivalently, the shot budget needed before the Hit@3 difference is statistically indistinguishable from zero (paired CI, at that S and all larger S) grows with N: N=1k: 2048, N=2k: 4096, N=5k: 4096, N=10k: 8192, N=all (20,958): 16384. Mechanism (observation, not a tested model): shot noise ~1/sqrt(S) against a shrinking score margin between the gold paragraph and more distractors.
+- Latency scaling exponents (latency ~ N^b, in-process): Flat 1.14 [0.97, 1.32], quantum-sim shortlist 0.88 [0.76, 1.12]; the intervals overlap, so neither arm can be said to scale worse in latency.
+- Memory grows linearly with N for both arms (they share the Flat index: 32,191,533 bytes at N=all); running Tier A circuits would additionally need the 512-d padded vectors (42,921,984 bytes).
+- Evidence: T3 / F4 (`results/phase4/phase4_20261011_223158/main_table.csv`), T5a (`results/phase4/phase4_20261011_223158/tests.csv`), shot thresholds (`results/phase3/phase3_20261011_221127/shot_thresholds.csv`), latency slopes / F5 (`results/phase4/phase4_20261011_223158/latency_slopes.csv`), memory (`results/phase4/phase4_20261011_223158/memory_vs_N.csv`).
+- Strength of evidence: **moderate for the quality trend** (300 queries, 5 seeds, consistent across rungs); **weak for latency scaling** (wide exponent CIs, N <= 20,958; no extrapolation to production scale).
+
+### RQ4 - Tradeoff: is there a Pareto frontier (hallucination vs latency vs corpus size), and where does each arm sit?
+
+- Exact Flat retrieval is on the Pareto front at every corpus size. 1 quantum-sim point(s) are also nominally non-dominated, but only through median latency differences inside Flat's run-to-run range; 2 quantum-sim point(s) are robustly dominated (low S). The quantum-sim arm therefore buys nothing on this frontier: it can at best match Flat.
+- Break-even (smallest S whose hallucination difference vs classical has its whole 95% CI within +-0.075, at that and every larger S): N=1k: 1024, N=5k: 1024, N=all (20,958): 1024; at retrieval level, Hit@3 needs S=16384 at N=all for its CI to contain 0. At S=1024 that is 51,200 modelled shots per query.
+- For a practical cloud deployment the relevant frontier is retrieval-only: IVF (nprobe 16) is non-dominated at every N, at lower latency than Flat with a miss rate inside Flat's CI band (T7c, F7b).
+- Evidence: T7b / F7 (`results/phase7/phase7_20261013_200015/pareto_hallucination.csv`), T7c / F7b (`results/phase7/phase7_20261013_200015/pareto_retrieval_miss.csv`), T7d-T7f (`results/phase7/phase7_20261013_200015/break_even_hallucination.csv`).
+- Strength of evidence: **moderate**. Hallucination and latency come from different runs (D-7.1); equivalence margins are post hoc (D-7.2); the conclusion 'no tradeoff advantage in simulation' is robust to those choices because the quantum-sim arm executes the Flat search as its first stage.
+
+**Overall**: the expected result of plan section 1 holds and is documented with its mechanism: at high shot counts the simulated quantum-inspired arm retrieves almost like exact cosine (near-null differences), at low shot counts it degrades retrieval and, through missing gold paragraphs, increases hallucination. No speedup is claimed or observed; the emulated estimator adds work on top of the exact search.
+
+Claim checks on the artifacts: 12/12 passed.
+<!-- END:headline -->
 
 ## 4. Deviations from Plan
 <!-- BEGIN:deviations -->
@@ -1427,6 +1523,13 @@ Ungrounded-answer rate by arm under each judge (threshold 0.5; `results/phase8/p
 - **D-8.3 Hand audit (8.4) is pending**: `results/audit_template.csv` has no human labels yet, so no kappa is reported. The agreement step runs automatically once labels are filled in and `python tasks.py phase8` (or `python scripts/run_phase8.py --run-id <id> --steps audit threats` followed by `python scripts/report.py`) is re-run.
 - **D-8.4 Qualitative examples (8.3)** are drawn at one setting only (classical Flat vs quantum-sim S=256 seed 0, N=all, first 200 questions), seeded random within four categories; they illustrate mechanisms and are not a representative sample.
 - **D-8.5 Phase 8 adds no new generation**: all outcome analyses re-use the stored Phase 5 answers and judge scores.
+- **D-9.1 Clean room without a fresh virtual environment**: the clone runs with the existing pinned interpreter instead of `python tasks.py setup` (a full reinstall of torch and friends was not repeated); `pip freeze` is compared with `requirements.lock` and mismatches are reported in the clean-room summary.
+- **D-9.2 Small config for embeddings**: the clean room re-embeds the evaluation queries and the smallest ladder rung and compares them with the stored arrays; the full stored embeddings are then copied in (a full re-embed is a long CPU job). Every later stage is re-run in full.
+- **D-9.3 Out of clean-room scope**: latency and throughput (non-deterministic by nature), LLM generation (verified instead through the cache keys of prompts rebuilt from the regenerated rankings, which must equal the keys of the stored answers), HHEM and NLI scoring (scores re-used), the T6 circuit decomposition and the containers.
+- **D-9.4 SQuAD not re-downloaded**: the raw files are copied from the working tree and verified against the committed sha256 checksums (no network during runs, R6).
+- **D-9.5 The clean room tests the committed HEAD**: it clones the last human commit, so it runs the committed scripts; Phase 9 code itself enters the clean room only after the Phase 9 commit.
+- **D-9.6 Line endings**: on Windows, `git clone` checks text files out with CRLF (`.gitattributes` text=auto) while `report.py` writes LF; text files are therefore also compared after CRLF to LF normalisation, and that status is reported separately.
+- **D-9.7 Automated acceptance**: headline findings are generated with programmatic claim checks; the acceptance checklist is evaluated from the artifacts; the numbers audit allows a fixed list of plan design constants in hand-written text and flags every other number.
 <!-- END:deviations -->
 
 ## 5. Failures, Limitations, Threats to Validity
@@ -1450,22 +1553,35 @@ Ungrounded-answer rate by arm under each judge (threshold 0.5; `results/phase8/p
 - **More CPU did not mean lower latency at low load (Phase 6)**: the embedder's per-request compute time was not lower under the large profile (4 threads) than under small or medium (1-2 threads) in the in-network run, and single-client throughput was lower for large; the cause was not investigated (candidates: thread oversubscription of a 4-core/8-thread laptop that also hosts the load generator, small-batch thread overhead). The profile comparison is therefore about this host, not about cloud instance types.
 - **Shared-host measurement (Phase 6)**: the services, the load generator, Docker Desktop and Windows share one 8 GB laptop; power plan Balanced; temperature not monitored; host free RAM was low at the start of the runs. The embedding step (a transformer forward pass of ~15-25 ms) dominates the request in every profile and masks retrieval differences: classical and quantum-sim arms are indistinguishable at N <= 5000 over HTTP, and the arm and N effects at N=all are small compared with the run-to-run range.
 - **Concurrency is a closed-loop test (Phase 6)**: N concurrent clients each wait for their response; there is no open-loop arrival process, so tail latencies at saturation are not queueing-theory estimates. Occasional multi-second p95 values in single runs (visible in the raw concurrency CSVs) were not investigated; medians over 3 runs are reported.
-- **Pareto latency axis is nearly flat between arms (Phase 7)**: the shortlist arm executes the exact Flat search first, so its emulated latency is Flat plus a small estimator cost; differences between arms at a given N are inside the run-to-run range of repeat medians (and one quantum-sim point at N=all is nominally 'non-dominated' only because of a 0.015 ms median difference). The tradeoff conclusions rest on the hallucination axis; no latency advantage can be claimed.
-- **Break-even is limited by sample size (Phase 7)**: with 200 questions the paired CI of a hallucination-rate difference has a half-width of roughly 0.03-0.06 even at high shots, so equivalence within +-0.05 is hard to show; 'indistinguishable' at S=1024 means 'no detectable difference at this n', not 'no difference'. Hallucination break-even uses seed 0 only.
+- **Pareto latency axis is nearly flat between arms (Phase 7)**: the shortlist arm executes the exact Flat search first, so its emulated latency is Flat plus a small estimator cost; differences between arms at a given N are inside the run-to-run range of repeat medians (the one quantum-sim point that is nominally 'non-dominated' at N=all differs from Flat by a median latency gap far inside that range; see T7b). The tradeoff conclusions rest on the hallucination axis; no latency advantage can be claimed.
+- **Break-even is limited by sample size (Phase 7)**: with 200 questions the paired CI of a hallucination-rate difference stays wide even at high shots (see the CI columns of T7d), so equivalence within the narrowest margin is hard to show; 'indistinguishable' at S=1024 means 'no detectable difference at this n', not 'no difference'. Hallucination break-even uses seed 0 only.
 - **Phase 8 limitations are collected in the threats matrix (plan T7)**: see the Phase 8 report (table T8f), where every threat carries its evidence and artifact. Items not covered by a number there: the NLI judge is a chunked, uncalibrated cross-check (D-8.1) and does not validate either judge against humans; the qualitative examples are illustrative; hallucination seed variability rests on three seeds at one shot setting.
 - **The NLI cross-check agrees only weakly with HHEM (Phase 8)**: the two judges disagree on many individual answers (kappa and agreement in table T8d) and the NLI model labels far fewer answers faithful, plausibly because short-answer hypotheses are hard for a per-paragraph NLI model. The cross-check therefore does not validate HHEM at the level of individual answers; it only shows whether the arm-level direction of the ungrounded-rate difference survives a second judge (see T8d). Faithfulness conclusions rest mainly on HHEM and stay unvalidated until the human audit is returned.
 <!-- END:failures -->
 
 ## 6. Reproduction Commands
+<!-- BEGIN:repro -->
 ```
-python tasks.py setup          # venv + pinned requirements.lock
-python tasks.py env data bench # Phase 0 artifacts under results/phase0/<run_id>/
-python tasks.py test report    # pytest + regenerate FINDINGS.md blocks
+python tasks.py setup                 # venv + pinned requirements.lock
+python tasks.py env data bench        # Phase 0: environment, SQuAD download + checksums, generator gate (needs Ollama)
+python tasks.py phase1                # corpus, ladder, eval set, embeddings (~15 min CPU), ground truth
+python tasks.py phase2 phase3 phase4  # FAISS baseline, SWAP-test arm + validation, retrieval-only experiments
+python tasks.py phase5                # RAG generation (resumable, hours on CPU; cached), HHEM judging, analysis
+python tasks.py phase6                # Docker Desktop running, Ollama idle: containers, HTTP latency, concurrency
+python tasks.py phase7 phase8         # tradeoff synthesis; robustness / NLI judge (stop Ollama first)
+python tasks.py phase9                # clean-room reproduction, numbers audit, tests, headline findings
+python tasks.py figures report        # figures (PNG + CSV) and FINDINGS.md blocks
 ```
+<!-- END:repro -->
 
 ## 7. Open Questions for Human
 <!-- BEGIN:open -->
-(None recorded yet.)
+- **Hand audit labels (D10, task 5.6 / task 8.4)**: please fill the human columns of `results/audit_template.csv`; agreement (Cohen's kappa) is then computed by re-running `python scripts/run_phase8.py --run-id <phase 8 run id> --steps audit threats` and `python scripts/report.py`. Until then faithfulness labels are unvalidated.
+- **Base-paper metadata (A.7)**: confirm the year / volume of Huang et al. (hallucination survey, DOI `10.1145/3703155`) on the ACM page before citing.
+- **Docker Desktop licence (H6)**: confirm that the free personal / education terms apply to you (alternatives: Rancher Desktop, Podman).
+- **Zardini et al. estimator (D4, [P1])**: not implemented (D-3.3). Decide whether the chapter mentions it only as related work.
+- **Latency re-run under 'Best performance' (H7)**: all latency runs used the Balanced power plan (D-2.1). Re-run `python tasks.py phase2 phase4` with Best performance if tighter latency numbers are needed; conclusions about arm differences would not change (they are within noise).
+- **Free-tier cloud re-run (6.6, [P2])**: not done; the manuscript should claim only a cloud-native architecture emulated on commodity hardware.
 <!-- END:open -->
 
 ## 8. Manuscript Numbers Sheet

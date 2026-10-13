@@ -1,0 +1,53 @@
+{
+  "phase": "phase9",
+  "run_id": "phase9_20261013_211939",
+  "timestamp_utc": "2026-10-13T16:17:06+00:00",
+  "git": {
+    "commit": "fba2de903c526a60ea428a18c756dcc4268647d5",
+    "dirty": true
+  },
+  "seeds": {
+    "note": "all seeds as in the reproduced phases"
+  },
+  "config": {
+    "clone_of_commit": "fba2de903c526a60ea428a18c756dcc4268647d5",
+    "comparisons": 85,
+    "excluded": [
+      "latency/throughput (Phases 2, 4, 6): non-deterministic by nature",
+      "LLM generation: checked via cache keys of rebuilt prompts",
+      "HHEM / NLI scoring: scores re-used",
+      "Phase 3 timing and T6 resource decomposition",
+      "Phase 6 containers"
+    ]
+  },
+  "host": {
+    "os": "Windows-11-10.0.26200-SP0",
+    "machine": "AMD64",
+    "processor": "Intel64 Family 6 Model 140 Stepping 1, GenuineIntel",
+    "cpu_physical_cores": 4,
+    "cpu_logical_cores": 8,
+    "ram_total_bytes": 8334729216,
+    "python": "3.12.6"
+  },
+  "packages": {
+    "numpy": "2.5.4",
+    "scipy": "1.18.1",
+    "pandas": "3.0.6",
+    "faiss-cpu": "1.15.1",
+    "sentence-transformers": "6.1.0",
+    "torch": "2.14.1+cpu",
+    "transformers": "5.19.0",
+    "qiskit": "2.5.2",
+    "qiskit-aer": "0.17.2",
+    "fastapi": "0.143.0",
+    "uvicorn": "0.54.0",
+    "httpx": "0.28.1",
+    "pydantic": "2.14.0",
+    "pytest": "9.1.1",
+    "matplotlib": "3.11.2",
+    "pyyaml": "6.0.3",
+    "datasets": "5.1.0",
+    "ollama": "0.6.3",
+    "psutil": "7.2.2"
+  }
+}

@@ -71,6 +71,17 @@ def figures() -> None:
     run(py(), "scripts/make_figures.py")
 
 
+def phase9() -> None:
+    """Acceptance: clean-room reproduction (fresh clone of HEAD, ~20 min), tests, FINDINGS blocks, numbers audit."""
+    rid = run_id("phase9")
+    run(py(), "scripts/clean_room.py", "--run-id", rid)
+    test()
+    report()
+    run(py(), "scripts/check_numbers.py", "--run-id", rid)
+    report()  # the Phase 9 block quotes the audit result
+    run(py(), "scripts/check_numbers.py", "--run-id", rid)
+
+
 def phase8() -> None:
     """Robustness, error analysis, threats. The nli step loads a model: Ollama must be stopped (H5)."""
     run(py(), "scripts/run_phase8.py", "--run-id", run_id("phase8"))
@@ -153,8 +164,8 @@ def phase0() -> None:
 
 
 TASKS = {"setup": setup, "env": env, "data": data, "bench": bench, "test": test, "report": report, "embed": embed,
-         "phase0": phase0, "phase1": phase1, "phase2": phase2, "phase3": phase3, "phase4": phase4, "phase5": phase5, "phase6": phase6, "phase7": phase7, "phase8": phase8, "figures": figures}
-for _i in range(9, 11):
+         "phase0": phase0, "phase1": phase1, "phase2": phase2, "phase3": phase3, "phase4": phase4, "phase5": phase5, "phase6": phase6, "phase7": phase7, "phase8": phase8, "phase9": phase9, "figures": figures}
+for _i in range(10, 11):
     TASKS[f"phase{_i}"] = not_yet(f"phase{_i}")
 
 
