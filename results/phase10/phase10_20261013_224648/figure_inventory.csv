@@ -1,0 +1,13 @@
+figure,png,data_csv,dpi,png_exists,csv_exists
+F1,results/figures/F1_architecture.png,results/figures/F1_architecture.csv,300,True,True
+F2,results/figures/F2_error_vs_shots.png,results/figures/F2_error_vs_shots.csv,300,True,True
+F3,results/figures/F3_quality_vs_shots.png,results/figures/F3_quality_vs_shots.csv,300,True,True
+F4,results/figures/F4_quality_vs_N.png,results/figures/F4_quality_vs_N.csv,300,True,True
+F5,results/figures/F5_latency_vs_N.png,results/figures/F5_latency_vs_N.csv,300,True,True
+F6,results/figures/F6_overlap_rbo_vs_shots.png,results/figures/F6_overlap_rbo_vs_shots.csv,300,True,True
+F7,results/figures/F7_pareto_hallucination.png,results/figures/F7_pareto_hallucination.csv,300,True,True
+F8,results/figures/F8_outcome_taxonomy.png,results/figures/F8_outcome_taxonomy.csv,300,True,True
+F9,results/figures/F9_hallucination_by_gold_in_context.png,results/figures/F9_hallucination_by_gold_in_context.csv,300,True,True
+F10,results/figures/F10_concurrency.png,results/figures/F10_concurrency.csv,300,True,True
+F5b,results/figures/F5b_http_vs_inprocess.png,results/figures/F5b_http_vs_inprocess.csv,300,True,True
+F7b,results/figures/F7b_pareto_retrieval_miss.png,results/figures/F7b_pareto_retrieval_miss.csv,300,True,True

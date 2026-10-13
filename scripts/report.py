@@ -351,6 +351,20 @@ def render(text: str) -> str:
             text = block(text, "phase9", body9)
             index_rows += rows9
         index_rows += rowsh
+    run10 = latest_run("phase10")
+    if run10 and (run10 / "numbers_sheet.csv").exists():
+        from report_phase10 import numbers_block, phase10_block
+
+        if "<!-- BEGIN:phase10 -->" not in text:
+            text = text.replace("## 3. Headline Findings", "### Phase 10 - Documentation and manuscript handoff\n"
+                                "<!-- BEGIN:phase10 -->\n<!-- END:phase10 -->\n\n## 3. Headline Findings", 1)
+        if "<!-- BEGIN:numbers -->" not in text:
+            text = text.replace("## 8. Manuscript Numbers Sheet\n(Generated in Phase 10.)", "## 8. Manuscript Numbers Sheet\n<!-- BEGIN:numbers -->\n<!-- END:numbers -->", 1)
+        body10, rows10 = phase10_block(run10)
+        bodyn, rowsn = numbers_block(run10)
+        text = block(text, "phase10", body10)
+        text = block(text, "numbers", bodyn)
+        index_rows += rowsn + rows10
     text = block(text, "index", md_table(["ID", "Phase", "Key result", "Artifact"], index_rows))
     text = seed_block(text, "deviations", DEVIATIONS)
     text = seed_block(text, "failures", FAILURES)

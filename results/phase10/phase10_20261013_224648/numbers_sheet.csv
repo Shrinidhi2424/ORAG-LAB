@@ -1,0 +1,135 @@
+id,chapter_section,quantity,value,artifact,note
+N001,5,Unique paragraphs after de-duplication,20958,results/phase1/phase1_20261011_210325/corpus_stats.json,
+N002,5,Raw paragraphs train / dev,18896 / 2067,results/phase1/phase1_20261011_210325/corpus_stats.json,
+N003,5,Exact duplicate paragraphs dropped,5,results/phase1/phase1_20261011_210325/corpus_stats.json,
+N004,5,Evaluation questions (seed 42) / distinct gold paragraphs,300 / 275,results/phase1/phase1_20261011_210325/corpus_stats.json,
+N005,5,Corpus ladder sizes,"1000, 2000, 5000, 10000, 20958",results/phase1/phase1_20261011_210325/corpus_stats.json,nested; gold paragraphs in every rung
+N006,5,Words per paragraph mean / median / p95 / max,117.2 / 108.0 / 210.0 / 653.0,results/phase1/phase1_20261011_210325/corpus_stats.json,
+N007,5,Embedding model and revision,sentence-transformers/all-MiniLM-L6-v2 @ 1110a243fdf4706b3f48f1d95db1a4f5529b4d41,results/phase1/phase1_20261011_210325/embed_info.json,
+N008,5,Embedding dimension / padded dimension / max sequence length,384 / 512 / 256,results/phase1/phase1_20261011_210325/embed_info.json,
+N009,5,"Paragraphs truncated by the embedder (count, share)",1494 (0.071),results/phase1/phase1_20261011_210325/embed_info.json,
+N010,5,Paragraph embedding time (s) and rate (paragraphs/s),"864.0 s, 24.3/s",results/phase1/phase1_20261011_210325/embed_info.json,
+N011,5,"Chosen generator, quantisation, digest","qwen2.5:1.5b-instruct, Q4_K_M, 65ec06548149",results/phase0/phase0_20261011_202243/generator_bench_summary.json,
+N012,5,"Generator gate: median s/query, p95 s, tokens/s, prompt tokens",6.284 / 8.043 / 21.89 / 623.0,results/phase0/phase0_20261011_202243/generator_bench_summary.json,
+N013,5,Generation options,"{""temperature"": 0, ""seed"": 42, ""num_ctx"": 2048, ""num_predict"": 48, ""num_gpu"": 0}",results/phase0/phase0_20261011_202243/generator_bench_summary.json,
+N014,5,HHEM judge model and revision,vectara/hallucination_evaluation_model @ de9a5e6ba9ba,results/phase5/phase5_20261011_225152/judge_info.json,
+N015,5,Host CPU / RAM / OS,11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz / 8.33 GB / Windows-11-10.0.26200-SP0,results/phase0/phase0_20261011_202243/env.json,
+N016,5,"Key package versions (numpy, faiss-cpu, torch, qiskit, qiskit-aer)","numpy 2.5.4, faiss-cpu 1.15.1, torch 2.14.1+cpu, qiskit 2.5.2, qiskit-aer 0.17.2",results/phase0/phase0_20261011_202243/env.json,
+N017,6,Tier A error at S=4096: bias / MAE / RMSE / theory RMSE,+0.00039 / 0.0127 / 0.0161 / 0.0155,results/phase3/phase3_20261011_221127/validation.json,
+N018,6,Tier B error at S=4096: bias / MAE / RMSE / theory RMSE,-0.00044 / 0.0121 / 0.0157 / 0.0155,results/phase3/phase3_20261011_221127/validation.json,
+N019,6,"Two-sample KS Tier A vs Tier B (statistic, p)","0.064, 0.258",results/phase3/phase3_20261011_221127/validation.json,
+N020,6,"Log-log slope of RMSE vs shots, Tier A (theory -0.5)",-0.483,results/phase3/phase3_20261011_221127/validation.json,
+N021,6,"Log-log slope of RMSE vs shots, Tier B (theory -0.5)",-0.499,results/phase3/phase3_20261011_221127/validation.json,
+N022,6,SWAP circuit with generic state preparation: qubits / depth / 2q gates / 1q gates,19 / 1083 / 1076 / 1096,results/phase3/phase3_20261011_221127/t6_resource_counts.json,
+N023,6,SWAP-test core alone: depth / 2q gates,78 / 72,results/phase3/phase3_20261011_221127/t6_resource_counts.json,
+N024,6,"Tier A simulation cost per circuit (s), end-to-end subset",0.110,results/phase3/phase3_20261011_221127/tierA_e2e_summary.json,"classical simulation cost, not quantum time"
+N025,6,Negative cosines in exact top-10 at every rung,0,results/phase3/phase3_20261011_221127/negative_cosine_audit.json,
+N026,6,"Smallest S with Hit@3 indistinguishable from classical (paired CI), N = 1000/2000/5000/10000/all",2048 / 4096 / 4096 / 8192 / 16384,results/phase3/phase3_20261011_221127/shot_thresholds.csv,
+N027,7,"Flat, N=1000: Hit@1 / Hit@3 [CI] / MRR@10","0.720 / 0.860 [0.820, 0.897] / 0.796",results/phase4/phase4_20261011_223158/main_table.csv,
+N028,7,"IVF nprobe 16, N=1000: Hit@1 / Hit@3 [CI] / MRR@10","0.720 / 0.860 [0.820, 0.897] / 0.797",results/phase4/phase4_20261011_223158/main_table.csv,
+N029,7,"Quantum-sim M=50 S=256, N=1000: Hit@3 [CI] / MRR@10 / Overlap@10 / RBO","0.761 [0.721, 0.801] / 0.703 / 0.565 / 0.586",results/phase4/phase4_20261011_223158/main_table.csv,
+N030,7,"Quantum-sim M=50 S=1024, N=1000: Hit@3 [CI] / MRR@10 / Overlap@10 / RBO","0.836 [0.797, 0.873] / 0.769 / 0.707 / 0.737",results/phase4/phase4_20261011_223158/main_table.csv,
+N031,7,"Quantum-sim M=50 S=4096, N=1000: Hit@3 [CI] / MRR@10 / Overlap@10 / RBO","0.857 [0.819, 0.894] / 0.794 / 0.831 / 0.852",results/phase4/phase4_20261011_223158/main_table.csv,
+N032,7,"Quantum-sim M=50 S=16384, N=1000: Hit@3 [CI] / MRR@10 / Overlap@10 / RBO","0.857 [0.817, 0.894] / 0.796 / 0.910 / 0.920",results/phase4/phase4_20261011_223158/main_table.csv,
+N033,7,"Flat, N=2000: Hit@1 / Hit@3 [CI] / MRR@10","0.690 / 0.827 [0.783, 0.870] / 0.766",results/phase4/phase4_20261011_223158/main_table.csv,
+N034,7,"IVF nprobe 16, N=2000: Hit@1 / Hit@3 [CI] / MRR@10","0.687 / 0.823 [0.780, 0.867] / 0.762",results/phase4/phase4_20261011_223158/main_table.csv,
+N035,7,"Quantum-sim M=50 S=256, N=2000: Hit@3 [CI] / MRR@10 / Overlap@10 / RBO","0.739 [0.697, 0.780] / 0.667 / 0.578 / 0.592",results/phase4/phase4_20261011_223158/main_table.csv,
+N036,7,"Quantum-sim M=50 S=1024, N=2000: Hit@3 [CI] / MRR@10 / Overlap@10 / RBO","0.806 [0.765, 0.846] / 0.732 / 0.719 / 0.742",results/phase4/phase4_20261011_223158/main_table.csv,
+N037,7,"Quantum-sim M=50 S=4096, N=2000: Hit@3 [CI] / MRR@10 / Overlap@10 / RBO","0.813 [0.770, 0.853] / 0.755 / 0.836 / 0.852",results/phase4/phase4_20261011_223158/main_table.csv,
+N038,7,"Quantum-sim M=50 S=16384, N=2000: Hit@3 [CI] / MRR@10 / Overlap@10 / RBO","0.821 [0.779, 0.861] / 0.761 / 0.911 / 0.921",results/phase4/phase4_20261011_223158/main_table.csv,
+N039,7,"Flat, N=5000: Hit@1 / Hit@3 [CI] / MRR@10","0.623 / 0.777 [0.730, 0.823] / 0.708",results/phase4/phase4_20261011_223158/main_table.csv,
+N040,7,"IVF nprobe 16, N=5000: Hit@1 / Hit@3 [CI] / MRR@10","0.620 / 0.770 [0.720, 0.817] / 0.703",results/phase4/phase4_20261011_223158/main_table.csv,
+N041,7,"Quantum-sim M=50 S=256, N=5000: Hit@3 [CI] / MRR@10 / Overlap@10 / RBO","0.685 [0.640, 0.729] / 0.618 / 0.586 / 0.588",results/phase4/phase4_20261011_223158/main_table.csv,
+N042,7,"Quantum-sim M=50 S=1024, N=5000: Hit@3 [CI] / MRR@10 / Overlap@10 / RBO","0.737 [0.690, 0.781] / 0.682 / 0.731 / 0.742",results/phase4/phase4_20261011_223158/main_table.csv,
+N043,7,"Quantum-sim M=50 S=4096, N=5000: Hit@3 [CI] / MRR@10 / Overlap@10 / RBO","0.759 [0.713, 0.804] / 0.696 / 0.848 / 0.856",results/phase4/phase4_20261011_223158/main_table.csv,
+N044,7,"Quantum-sim M=50 S=16384, N=5000: Hit@3 [CI] / MRR@10 / Overlap@10 / RBO","0.775 [0.729, 0.820] / 0.710 / 0.920 / 0.924",results/phase4/phase4_20261011_223158/main_table.csv,
+N045,7,"Flat, N=10000: Hit@1 / Hit@3 [CI] / MRR@10","0.573 / 0.747 [0.697, 0.793] / 0.662",results/phase4/phase4_20261011_223158/main_table.csv,
+N046,7,"IVF nprobe 16, N=10000: Hit@1 / Hit@3 [CI] / MRR@10","0.560 / 0.727 [0.677, 0.777] / 0.645",results/phase4/phase4_20261011_223158/main_table.csv,
+N047,7,"Quantum-sim M=50 S=256, N=10000: Hit@3 [CI] / MRR@10 / Overlap@10 / RBO","0.612 [0.565, 0.659] / 0.551 / 0.574 / 0.563",results/phase4/phase4_20261011_223158/main_table.csv,
+N048,7,"Quantum-sim M=50 S=1024, N=10000: Hit@3 [CI] / MRR@10 / Overlap@10 / RBO","0.695 [0.648, 0.743] / 0.627 / 0.731 / 0.733",results/phase4/phase4_20261011_223158/main_table.csv,
+N049,7,"Quantum-sim M=50 S=4096, N=10000: Hit@3 [CI] / MRR@10 / Overlap@10 / RBO","0.728 [0.681, 0.775] / 0.651 / 0.846 / 0.850",results/phase4/phase4_20261011_223158/main_table.csv,
+N050,7,"Quantum-sim M=50 S=16384, N=10000: Hit@3 [CI] / MRR@10 / Overlap@10 / RBO","0.740 [0.691, 0.787] / 0.656 / 0.911 / 0.917",results/phase4/phase4_20261011_223158/main_table.csv,
+N051,7,"Flat, N=all (20958): Hit@1 / Hit@3 [CI] / MRR@10","0.490 / 0.680 [0.627, 0.733] / 0.590",results/phase4/phase4_20261011_223158/main_table.csv,
+N052,7,"IVF nprobe 16, N=all (20958): Hit@1 / Hit@3 [CI] / MRR@10","0.473 / 0.660 [0.607, 0.713] / 0.572",results/phase4/phase4_20261011_223158/main_table.csv,
+N053,7,"Quantum-sim M=50 S=256, N=all (20958): Hit@3 [CI] / MRR@10 / Overlap@10 / RBO","0.552 [0.505, 0.600] / 0.489 / 0.566 / 0.546",results/phase4/phase4_20261011_223158/main_table.csv,
+N054,7,"Quantum-sim M=50 S=1024, N=all (20958): Hit@3 [CI] / MRR@10 / Overlap@10 / RBO","0.626 [0.577, 0.675] / 0.559 / 0.722 / 0.713",results/phase4/phase4_20261011_223158/main_table.csv,
+N055,7,"Quantum-sim M=50 S=4096, N=all (20958): Hit@3 [CI] / MRR@10 / Overlap@10 / RBO","0.661 [0.611, 0.711] / 0.583 / 0.845 / 0.841",results/phase4/phase4_20261011_223158/main_table.csv,
+N056,7,"Quantum-sim M=50 S=16384, N=all (20958): Hit@3 [CI] / MRR@10 / Overlap@10 / RBO","0.675 [0.623, 0.725] / 0.592 / 0.918 / 0.915",results/phase4/phase4_20261011_223158/main_table.csv,
+N057,7/9,"Retrieval latency median / p95 ms, N=1000: Flat | IVF | quantum-sim M=50 S=1024 | full scan S=1024",0.109 / 0.212 | 0.050 / 0.098 | 0.177 / 0.337 | 0.185 / 0.405,results/phase4/phase4_20261011_223158/latency_summary.csv,"in-process, k=10, embedding excluded; quantum-sim = emulated-estimator latency"
+N058,7/9,"Retrieval latency median / p95 ms, N=2000: Flat | IVF | quantum-sim M=50 S=1024 | full scan S=1024",0.169 / 0.323 | 0.061 / 0.141 | 0.333 / 0.797 | 0.450 / 1.019,results/phase4/phase4_20261011_223158/latency_summary.csv,"in-process, k=10, embedding excluded; quantum-sim = emulated-estimator latency"
+N059,7/9,"Retrieval latency median / p95 ms, N=5000: Flat | IVF | quantum-sim M=50 S=1024 | full scan S=1024",0.578 / 1.140 | 0.176 / 0.344 | 0.930 / 1.432 | 0.855 / 1.614,results/phase4/phase4_20261011_223158/latency_summary.csv,"in-process, k=10, embedding excluded; quantum-sim = emulated-estimator latency"
+N060,7/9,"Retrieval latency median / p95 ms, N=10000: Flat | IVF | quantum-sim M=50 S=1024 | full scan S=1024",1.405 / 3.264 | 0.200 / 0.409 | 1.483 / 2.645 | 2.195 / 3.828,results/phase4/phase4_20261011_223158/latency_summary.csv,"in-process, k=10, embedding excluded; quantum-sim = emulated-estimator latency"
+N061,7/9,"Retrieval latency median / p95 ms, N=all (20958): Flat | IVF | quantum-sim M=50 S=1024 | full scan S=1024",2.918 / 6.710 | 0.417 / 0.870 | 2.903 / 5.687 | 5.175 / 8.361,results/phase4/phase4_20261011_223158/latency_summary.csv,"in-process, k=10, embedding excluded; quantum-sim = emulated-estimator latency"
+N062,9,"Latency exponent b: Flat (exact), k=10","1.14 [0.97, 1.32]",results/phase4/phase4_20261011_223158/latency_slopes.csv,
+N063,9,"Latency exponent b: IVF best nprobe, k=10","0.67 [0.51, 0.90]",results/phase4/phase4_20261011_223158/latency_slopes.csv,
+N064,9,"Latency exponent b: Quantum-sim shortlist M=50, S=1024","0.88 [0.76, 1.12]",results/phase4/phase4_20261011_223158/latency_slopes.csv,
+N065,9,"Latency exponent b: Quantum-sim full scan, S=1024","1.10 [0.90, 1.21]",results/phase4/phase4_20261011_223158/latency_slopes.csv,
+N066,7,Failure analysis N=all S=256: gold in classical / quantum top-3; dropped / gained,204 / 168; 42 / 6 of 300,results/phase4/phase4_20261011_223158/failure_summary.json,
+N067,7,Pre-registered retrieval tests significant after Holm,20 of 30,results/phase4/phase4_20261011_223158/tests.csv,
+N068,9,"Query embedding latency, batch 1: median / p95 ms",13.0 / 22.2,results/phase2/phase2_20261011_212701/query_embed_summary.json,
+N069,9,"Index size at N=all, flat (bytes)",32191533,results/phase2/phase2_20261011_212701/build.csv,
+N070,9,"Index size at N=all, ivf (bytes)",32583171,results/phase2/phase2_20261011_212701/build.csv,
+N071,8,closed_book: correct / hallucination rate / abstention / ungrounded [CI],"0.095 [0.055, 0.140] / 0.865 [0.815, 0.910] / 0.040 [0.015, 0.070] / -",results/phase5/phase5_20261011_225152/outcomes_by_arm.csv,"n=200, threshold 0.5"
+N072,8,oracle: correct / hallucination rate / abstention / ungrounded [CI],"0.860 [0.810, 0.905] / 0.140 [0.095, 0.190] / 0.000 [0.000, 0.000] / 0.030 [0.010, 0.055]",results/phase5/phase5_20261011_225152/outcomes_by_arm.csv,"n=200, threshold 0.5"
+N073,8,random: correct / hallucination rate / abstention / ungrounded [CI],"0.075 [0.040, 0.115] / 0.445 [0.375, 0.515] / 0.480 [0.410, 0.550] / 0.942 [0.894, 0.981]",results/phase5/phase5_20261011_225152/outcomes_by_arm.csv,"n=200, threshold 0.5"
+N074,8,classical_N5000_k3: correct / hallucination rate / abstention / ungrounded [CI],"0.685 [0.620, 0.745] / 0.295 [0.235, 0.360] / 0.020 [0.005, 0.040] / 0.051 [0.020, 0.082]",results/phase5/phase5_20261011_225152/outcomes_by_arm.csv,"n=200, threshold 0.5"
+N075,8,classical_Nall_k3: correct / hallucination rate / abstention / ungrounded [CI],"0.575 [0.505, 0.645] / 0.390 [0.325, 0.460] / 0.035 [0.010, 0.060] / 0.078 [0.041, 0.119]",results/phase5/phase5_20261011_225152/outcomes_by_arm.csv,"n=200, threshold 0.5"
+N076,8,quantum_N5000_M50_S64_seed0_k3: correct / hallucination rate / abstention / ungrounded [CI],"0.440 [0.370, 0.510] / 0.480 [0.410, 0.550] / 0.080 [0.045, 0.120] / 0.196 [0.141, 0.255]",results/phase5/phase5_20261011_225152/outcomes_by_arm.csv,"n=200, threshold 0.5"
+N077,8,quantum_N5000_M50_S256_seed0_k3: correct / hallucination rate / abstention / ungrounded [CI],"0.620 [0.550, 0.685] / 0.365 [0.300, 0.435] / 0.015 [0.000, 0.035] / 0.147 [0.096, 0.198]",results/phase5/phase5_20261011_225152/outcomes_by_arm.csv,"n=200, threshold 0.5"
+N078,8,quantum_N5000_M50_S1024_seed0_k3: correct / hallucination rate / abstention / ungrounded [CI],"0.650 [0.585, 0.715] / 0.320 [0.255, 0.385] / 0.030 [0.010, 0.055] / 0.057 [0.026, 0.093]",results/phase5/phase5_20261011_225152/outcomes_by_arm.csv,"n=200, threshold 0.5"
+N079,8,quantum_Nall_M50_S64_seed0_k3: correct / hallucination rate / abstention / ungrounded [CI],"0.355 [0.290, 0.425] / 0.575 [0.505, 0.645] / 0.070 [0.035, 0.105] / 0.253 [0.194, 0.317]",results/phase5/phase5_20261011_225152/outcomes_by_arm.csv,"n=200, threshold 0.5"
+N080,8,quantum_Nall_M50_S256_seed0_k3: correct / hallucination rate / abstention / ungrounded [CI],"0.485 [0.415, 0.555] / 0.465 [0.395, 0.535] / 0.050 [0.020, 0.085] / 0.142 [0.095, 0.195]",results/phase5/phase5_20261011_225152/outcomes_by_arm.csv,"n=200, threshold 0.5"
+N081,8,quantum_Nall_M50_S1024_seed0_k3: correct / hallucination rate / abstention / ungrounded [CI],"0.560 [0.490, 0.630] / 0.405 [0.335, 0.475] / 0.035 [0.010, 0.060] / 0.135 [0.088, 0.187]",results/phase5/phase5_20261011_225152/outcomes_by_arm.csv,"n=200, threshold 0.5"
+N082,8,quantum_N5000_M50_S4096_seed0_k3: correct / hallucination rate / abstention / ungrounded [CI],"0.665 [0.600, 0.730] / 0.305 [0.245, 0.370] / 0.030 [0.010, 0.055] / 0.077 [0.041, 0.119]",results/phase5/phase5_20261011_225152/outcomes_by_arm.csv,"n=200, threshold 0.5"
+N083,8,quantum_Nall_M50_S4096_seed0_k3: correct / hallucination rate / abstention / ungrounded [CI],"0.570 [0.500, 0.640] / 0.395 [0.325, 0.465] / 0.035 [0.010, 0.065] / 0.067 [0.036, 0.104]",results/phase5/phase5_20261011_225152/outcomes_by_arm.csv,"n=200, threshold 0.5"
+N084,8,classical_N1000_k3: correct / hallucination rate / abstention / ungrounded [CI],"0.735 [0.675, 0.795] / 0.245 [0.185, 0.305] / 0.020 [0.005, 0.040] / 0.077 [0.041, 0.117]",results/phase5/phase5_20261011_225152/outcomes_by_arm.csv,"n=200, threshold 0.5"
+N085,8,quantum_N1000_M50_S64_seed0_k3: correct / hallucination rate / abstention / ungrounded [CI],"0.550 [0.480, 0.620] / 0.360 [0.295, 0.425] / 0.090 [0.055, 0.130] / 0.137 [0.088, 0.187]",results/phase5/phase5_20261011_225152/outcomes_by_arm.csv,"n=200, threshold 0.5"
+N086,8,quantum_N1000_M50_S256_seed0_k3: correct / hallucination rate / abstention / ungrounded [CI],"0.630 [0.565, 0.695] / 0.330 [0.265, 0.395] / 0.040 [0.015, 0.070] / 0.073 [0.036, 0.109]",results/phase5/phase5_20261011_225152/outcomes_by_arm.csv,"n=200, threshold 0.5"
+N087,8,quantum_N1000_M50_S1024_seed0_k3: correct / hallucination rate / abstention / ungrounded [CI],"0.705 [0.640, 0.765] / 0.255 [0.195, 0.315] / 0.040 [0.015, 0.070] / 0.062 [0.031, 0.099]",results/phase5/phase5_20261011_225152/outcomes_by_arm.csv,"n=200, threshold 0.5"
+N088,8,quantum_N1000_M50_S4096_seed0_k3: correct / hallucination rate / abstention / ungrounded [CI],"0.710 [0.645, 0.775] / 0.270 [0.210, 0.330] / 0.020 [0.005, 0.040] / 0.071 [0.036, 0.107]",results/phase5/phase5_20261011_225152/outcomes_by_arm.csv,"n=200, threshold 0.5"
+N089,8,quantum_N5000_M50_S256_seed1_k3: correct / hallucination rate / abstention / ungrounded [CI],"0.560 [0.490, 0.630] / 0.390 [0.325, 0.460] / 0.050 [0.020, 0.080] / 0.111 [0.068, 0.158]",results/phase5/phase5_20261011_225152/outcomes_by_arm.csv,"n=200, threshold 0.5"
+N090,8,quantum_N5000_M50_S256_seed2_k3: correct / hallucination rate / abstention / ungrounded [CI],"0.610 [0.545, 0.680] / 0.340 [0.275, 0.405] / 0.050 [0.020, 0.080] / 0.068 [0.037, 0.105]",results/phase5/phase5_20261011_225152/outcomes_by_arm.csv,"n=200, threshold 0.5"
+N091,8,quantum_Nall_M50_S256_seed1_k3: correct / hallucination rate / abstention / ungrounded [CI],"0.490 [0.420, 0.560] / 0.475 [0.405, 0.545] / 0.035 [0.010, 0.065] / 0.119 [0.078, 0.166]",results/phase5/phase5_20261011_225152/outcomes_by_arm.csv,"n=200, threshold 0.5"
+N092,8,quantum_Nall_M50_S256_seed2_k3: correct / hallucination rate / abstention / ungrounded [CI],"0.460 [0.390, 0.530] / 0.480 [0.410, 0.550] / 0.060 [0.030, 0.095] / 0.128 [0.085, 0.176]",results/phase5/phase5_20261011_225152/outcomes_by_arm.csv,"n=200, threshold 0.5"
+N093,8,Controls: oracle / closed-book / random correct rate,0.860 / 0.095 / 0.075,results/phase5/phase5_20261011_225152/controls_check.json,
+N094,8,"T-c hallucination, N=all S=64 seed 0: diff [CI], McNemar p, Holm p","+0.185 [+0.115, +0.255], 0.0000, 0.0000",results/phase5/phase5_20261011_225152/paired_tests.csv,
+N095,8,"T-c hallucination, N=all S=256 seed 0: diff [CI], McNemar p, Holm p","+0.075 [+0.010, +0.140], 0.0357, 0.0714",results/phase5/phase5_20261011_225152/paired_tests.csv,
+N096,8,"T-c hallucination, N=all S=1024 seed 0: diff [CI], McNemar p, Holm p","+0.015 [-0.040, +0.070], 0.7283, 0.7283",results/phase5/phase5_20261011_225152/paired_tests.csv,
+N097,11,Regeneration check: identical text / same correct label / same abstain label,54 / 60 / 60 of 60,results/phase5/phase5_20261011_225152/regeneration_check.json,
+N098,11,Answers truncated by the 48-token limit,45,results/phase5/phase5_20261011_225152/judged.csv,of all stored answers
+N099,8,"Seed robustness S=256 N=5000: rates seeds 0/1/2, sd, flip rate","0.365 / 0.390 / 0.340, sd 0.025, flip 0.285",results/phase8/phase8_20261013_201227/seed_robustness_outcomes.csv,
+N100,8,"Seed robustness S=256 N=all (20958): rates seeds 0/1/2, sd, flip rate","0.465 / 0.475 / 0.480, sd 0.008, flip 0.360",results/phase8/phase8_20261013_201227/seed_robustness_outcomes.csv,
+N101,8,NLI cross-check vs HHEM at 0.5: agreement / kappa / Spearman,0.427 / 0.124 / 0.503,results/phase8/phase8_20261013_201227/nli_summary.json,1837 answers
+N102,11,Hand audit: rows labelled,0 of 50,results/phase8/phase8_20261013_201227/audit_agreement.json,pending: human labels not returned; kappa not computed
+N103,9,"HTTP E2E median / p95 ms, small profile, classical, N=1000 | 5000 | all",28.3 / 61.7 | 27.3 / 68.3 | 29.1 / 55.6,results/phase6/phase6_20261012_203559/latency_summary.csv,in-network client; embedding included
+N104,9,"HTTP E2E median / p95 ms, small profile, quantum, N=1000 | 5000 | all",29.3 / 70.2 | 29.2 / 57.0 | 30.3 / 81.7,results/phase6/phase6_20261012_203559/latency_summary.csv,in-network client; embedding included
+N105,9,"HTTP E2E median / p95 ms, medium profile, classical, N=1000 | 5000 | all",26.6 / 43.3 | 26.5 / 44.3 | 32.5 / 51.6,results/phase6/phase6_20261012_203559/latency_summary.csv,in-network client; embedding included
+N106,9,"HTTP E2E median / p95 ms, medium profile, quantum, N=1000 | 5000 | all",26.6 / 47.2 | 27.8 / 42.2 | 32.9 / 50.4,results/phase6/phase6_20261012_203559/latency_summary.csv,in-network client; embedding included
+N107,9,"HTTP E2E median / p95 ms, large profile, classical, N=1000 | 5000 | all",33.2 / 47.5 | 34.5 / 51.1 | 44.8 / 82.3,results/phase6/phase6_20261012_203559/latency_summary.csv,in-network client; embedding included
+N108,9,"HTTP E2E median / p95 ms, large profile, quantum, N=1000 | 5000 | all",32.3 / 49.4 | 35.2 / 57.1 | 44.4 / 74.9,results/phase6/phase6_20261012_203559/latency_summary.csv,in-network client; embedding included
+N109,9,"Medium profile, classical, N=all: embed compute / embed overhead / retrieve compute / client-orchestrator overhead (ms)",15.2 / 4.8 / 3.5 / 2.7,results/phase6/phase6_20261012_203559/latency_summary.csv,
+N110,9,"Throughput req/s (median of 3 runs), small classical, 1 / 4 / 16 clients",27.7 / 25.0 / 19.6,results/phase6/phase6_20261012_203559/concurrency.csv,errors 0 of 2700
+N111,9,"Throughput req/s (median of 3 runs), small quantum, 1 / 4 / 16 clients",27.4 / 26.1 / 20.2,results/phase6/phase6_20261012_203559/concurrency.csv,errors 0 of 2700
+N112,9,"Throughput req/s (median of 3 runs), medium classical, 1 / 4 / 16 clients",25.5 / 33.8 / 33.3,results/phase6/phase6_20261012_203559/concurrency.csv,errors 0 of 2700
+N113,9,"Throughput req/s (median of 3 runs), medium quantum, 1 / 4 / 16 clients",23.6 / 33.5 / 30.0,results/phase6/phase6_20261012_203559/concurrency.csv,errors 0 of 2700
+N114,9,"Throughput req/s (median of 3 runs), large classical, 1 / 4 / 16 clients",20.5 / 33.2 / 34.5,results/phase6/phase6_20261012_203559/concurrency.csv,errors 0 of 2700
+N115,9,"Throughput req/s (median of 3 runs), large quantum, 1 / 4 / 16 clients",20.9 / 31.7 / 35.6,results/phase6/phase6_20261012_203559/concurrency.csv,errors 0 of 2700
+N116,9,"Container memory, medium profile, embedder: idle / peak / limit MB",388.1 / 427.6 / 2048,results/phase6/phase6_20261012_203559/memory.csv,
+N117,9,"Container memory, medium profile, retriever-classical: idle / peak / limit MB",207.5 / 229.2 / 2048,results/phase6/phase6_20261012_203559/memory.csv,
+N118,9,"Container memory, medium profile, retriever-quantum-sim: idle / peak / limit MB",193.1 / 213.9 / 2048,results/phase6/phase6_20261012_203559/memory.csv,
+N119,9,"Stack start-up, small profile: compose up s / until all healthy s",35.3 / 3.6,results/phase6/phase6_20261012_203559/startup.csv,
+N120,9,"Stack start-up, medium profile: compose up s / until all healthy s",25.5 / 3.7,results/phase6/phase6_20261012_203559/startup.csv,
+N121,9,"Stack start-up, large profile: compose up s / until all healthy s",18.3 / 2.4,results/phase6/phase6_20261012_203559/startup.csv,
+N122,10,Pareto (hallucination vs latency): non-dominated / robustly dominated / points,4 / 2 / 15,results/phase7/phase7_20261013_200015/pareto_hallucination.csv,
+N123,10,"Pareto (retrieval miss vs latency, IVF incl.): non-dominated / robustly dominated / points",9 / 16 / 30,results/phase7/phase7_20261013_200015/pareto_retrieval_miss.csv,
+N124,10,"Break-even S (hallucination), N=1000: McNemar p>=0.05 / CI within +-0.05 / +-0.075 / +-0.10",1024 / not reached / 1024 / 1024,results/phase7/phase7_20261013_200015/break_even_hallucination.csv,
+N125,10,"Break-even S (hallucination), N=5000: McNemar p>=0.05 / CI within +-0.05 / +-0.075 / +-0.10",1024 / 4096 / 1024 / 1024,results/phase7/phase7_20261013_200015/break_even_hallucination.csv,
+N126,10,"Break-even S (hallucination), N=all (20958): McNemar p>=0.05 / CI within +-0.05 / +-0.075 / +-0.10",1024 / 4096 / 1024 / 1024,results/phase7/phase7_20261013_200015/break_even_hallucination.csv,
+N127,10,"Break-even S (Hit@3), N=1000: CI contains 0 / within +-0.05 / +-0.075 / +-0.10",2048 / 1024 / 512 / 512,results/phase7/phase7_20261013_200015/break_even_retrieval.csv,
+N128,10,"Break-even S (Hit@3), N=2000: CI contains 0 / within +-0.05 / +-0.075 / +-0.10",4096 / 1024 / 512 / 512,results/phase7/phase7_20261013_200015/break_even_retrieval.csv,
+N129,10,"Break-even S (Hit@3), N=5000: CI contains 0 / within +-0.05 / +-0.075 / +-0.10",4096 / 2048 / 1024 / 512,results/phase7/phase7_20261013_200015/break_even_retrieval.csv,
+N130,10,"Break-even S (Hit@3), N=10000: CI contains 0 / within +-0.05 / +-0.075 / +-0.10",8192 / 2048 / 1024 / 1024,results/phase7/phase7_20261013_200015/break_even_retrieval.csv,
+N131,10,"Break-even S (Hit@3), N=all (20958): CI contains 0 / within +-0.05 / +-0.075 / +-0.10",16384 / 4096 / 2048 / 1024,results/phase7/phase7_20261013_200015/break_even_retrieval.csv,
+N132,10,MODELLED cost S=1024: circuits / shots (M=50); 2q-gate executions (full circuit); shots full scan N=all,"50 / 51,200; 5.51e+07; 21,460,992",results/phase7/phase7_20261013_200015/break_even_modelled_cost.csv,"MODELLED, not wall-clock quantum time"
+N133,10,MODELLED cost S=4096: circuits / shots (M=50); 2q-gate executions (full circuit); shots full scan N=all,"50 / 204,800; 2.2e+08; 85,843,968",results/phase7/phase7_20261013_200015/break_even_modelled_cost.csv,"MODELLED, not wall-clock quantum time"
+N134,5/11,Clean-room reproduction: artifacts compared / reproduced / different,85 / 85 / 0,results/phase9/phase9_20261013_211939/clean_room_summary.json,

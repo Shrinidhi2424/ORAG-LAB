@@ -1,0 +1,18 @@
+status,area,claim,evidence,strength
+supported,RQ1,"At low shot budgets (S=64) the simulated quantum-inspired retrieval increases hallucination relative to exact cosine, with the generator fixed (Holm-significant at N=all).",N-T-c rows; Table T5c,moderate
+supported,RQ1,The hallucination effect is mediated by retrieval: outcomes split almost entirely by whether the gold paragraph reached the context.,mediation table / F9,moderate
+supported,RQ1,At S >= 1024 no difference in hallucination is detectable with 200 questions.,"T-c, T7d",weak-moderate (absence of evidence at this n)
+supported,RQ2,"The emulated estimator gives no retrieval-latency benefit: the shortlist arm executes the exact search first, and full-scan estimation is slower than Flat.",T4b,strong
+supported,RQ2,Over HTTP the query embedding and service hops dominate retrieval time for both arms; generation dominates the whole request.,T4c,strong
+supported,RQ3,"At a fixed shot budget the Hit@3 gap is larger at the full corpus than at 1k paragraphs, and the shots needed for indistinguishable Hit@3 grow with N.","T3, shot thresholds",moderate
+supported,RQ3,"The Tier B emulator reproduces the Tier A circuit statistics (mean, variance, 1/sqrt(S) error scaling).","T6, F2",strong on mean / variance; weaker on distribution shape
+supported,RQ4,Exact Flat retrieval is on the Pareto front at every corpus size; the quantum-sim arm can at best match it; IVF is the practical latency option.,"T7b, T7c, F7, F7b",moderate
+supported,Method,The SWAP-test top-3 differs from the exact top-3 mainly for queries whose gold paragraph has a small score margin; a measurable share of top-1 results changes across seeds even at 1024 shots.,"T8b, failure analysis",moderate
+not_supported,Speed,"Any quantum speedup, advantage, or lower latency. The arm is a classical simulation; modelled shots and gates are counts, not time.",-,-
+not_supported,Hardware,"Anything about real quantum hardware, noise, QRAM or state-preparation cost.",-,-
+not_supported,Generality,"Results for other corpora (multi-hop, domain-specific), other embedders, or larger / better-calibrated generators (single dataset, embedder, 1.5B model).",-,-
+not_supported,Scale,Latency or memory scaling beyond about 21k paragraphs; the exponent CIs overlap between arms.,-,-
+not_supported,Cloud,Performance of a real cloud deployment (containers emulated on one shared laptop; free-tier cloud rerun not done).,-,-
+not_supported,Faithfulness,Validated faithfulness: the HHEM judge was not checked by humans (audit pending) and agrees only weakly with the NLI cross-check.,-,-
+not_supported,Equivalence,That the quantum-sim arm is equivalent to classical at S >= 1024; margins are post hoc and n=200.,-,-
+not_supported,Zardini,"Any result for the Zardini-style quantum k-NN estimator (not implemented, D-3.3); Q-L2S and other extensions (E1-E5) were not run.",-,-

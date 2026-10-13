@@ -71,6 +71,17 @@ def figures() -> None:
     run(py(), "scripts/make_figures.py")
 
 
+def phase10() -> None:
+    """Handoff: numbers sheet, methods facts, claims, docs, archive; then tests, FINDINGS.md blocks and the final audit."""
+    rid = run_id("phase10")
+    run(py(), "scripts/run_phase10.py", "--run-id", rid)
+    test()
+    report()
+    run(py(), "scripts/check_numbers.py", "--run-id", rid, "--phase", "phase10")
+    report()
+    run(py(), "scripts/check_numbers.py", "--run-id", rid, "--phase", "phase10")
+
+
 def phase9() -> None:
     """Acceptance: clean-room reproduction (fresh clone of HEAD, ~20 min), tests, FINDINGS blocks, numbers audit."""
     rid = run_id("phase9")
@@ -164,9 +175,7 @@ def phase0() -> None:
 
 
 TASKS = {"setup": setup, "env": env, "data": data, "bench": bench, "test": test, "report": report, "embed": embed,
-         "phase0": phase0, "phase1": phase1, "phase2": phase2, "phase3": phase3, "phase4": phase4, "phase5": phase5, "phase6": phase6, "phase7": phase7, "phase8": phase8, "phase9": phase9, "figures": figures}
-for _i in range(10, 11):
-    TASKS[f"phase{_i}"] = not_yet(f"phase{_i}")
+         "phase0": phase0, "phase1": phase1, "phase2": phase2, "phase3": phase3, "phase4": phase4, "phase5": phase5, "phase6": phase6, "phase7": phase7, "phase8": phase8, "phase9": phase9, "phase10": phase10, "figures": figures}
 
 
 def main(argv: list[str]) -> None:

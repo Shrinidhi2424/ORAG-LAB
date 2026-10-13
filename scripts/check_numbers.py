@@ -82,6 +82,7 @@ def scan_numbers(regions) -> tuple[list[dict], int]:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--run-id")
+    ap.add_argument("--phase", default="phase9", help="results/<phase>/<run-id>/ receives number_audit.json")
     a = ap.parse_args()
     text = report.FINDINGS.read_text(encoding="utf-8")
     mism = generated_mismatches(text)
@@ -93,11 +94,11 @@ def main() -> None:
            "hand_numbers_allowed_design_constants": allowed, "unflagged_hand_numbers": flagged,
            "passed": not mism and not missing and not flagged}
     rid = a.run_id
-    cur = ROOT / "results" / "phase9" / ".current_run"
+    cur = ROOT / "results" / a.phase / ".current_run"
     if not rid and cur.exists():
         rid = cur.read_text(encoding="utf-8").strip()
     if rid:
-        d = ROOT / "results" / "phase9" / rid
+        d = ROOT / "results" / a.phase / rid
         d.mkdir(parents=True, exist_ok=True)
         (d / "number_audit.json").write_text(json.dumps(res, indent=2, ensure_ascii=False), encoding="utf-8")
     print(json.dumps({k: (v if k != "unflagged_hand_numbers" else v[:15]) for k, v in res.items()}, indent=2, ensure_ascii=False))

@@ -22,3 +22,5 @@ results/phase3/*/rankings/
 
 # built artifacts
 models/
+
+dist/
