@@ -1,0 +1,29 @@
+{
+  "sources": {
+    "phase2": "phase2_20261011_212701",
+    "phase3": "phase3_20261011_221127",
+    "phase4": "phase4_20261011_223158",
+    "phase5": "phase5_20261011_225152",
+    "phase6": "phase6_20261012_203559"
+  },
+  "equivalence_margins_abs": [
+    0.05,
+    0.075,
+    0.1
+  ],
+  "m_main": 50,
+  "n_all": 20958,
+  "pareto_objectives": {
+    "hallucination": [
+      "retrieval latency median ms (Phase 4, in-process, k=10, embedding excluded)",
+      "hallucination rate (Phase 5, seed 0, n=200)"
+    ],
+    "retrieval_miss": [
+      "retrieval latency median ms (Phase 4)",
+      "1 - Hit@3 (Phase 4 main table, 300 queries)"
+    ]
+  },
+  "tierA_measured_seconds_per_circuit_S1024": 0.10995665200025542,
+  "tierA_note": "measured classical simulation of the 19-qubit circuit (Aer), not quantum time",
+  "pca128_sensitivity": "not run ([P2])"
+}

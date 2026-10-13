@@ -443,7 +443,77 @@ def fig_f1() -> Path:
     return save(fig, "F1_architecture", rows)
 
 
-FIGS = {"F1": fig_f1, "F2": fig_f2, "F3": fig_f3, "F4": fig_f4, "F5": fig_f5, "F5b": fig_f5b, "F6": fig_f6, "F8": fig_f8, "F9": fig_f9, "F10": fig_f10}
+def _pareto_panels(rows: list[dict], ns: list[str], ykey: str, ylo: str, yhi: str, ylabel: str, title: str, name: str, note: str, logx: bool = False) -> Path:
+    """Shared drawing for F7 / F7b: one panel per corpus size; x = retrieval latency (log), y = error rate with 95% CI whiskers.
+    Filled marker = non-dominated at that N (point estimates); hollow = dominated; a cross marks 'robustly' dominated points."""
+    fig, axes = plt.subplots(1, len(ns), figsize=(4.1 * len(ns) + 0.6, 4.7), dpi=300, sharey=True)
+    fig.patch.set_facecolor(SURFACE)
+    data = []
+    s_vals = sorted({int(float(r["S"])) for r in rows if r["S"] not in ("", None)})
+    ramp = dict(zip(s_vals, (ORANGE_RAMP if len(s_vals) <= 4 else ["#f9d6c4"] + ORANGE_RAMP)[-len(s_vals):]))
+    for ax, n in zip(axes, ns):
+        style(ax)
+        pts = [r for r in rows if r["N"] == n]
+        nd = sorted((r for r in pts if r["non_dominated"] in (True, "True")), key=lambda r: float(r["latency_ms"]))
+        if len(nd) > 1:
+            ax.step([float(r["latency_ms"]) for r in nd], [float(r[ykey]) for r in nd], where="post", color=INK2, linewidth=1, linestyle=(0, (4, 3)), zorder=1)
+        for r in pts:
+            x, y = float(r["latency_ms"]), float(r[ykey])
+            if r["arm"] == "Flat":
+                color, mk, lab = BLUE, "s", "Flat"
+            elif r["arm"] == "IVF":
+                color, mk, lab = AQUA, "^", "IVF"
+            else:
+                color, mk, lab = ramp[int(float(r["S"]))], "o", f"S={int(float(r['S']))}"
+            nd_ = r["non_dominated"] in (True, "True")
+            ax.errorbar(x, y, yerr=[[y - float(r[ylo])], [float(r[yhi]) - y]], fmt="none", ecolor=color, elinewidth=1, alpha=0.55, capsize=2, zorder=2)
+            ax.scatter([x], [y], s=46, marker=mk, facecolor=color if nd_ else SURFACE, edgecolor=color, linewidth=1.5, zorder=3)
+            if r["robustly_dominated"] in (True, "True"):
+                ax.scatter([x], [y], s=16, marker="x", color=INK, linewidth=0.9, zorder=4)
+            ax.annotate(lab, (x, y), xytext=(4, 4), textcoords="offset points", fontsize=6.5, color=INK2)
+            data.append({"N": n, "arm": r["arm"], "S": r["S"], "latency_ms": x, ykey: y, ylo: r[ylo], yhi: r[yhi],
+                         "non_dominated": r["non_dominated"], "robustly_dominated": r["robustly_dominated"]})
+        if logx:
+            from matplotlib.ticker import FuncFormatter, NullFormatter
+            ax.set_xscale("log")
+            ax.xaxis.set_minor_formatter(NullFormatter())
+            ax.xaxis.set_major_formatter(FuncFormatter(lambda v, _: f"{v:g}"))
+        else:
+            xs = [float(r["latency_ms"]) for r in pts]
+            pad = 0.15 * (max(xs) - min(xs) or 1)
+            ax.set_xlim(min(xs) - pad, max(xs) + 1.6 * pad)
+        ax.set_title(f"N = {NLAB[n]}", color=INK, fontsize=10, loc="left")
+        ax.set_xlabel("Retrieval latency, median ms" + (" (log)" if logx else "") + ", embedding excluded", color=INK, fontsize=8.5)
+    axes[0].set_ylabel(ylabel, color=INK, fontsize=9.5)
+    handles = [plt.Line2D([], [], color=BLUE, marker="s", lw=0), plt.Line2D([], [], color=ORANGE_RAMP[1], marker="o", lw=0)]
+    labels = ["Flat (exact)", "Quantum-sim (M=50), darker = more shots"]
+    if any(r["arm"] == "IVF" for r in rows):
+        handles.insert(1, plt.Line2D([], [], color=AQUA, marker="^", lw=0))
+        labels.insert(1, "IVF (nprobe 16)")
+    handles += [plt.Line2D([], [], color=INK2, marker="o", markerfacecolor=SURFACE, lw=0), plt.Line2D([], [], color=INK, marker="x", lw=0, markersize=5)]
+    labels += ["hollow = dominated (point estimates)", "x = robustly dominated (CI / repeat ranges disjoint)"]
+    fig.legend(handles, labels, frameon=False, fontsize=7.5, labelcolor=INK2, loc="lower center", ncol=3)
+    fig.suptitle(title, color=INK, fontsize=11, x=0.01, ha="left")
+    fig.text(0.01, 0.005, note, color=INK2, fontsize=7)
+    fig.tight_layout(rect=(0, 0.1, 1, 0.94))
+    return save(fig, name, data)
+
+
+def fig_f7() -> Path:
+    rows = rows_of(current("phase7") / "pareto_hallucination.csv")
+    return _pareto_panels(rows, ["1000", "5000", "all"], "hallucination_rate", "hall_lo", "hall_hi", "Hallucination rate (hallucinated + misread) / 200",
+                          "F7. Tradeoff: hallucination rate vs retrieval latency (Pareto front per corpus size)", "F7_pareto_hallucination",
+                          "Quantum-sim latency is EMULATED-estimator latency (shortlist search + binomial draw), not quantum time. Seed 0, 200 questions; latency from the separate Phase 4 in-process run.")
+
+
+def fig_f7b() -> Path:
+    rows = rows_of(current("phase7") / "pareto_retrieval_miss.csv")
+    return _pareto_panels(rows, NORDER, "miss_rate", "miss_lo", "miss_hi", "Retrieval miss rate = 1 - Hit@3 (300 queries)",
+                          "F7b. Retrieval-only tradeoff: miss rate vs latency, IVF included (Pareto front per corpus size)", "F7b_pareto_retrieval_miss",
+                          "Quantum-sim: M=50, mean of 5 seeds, latency is EMULATED. Whiskers: 95% bootstrap CI over queries.", logx=True)
+
+
+FIGS = {"F1": fig_f1, "F2": fig_f2, "F3": fig_f3, "F4": fig_f4, "F5": fig_f5, "F5b": fig_f5b, "F6": fig_f6, "F7": fig_f7, "F7b": fig_f7b, "F8": fig_f8, "F9": fig_f9, "F10": fig_f10}
 
 if __name__ == "__main__":
     for name in sys.argv[1:] or list(FIGS):

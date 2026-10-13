@@ -94,6 +94,10 @@ DEVIATIONS = """- **D-0.1 max_tokens**: plan says 48 in D9/H2 but 64 in Appendix
 - **D-6.5 No-container fallback implemented but not used**: `scripts/launch_services.py` (uvicorn processes + cpu_affinity) exists, but Docker worked, so every reported number comes from containers.
 - **D-6.6 P2 item 6.6 (free-tier cloud rerun) not done.**
 - **D-6.7 Smoke test via the published port**: the end-to-end `/rag` smoke test (with generation) goes through the host port, which is fine because it is a functional test, not a latency measurement.
+- **D-7.1 Phase 7 is analysis only**: no new measurements; all numbers re-aggregate Phase 2-6 artifacts (sources listed in the Phase 7 report). Consequence: hallucination (Phase 5, seed 0, 200 questions) and retrieval latency (Phase 4, separate in-process run) never come from the same run, and hallucination exists only at N = 1000 / 5000 / all and S in {64, 256, 1024, 4096}. The Pareto set is therefore computed per N over those points; the retrieval-miss Pareto (all rungs, IVF included) is a complementary view, not a replacement.
+- **D-7.2 Equivalence margins are post hoc**: the plan asks for the smallest S at which outcome differences are "statistically indistinguishable" but pre-registers no margin. Three absolute margins (0.05, 0.075, 0.10) are reported side by side, chosen after seeing the data and not defended; the McNemar p >= 0.05 rule is reported too but is absence of evidence at n=200. Not multiplicity-corrected (descriptive).
+- **D-7.3 Robust dominance is a conservative convenience rule** defined in the Phase 7 report (point-estimate dominance plus disjoint uncertainty intervals on one objective); it is not a formal test.
+- **D-7.4 PCA-to-128-d sensitivity (7.4, [P2]) not run**; shortlist-M and tie-breaking sensitivity (P1) use existing Phase 3 results (hallucination was generated only for M=50 with classical tie-breaking).
 """
 
 FAILURES = """- **Swap during benchmark**: the pagefile grew during every model's run (see the "Swap delta" column in the Phase 0 table), so the strict "no swapping" wording of H2(b) is not fully met on this 8 GB machine even for the chosen model; close browsers and other heavy apps during generation runs (H5/H10).
@@ -115,6 +119,8 @@ FAILURES = """- **Swap during benchmark**: the pagefile grew during every model'
 - **More CPU did not mean lower latency at low load (Phase 6)**: the embedder's per-request compute time was not lower under the large profile (4 threads) than under small or medium (1-2 threads) in the in-network run, and single-client throughput was lower for large; the cause was not investigated (candidates: thread oversubscription of a 4-core/8-thread laptop that also hosts the load generator, small-batch thread overhead). The profile comparison is therefore about this host, not about cloud instance types.
 - **Shared-host measurement (Phase 6)**: the services, the load generator, Docker Desktop and Windows share one 8 GB laptop; power plan Balanced; temperature not monitored; host free RAM was low at the start of the runs. The embedding step (a transformer forward pass of ~15-25 ms) dominates the request in every profile and masks retrieval differences: classical and quantum-sim arms are indistinguishable at N <= 5000 over HTTP, and the arm and N effects at N=all are small compared with the run-to-run range.
 - **Concurrency is a closed-loop test (Phase 6)**: N concurrent clients each wait for their response; there is no open-loop arrival process, so tail latencies at saturation are not queueing-theory estimates. Occasional multi-second p95 values in single runs (visible in the raw concurrency CSVs) were not investigated; medians over 3 runs are reported.
+- **Pareto latency axis is nearly flat between arms (Phase 7)**: the shortlist arm executes the exact Flat search first, so its emulated latency is Flat plus a small estimator cost; differences between arms at a given N are inside the run-to-run range of repeat medians (and one quantum-sim point at N=all is nominally 'non-dominated' only because of a 0.015 ms median difference). The tradeoff conclusions rest on the hallucination axis; no latency advantage can be claimed.
+- **Break-even is limited by sample size (Phase 7)**: with 200 questions the paired CI of a hallucination-rate difference has a half-width of roughly 0.03-0.06 even at high shots, so equivalence within +-0.05 is hard to show; 'indistinguishable' at S=1024 means 'no detectable difference at this n', not 'no difference'. Hallucination break-even uses seed 0 only.
 """
 
 
@@ -292,6 +298,16 @@ def main() -> None:
         body6, rows6 = phase6_block(run6)
         text = block(text, "phase6", body6)
         index_rows += rows6
+    run7 = latest_run("phase7")
+    if run7 and (run7 / "synthesis_meta.json").exists():
+        from report_phase7 import phase7_block
+
+        if "<!-- BEGIN:phase7 -->" not in text:
+            text = text.replace("## 3. Headline Findings", "### Phase 7 - Scalability and tradeoff synthesis\n"
+                                "<!-- BEGIN:phase7 -->\n<!-- END:phase7 -->\n\n## 3. Headline Findings", 1)
+        body7, rows7 = phase7_block(run7)
+        text = block(text, "phase7", body7)
+        index_rows += rows7
     text = block(text, "index", md_table(["ID", "Phase", "Key result", "Artifact"], index_rows))
     text = seed_block(text, "deviations", DEVIATIONS)
     text = seed_block(text, "failures", FAILURES)

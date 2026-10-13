@@ -42,6 +42,12 @@ Do not hand-type numbers inside generated blocks (R4).
 | P6-2 | 6 | Peak throughput (medium, classical): 35.1 req/s at 16 clients; total errors 0 | results/phase6/phase6_20261012_203559/concurrency.csv |
 | P6-3 | 6 | Smoke test /rag: all ok = True; Phase 5 parity [True, True, True] | results/phase6/phase6_20261012_200322/smoke_test.json |
 | P6-4 | 6 | pytest: 53/53 passed | results/phase6/phase6_20261012_203559/pytest_junit.xml |
+| P7-1 | 7 | Pareto (hallucination vs latency): 4/15 points non-dominated, 2 robustly dominated (per-N fronts) | results/phase7/phase7_20261013_200015/pareto_hallucination.csv |
+| P7-2 | 7 | Pareto (retrieval miss vs latency, IVF incl.): 9/30 non-dominated, 16 robustly dominated | results/phase7/phase7_20261013_200015/pareto_retrieval_miss.csv |
+| P7-3 | 7 | Break-even S (hallucination, CI within +-0.075 at that and all larger S) at N=1000/5000/all: 1024/1024/1024 | results/phase7/phase7_20261013_200015/break_even_hallucination.csv |
+| P7-4 | 7 | Break-even S (Hit@3) at N=all: CI contains 0 from S=16384; CI within +-0.05 from S=4096 | results/phase7/phase7_20261013_200015/break_even_retrieval.csv |
+| P7-5 | 7 | Tie-breaking sensitivity: max absolute Hit@3 difference = 0.040 over all (N, S) | results/phase7/phase7_20261013_200015/sensitivity_tie_breaking.csv |
+| P7-6 | 7 | pytest: 59/59 passed | results/phase7/phase7_20261013_200015/pytest_junit.xml |
 <!-- END:index -->
 
 ## 1. Environment & Versions
@@ -1053,6 +1059,198 @@ Concurrency through the published port (`results/phase6/phase6_20261012_200322/c
 **Manuscript hook**: Section 4 (system design: services, profiles; Figure F1), Section 9 (latency, cloud overheads, concurrency); Tables T4c, T4d; figures F5b, F10.
 <!-- END:phase6 -->
 
+### Phase 7 - Scalability and tradeoff synthesis
+<!-- BEGIN:phase7 -->
+Run `phase7_20261013_200015` - manifest: `results/phase7/phase7_20261013_200015/run_manifest.json`. Analysis only: every number below re-aggregates raw artifacts of earlier phases (phase2 `phase2_20261011_212701`, phase3 `phase3_20261011_221127`, phase4 `phase4_20261011_223158`, phase5 `phase5_20261011_225152`, phase6 `phase6_20261012_203559`); nothing was re-measured. Quantum-sim latency is EMULATED-estimator latency. Shots, circuits and gate executions are MODELLED costs, not wall-clock quantum time; no speedup is claimed.
+
+**T7a Combined quality / latency / memory / hallucination per arm and N (7.1)** (`results/phase7/phase7_20261013_200015/combined_table.csv`). Hit@3 and MRR@10: Phase 4 main table (300 queries; quantum = mean of 5 seeds, M=50). Retrieval latency: Phase 4 in-process, k=10, embedding excluded. Index bytes: Phase 4 memory table. HTTP E2E: Phase 6 in-network, medium profile, embedding included, measured only for S=1024. Hallucination rate: Phase 5 seed 0, 200 questions, only at N = 1000 / 5000 / all and S in {64, 256, 1024, 4096}.
+
+| N | Arm | Hit@3 [95% CI] | MRR@10 | Retrieval median ms | p95 ms | Index bytes | HTTP E2E median ms (medium) | Hallucination rate [95% CI] |
+|---|---|---|---|---|---|---|---|---|
+| 1000 | Flat | 0.860 [0.820, 0.897] | 0.796 | 0.109 | 0.212 | 1536045 | 26.6 | 0.245 [0.185, 0.305] |
+| 1000 | IVF (nprobe 16) | 0.860 [0.820, 0.897] | 0.797 | 0.050 | 0.098 | 1593547 | - | - |
+| 1000 | Quantum-sim S=256 | 0.761 [0.721, 0.801] | 0.703 | 0.132 | 0.432 | 1536045 | - | 0.330 [0.265, 0.395] |
+| 1000 | Quantum-sim S=1024 | 0.836 [0.797, 0.873] | 0.769 | 0.177 | 0.337 | 1536045 | 26.6 | 0.255 [0.195, 0.315] |
+| 1000 | Quantum-sim S=4096 | 0.857 [0.819, 0.894] | 0.794 | 0.187 | 0.257 | 1536045 | - | 0.270 [0.210, 0.330] |
+| 1000 | Quantum-sim S=16384 | 0.857 [0.817, 0.894] | 0.796 | 0.136 | 0.230 | 1536045 | - | - |
+| 2000 | Flat | 0.827 [0.783, 0.870] | 0.766 | 0.169 | 0.323 | 3072045 | - | - |
+| 2000 | IVF (nprobe 16) | 0.823 [0.780, 0.867] | 0.762 | 0.061 | 0.141 | 3157619 | - | - |
+| 2000 | Quantum-sim S=256 | 0.739 [0.697, 0.780] | 0.667 | 0.229 | 0.556 | 3072045 | - | - |
+| 2000 | Quantum-sim S=1024 | 0.806 [0.765, 0.846] | 0.732 | 0.333 | 0.797 | 3072045 | - | - |
+| 2000 | Quantum-sim S=4096 | 0.813 [0.770, 0.853] | 0.755 | 0.281 | 0.689 | 3072045 | - | - |
+| 2000 | Quantum-sim S=16384 | 0.821 [0.779, 0.861] | 0.761 | 0.234 | 0.892 | 3072045 | - | - |
+| 5000 | Flat | 0.777 [0.730, 0.823] | 0.708 | 0.578 | 1.140 | 7680045 | 26.5 | 0.295 [0.235, 0.360] |
+| 5000 | IVF (nprobe 16) | 0.770 [0.720, 0.817] | 0.703 | 0.176 | 0.344 | 7829763 | - | - |
+| 5000 | Quantum-sim S=256 | 0.685 [0.640, 0.729] | 0.618 | 0.907 | 2.161 | 7680045 | - | 0.365 [0.300, 0.435] |
+| 5000 | Quantum-sim S=1024 | 0.737 [0.690, 0.781] | 0.682 | 0.930 | 1.432 | 7680045 | 27.8 | 0.320 [0.255, 0.385] |
+| 5000 | Quantum-sim S=4096 | 0.759 [0.713, 0.804] | 0.696 | 0.747 | 1.325 | 7680045 | - | 0.305 [0.245, 0.370] |
+| 5000 | Quantum-sim S=16384 | 0.775 [0.729, 0.820] | 0.710 | 0.791 | 1.542 | 7680045 | - | - |
+| 10000 | Flat | 0.747 [0.697, 0.793] | 0.662 | 1.405 | 3.264 | 15360045 | - | - |
+| 10000 | IVF (nprobe 16) | 0.727 [0.677, 0.777] | 0.645 | 0.200 | 0.409 | 15594539 | - | - |
+| 10000 | Quantum-sim S=256 | 0.612 [0.565, 0.659] | 0.551 | 1.334 | 2.277 | 15360045 | - | - |
+| 10000 | Quantum-sim S=1024 | 0.695 [0.648, 0.743] | 0.627 | 1.483 | 2.645 | 15360045 | - | - |
+| 10000 | Quantum-sim S=4096 | 0.728 [0.681, 0.775] | 0.651 | 1.599 | 2.500 | 15360045 | - | - |
+| 10000 | Quantum-sim S=16384 | 0.740 [0.691, 0.787] | 0.656 | 1.949 | 3.704 | 15360045 | - | - |
+| all (20958) | Flat | 0.680 [0.627, 0.733] | 0.590 | 2.918 | 6.710 | 32191533 | 32.5 | 0.390 [0.325, 0.460] |
+| all (20958) | IVF (nprobe 16) | 0.660 [0.607, 0.713] | 0.572 | 0.417 | 0.870 | 32583171 | - | - |
+| all (20958) | Quantum-sim S=256 | 0.552 [0.505, 0.600] | 0.489 | 2.905 | 4.259 | 32191533 | - | 0.465 [0.395, 0.535] |
+| all (20958) | Quantum-sim S=1024 | 0.626 [0.577, 0.675] | 0.559 | 2.903 | 5.687 | 32191533 | 32.9 | 0.405 [0.335, 0.475] |
+| all (20958) | Quantum-sim S=4096 | 0.661 [0.611, 0.711] | 0.583 | 3.293 | 5.821 | 32191533 | - | 0.395 [0.325, 0.465] |
+| all (20958) | Quantum-sim S=16384 | 0.675 [0.623, 0.725] | 0.592 | 3.746 | 6.473 | 32191533 | - | - |
+
+**T7b Pareto set: hallucination rate vs retrieval latency, per N (7.2)** (`results/phase7/phase7_20261013_200015/pareto_hallucination.csv`). Both objectives minimised; dominance is evaluated within each N (corpus size is a condition, not an objective). 'Non-dominated' uses point estimates only. 'Robustly dominated' additionally requires, on at least one objective where the dominator is strictly better, disjoint uncertainty intervals (hallucination: 95% bootstrap CI over the 200 questions; latency: range of the 5 repeat medians). Hallucination is a seed-0 run; latency comes from a separate run (D-4.1), so tiny latency differences between arms are within run-to-run noise.
+
+| N | Arm | Retrieval median ms | Range of repeat medians | Hallucination rate [95% CI] | Non-dominated | Robustly dominated |
+|---|---|---|---|---|---|---|
+| 1000 | Flat | 0.109 | 0.093-0.204 | 0.245 [0.185, 0.305] | yes | no |
+| 1000 | Quantum-sim S=64 | 0.156 | 0.097-0.229 | 0.360 [0.295, 0.425] | no | no |
+| 1000 | Quantum-sim S=256 | 0.132 | 0.093-0.396 | 0.330 [0.265, 0.395] | no | no |
+| 1000 | Quantum-sim S=1024 | 0.177 | 0.126-0.255 | 0.255 [0.195, 0.315] | no | no |
+| 1000 | Quantum-sim S=4096 | 0.187 | 0.165-0.220 | 0.270 [0.210, 0.330] | no | no |
+| 5000 | Flat | 0.578 | 0.371-0.893 | 0.295 [0.235, 0.360] | yes | no |
+| 5000 | Quantum-sim S=64 | 0.706 | 0.569-1.605 | 0.480 [0.410, 0.550] | no | yes |
+| 5000 | Quantum-sim S=256 | 0.907 | 0.627-2.061 | 0.365 [0.300, 0.435] | no | no |
+| 5000 | Quantum-sim S=1024 | 0.930 | 0.493-1.162 | 0.320 [0.255, 0.385] | no | no |
+| 5000 | Quantum-sim S=4096 | 0.747 | 0.612-1.135 | 0.305 [0.245, 0.370] | no | no |
+| all (20958) | Flat | 2.918 | 2.121-5.841 | 0.390 [0.325, 0.460] | yes | no |
+| all (20958) | Quantum-sim S=64 | 3.148 | 2.417-6.619 | 0.575 [0.505, 0.645] | no | yes |
+| all (20958) | Quantum-sim S=256 | 2.905 | 2.550-3.439 | 0.465 [0.395, 0.535] | no | no |
+| all (20958) | Quantum-sim S=1024 | 2.903 | 2.367-5.217 | 0.405 [0.335, 0.475] | yes | no |
+| all (20958) | Quantum-sim S=4096 | 3.293 | 2.364-4.918 | 0.395 [0.325, 0.465] | no | no |
+
+4 of 15 points are non-dominated by point estimate; 2 are robustly dominated.
+
+**T7c Pareto set: retrieval miss rate (1 - Hit@3) vs retrieval latency, IVF included** (`results/phase7/phase7_20261013_200015/pareto_retrieval_miss.csv`), all five rungs, 300 queries, same dominance rules. 9 of 30 points non-dominated; 16 robustly dominated.
+
+| N | Arm | Retrieval median ms | Range of repeat medians | Miss rate [95% CI] | Non-dominated | Robustly dominated |
+|---|---|---|---|---|---|---|
+| 1000 | Flat | 0.109 | 0.093-0.204 | 0.140 [0.103, 0.180] | no | yes |
+| 1000 | IVF | 0.050 | 0.042-0.090 | 0.140 [0.103, 0.180] | yes | no |
+| 1000 | Quantum-sim S=256 | 0.132 | 0.093-0.396 | 0.239 [0.199, 0.279] | no | yes |
+| 1000 | Quantum-sim S=1024 | 0.177 | 0.126-0.255 | 0.164 [0.127, 0.203] | no | yes |
+| 1000 | Quantum-sim S=4096 | 0.187 | 0.165-0.220 | 0.143 [0.106, 0.181] | no | yes |
+| 1000 | Quantum-sim S=16384 | 0.136 | 0.112-0.171 | 0.143 [0.106, 0.183] | no | yes |
+| 2000 | Flat | 0.169 | 0.125-0.201 | 0.173 [0.130, 0.217] | yes | no |
+| 2000 | IVF | 0.061 | 0.045-0.128 | 0.177 [0.133, 0.220] | yes | no |
+| 2000 | Quantum-sim S=256 | 0.229 | 0.147-0.373 | 0.261 [0.220, 0.303] | no | yes |
+| 2000 | Quantum-sim S=1024 | 0.333 | 0.162-0.723 | 0.194 [0.154, 0.235] | no | yes |
+| 2000 | Quantum-sim S=4096 | 0.281 | 0.180-0.429 | 0.187 [0.147, 0.230] | no | yes |
+| 2000 | Quantum-sim S=16384 | 0.234 | 0.169-0.801 | 0.179 [0.139, 0.221] | no | yes |
+| 5000 | Flat | 0.578 | 0.371-0.893 | 0.223 [0.177, 0.270] | yes | no |
+| 5000 | IVF | 0.176 | 0.120-0.289 | 0.230 [0.183, 0.280] | yes | no |
+| 5000 | Quantum-sim S=256 | 0.907 | 0.627-2.061 | 0.315 [0.271, 0.360] | no | yes |
+| 5000 | Quantum-sim S=1024 | 0.930 | 0.493-1.162 | 0.263 [0.219, 0.310] | no | yes |
+| 5000 | Quantum-sim S=4096 | 0.747 | 0.612-1.135 | 0.241 [0.196, 0.287] | no | yes |
+| 5000 | Quantum-sim S=16384 | 0.791 | 0.679-1.299 | 0.225 [0.180, 0.271] | no | no |
+| 10000 | Flat | 1.405 | 1.029-3.039 | 0.253 [0.207, 0.303] | yes | no |
+| 10000 | IVF | 0.200 | 0.168-0.302 | 0.273 [0.223, 0.323] | yes | no |
+| 10000 | Quantum-sim S=256 | 1.334 | 1.118-2.041 | 0.388 [0.341, 0.435] | no | yes |
+| 10000 | Quantum-sim S=1024 | 1.483 | 1.164-2.479 | 0.305 [0.257, 0.352] | no | yes |
+| 10000 | Quantum-sim S=4096 | 1.599 | 1.178-2.025 | 0.272 [0.225, 0.319] | no | no |
+| 10000 | Quantum-sim S=16384 | 1.949 | 1.172-3.292 | 0.260 [0.213, 0.309] | no | no |
+| all (20958) | Flat | 2.918 | 2.121-5.841 | 0.320 [0.267, 0.373] | yes | no |
+| all (20958) | IVF | 0.417 | 0.303-0.705 | 0.340 [0.287, 0.393] | yes | no |
+| all (20958) | Quantum-sim S=256 | 2.905 | 2.550-3.439 | 0.448 [0.400, 0.495] | no | yes |
+| all (20958) | Quantum-sim S=1024 | 2.903 | 2.367-5.217 | 0.374 [0.325, 0.423] | no | yes |
+| all (20958) | Quantum-sim S=4096 | 3.293 | 2.364-4.918 | 0.339 [0.289, 0.389] | no | no |
+| all (20958) | Quantum-sim S=16384 | 3.746 | 2.413-5.613 | 0.325 [0.275, 0.377] | no | no |
+
+**F7 Pareto (hallucination vs latency)**: ![F7](results/figures/F7_pareto_hallucination.png) (data `results/figures/F7_pareto_hallucination.csv`).
+**F7b Pareto (retrieval miss vs latency, IVF included)**: ![F7b](results/figures/F7b_pareto_retrieval_miss.png) (data `results/figures/F7b_pareto_retrieval_miss.csv`).
+
+**T7d Break-even, outcome level (7.3)** (`results/phase7/phase7_20261013_200015/break_even_hallucination.csv`): smallest S in the Phase 5 grid at which the hallucination-rate difference (quantum - classical, seed 0, n=200, paired) is, at that S and every larger S in the grid, (i) not significant by exact McNemar (p >= 0.05, uncorrected), or (ii) inside an equivalence band of +-0.05, +-0.075, +-0.1 (the whole 95% paired-bootstrap CI inside the band). (i) is absence of evidence at n=200 and is weak; (ii) is the stronger statement. The margins are analyst choices made after seeing the data (see Deviations); the band widths are shown, not defended.
+
+| N | S grid | McNemar p>=0.05 | CI within +-0.05 | CI within +-0.075 | CI within +-0.1 | diff at S=256 | diff at S=1024 | diff at S=4096 |
+|---|---|---|---|---|---|---|---|---|
+| 1000 | 64, 256, 1024, 4096 | 1024 | not reached | 1024 | 1024 | +0.085 [+0.035, +0.135] p=0.002 | +0.010 [-0.030, +0.050] p=0.815 | +0.025 [-0.005, +0.055] p=0.180 |
+| 5000 | 64, 256, 1024, 4096 | 1024 | 4096 | 1024 | 1024 | +0.070 [+0.015, +0.125] p=0.024 | +0.025 [-0.015, +0.065] p=0.332 | +0.010 [-0.025, +0.045] p=0.774 |
+| all (20958) | 64, 256, 1024, 4096 | 1024 | 4096 | 1024 | 1024 | +0.075 [+0.010, +0.140] p=0.036 | +0.015 [-0.040, +0.070] p=0.728 | +0.005 [-0.030, +0.045] p=1.000 |
+
+**T7e Break-even, retrieval level** (`results/phase7/phase7_20261013_200015/break_even_retrieval.csv`): same rules on the retrieval metrics (Phase 3, M=50, 5 seeds, 300 queries, grid 64 ... 16384; paired bootstrap CI of quantum - classical). Finer grid and more queries than T7d.
+
+| Metric | N | CI contains 0 at S and all larger | CI within +-0.05 | CI within +-0.075 | CI within +-0.1 |
+|---|---|---|---|---|---|
+| Hit@3 | 1000 | 2048 | 1024 | 512 | 512 |
+| Hit@3 | 2000 | 4096 | 1024 | 512 | 512 |
+| Hit@3 | 5000 | 4096 | 2048 | 1024 | 512 |
+| Hit@3 | 10000 | 8192 | 2048 | 1024 | 1024 |
+| Hit@3 | all (20958) | 16384 | 4096 | 2048 | 1024 |
+| MRR@10 | 1000 | 4096 | 1024 | 512 | 512 |
+| MRR@10 | 2000 | 8192 | 1024 | 1024 | 512 |
+| MRR@10 | 5000 | 16384 | 1024 | 512 | 512 |
+| MRR@10 | 10000 | 8192 | 1024 | 1024 | 512 |
+| MRR@10 | all (20958) | 4096 | 1024 | 512 | 512 |
+
+**T7f MODELLED quantum cost at the break-even shot counts** (`results/phase7/phase7_20261013_200015/break_even_modelled_cost.csv`; per-shot gate counts derived from the Phase 4 modelled-cost table, T6 circuit counts). These are counts of circuit executions and shots a hypothetical device would need per query; they are NOT wall-clock time and imply nothing about speed.
+
+| S | Circuits/query (M=50) | Shots/query (M=50) | 2q-gate executions, full circuit (M=50) | 2q-gate executions, SWAP core only (M=50) | Circuits/query, full scan N=all | Shots/query, full scan N=all |
+|---|---|---|---|---|---|---|
+| 512 | 50 | 2.56e+04 | 2.75e+07 | 1.84e+06 | 20958 | 1.07e+07 |
+| 1024 | 50 | 5.12e+04 | 5.51e+07 | 3.69e+06 | 20958 | 2.15e+07 |
+| 2048 | 50 | 1.02e+05 | 1.1e+08 | 7.37e+06 | 20958 | 4.29e+07 |
+| 4096 | 50 | 2.05e+05 | 2.2e+08 | 1.47e+07 | 20958 | 8.58e+07 |
+| 8192 | 50 | 4.1e+05 | 4.41e+08 | 2.95e+07 | 20958 | 1.72e+08 |
+| 16384 | 50 | 8.19e+05 | 8.81e+08 | 5.9e+07 | 20958 | 3.43e+08 |
+
+For scale, the measured classical simulation of the real 19-qubit circuit (Tier A, Phase 3, S=1024) cost 0.110 s per circuit on this laptop (`results/phase3/phase3_20261011_221127/tierA_e2e_summary.json`); that is classical simulation cost, not quantum time.
+
+**T7g Sensitivity to the shortlist size M (7.4)** (`results/phase7/phase7_20261013_200015/sensitivity_shortlist_M.csv`): Hit@3 (mean of 5 seeds) for M in {20, 50, 100, full scan}; 'range' = max - min over M, to be read against the largest seed-to-seed sd in the row. Hallucination was only generated for M=50.
+
+| N | S | M=20 | M=50 | M=100 | full | Range over M | Max seed sd |
+|---|---|---|---|---|---|---|---|
+| 1000 | 256 | 0.795 | 0.761 | 0.759 | 0.741 | 0.055 | 0.017 |
+| 1000 | 1024 | 0.839 | 0.836 | 0.840 | 0.836 | 0.004 | 0.014 |
+| 1000 | 4096 | 0.860 | 0.857 | 0.857 | 0.857 | 0.003 | 0.012 |
+| 2000 | 256 | 0.755 | 0.739 | 0.731 | 0.713 | 0.041 | 0.018 |
+| 2000 | 1024 | 0.801 | 0.806 | 0.800 | 0.797 | 0.009 | 0.013 |
+| 2000 | 4096 | 0.813 | 0.813 | 0.812 | 0.822 | 0.010 | 0.010 |
+| 5000 | 256 | 0.687 | 0.685 | 0.675 | 0.663 | 0.023 | 0.022 |
+| 5000 | 1024 | 0.743 | 0.737 | 0.738 | 0.746 | 0.009 | 0.013 |
+| 5000 | 4096 | 0.759 | 0.759 | 0.760 | 0.761 | 0.001 | 0.010 |
+| 10000 | 256 | 0.627 | 0.612 | 0.618 | 0.600 | 0.027 | 0.024 |
+| 10000 | 1024 | 0.694 | 0.695 | 0.687 | 0.704 | 0.017 | 0.014 |
+| 10000 | 4096 | 0.725 | 0.728 | 0.723 | 0.725 | 0.005 | 0.012 |
+| all (20958) | 256 | 0.561 | 0.552 | 0.522 | 0.537 | 0.039 | 0.022 |
+| all (20958) | 1024 | 0.631 | 0.626 | 0.628 | 0.623 | 0.007 | 0.021 |
+| all (20958) | 4096 | 0.661 | 0.661 | 0.656 | 0.659 | 0.005 | 0.010 |
+
+**T7h Sensitivity to tie-breaking** (`results/phase7/phase7_20261013_200015/sensitivity_tie_breaking.csv`): Hit@3 at M=50 when equal estimates are ordered by classical score (default) vs at random. Largest absolute difference over the table: 0.040.
+
+| N | S | Hit@3 ties by classical score | Hit@3 ties random | Difference | sd seeds (classical) | sd seeds (random) |
+|---|---|---|---|---|---|---|
+| 1000 | 64 | 0.606 | 0.581 | -0.025 | 0.014 | 0.012 |
+| 1000 | 256 | 0.761 | 0.755 | -0.007 | 0.011 | 0.010 |
+| 1000 | 1024 | 0.836 | 0.836 | +0.000 | 0.014 | 0.015 |
+| 1000 | 4096 | 0.857 | 0.857 | -0.001 | 0.012 | 0.013 |
+| 1000 | 16384 | 0.857 | 0.857 | +0.000 | 0.002 | 0.002 |
+| 2000 | 64 | 0.561 | 0.531 | -0.030 | 0.026 | 0.039 |
+| 2000 | 256 | 0.739 | 0.732 | -0.007 | 0.010 | 0.012 |
+| 2000 | 1024 | 0.806 | 0.805 | -0.001 | 0.006 | 0.009 |
+| 2000 | 4096 | 0.813 | 0.813 | +0.001 | 0.008 | 0.008 |
+| 2000 | 16384 | 0.821 | 0.821 | +0.000 | 0.006 | 0.006 |
+| 5000 | 64 | 0.521 | 0.489 | -0.032 | 0.034 | 0.039 |
+| 5000 | 256 | 0.685 | 0.679 | -0.006 | 0.013 | 0.018 |
+| 5000 | 1024 | 0.737 | 0.737 | +0.000 | 0.012 | 0.012 |
+| 5000 | 4096 | 0.759 | 0.759 | +0.000 | 0.005 | 0.005 |
+| 5000 | 16384 | 0.775 | 0.775 | +0.000 | 0.005 | 0.005 |
+| 10000 | 64 | 0.467 | 0.427 | -0.039 | 0.027 | 0.018 |
+| 10000 | 256 | 0.612 | 0.601 | -0.011 | 0.015 | 0.013 |
+| 10000 | 1024 | 0.695 | 0.694 | -0.001 | 0.014 | 0.014 |
+| 10000 | 4096 | 0.728 | 0.728 | +0.000 | 0.009 | 0.009 |
+| 10000 | 16384 | 0.740 | 0.740 | +0.000 | 0.005 | 0.005 |
+| all (20958) | 64 | 0.415 | 0.375 | -0.040 | 0.022 | 0.014 |
+| all (20958) | 256 | 0.552 | 0.545 | -0.007 | 0.012 | 0.011 |
+| all (20958) | 1024 | 0.626 | 0.625 | -0.001 | 0.015 | 0.019 |
+| all (20958) | 4096 | 0.661 | 0.660 | -0.001 | 0.006 | 0.007 |
+| all (20958) | 16384 | 0.675 | 0.675 | +0.000 | 0.004 | 0.004 |
+
+**PCA-to-128-d (7 qubits) embedding-dimension sensitivity**: not run ([P2]) (plan marks it [P2]; see Deviations).
+
+**pytest** (whole suite at Phase 7 exit): 59 tests, 0 failures, 0 errors, 0 skipped (`results/phase7/phase7_20261013_200015/pytest_junit.xml`).
+
+**Manuscript hook**: Section 10 (Discussion: tradeoffs / Pareto, break-even, what it means for cloud RAG) and Section 7 (scalability); Tables T7a-T7h; figures F7, F7b.
+<!-- END:phase7 -->
+
 ## 3. Headline Findings
 (Filled in Phase 9.)
 
@@ -1090,6 +1288,10 @@ Concurrency through the published port (`results/phase6/phase6_20261012_200322/c
 - **D-6.5 No-container fallback implemented but not used**: `scripts/launch_services.py` (uvicorn processes + cpu_affinity) exists, but Docker worked, so every reported number comes from containers.
 - **D-6.6 P2 item 6.6 (free-tier cloud rerun) not done.**
 - **D-6.7 Smoke test via the published port**: the end-to-end `/rag` smoke test (with generation) goes through the host port, which is fine because it is a functional test, not a latency measurement.
+- **D-7.1 Phase 7 is analysis only**: no new measurements; all numbers re-aggregate Phase 2-6 artifacts (sources listed in the Phase 7 report). Consequence: hallucination (Phase 5, seed 0, 200 questions) and retrieval latency (Phase 4, separate in-process run) never come from the same run, and hallucination exists only at N = 1000 / 5000 / all and S in {64, 256, 1024, 4096}. The Pareto set is therefore computed per N over those points; the retrieval-miss Pareto (all rungs, IVF included) is a complementary view, not a replacement.
+- **D-7.2 Equivalence margins are post hoc**: the plan asks for the smallest S at which outcome differences are "statistically indistinguishable" but pre-registers no margin. Three absolute margins (0.05, 0.075, 0.10) are reported side by side, chosen after seeing the data and not defended; the McNemar p >= 0.05 rule is reported too but is absence of evidence at n=200. Not multiplicity-corrected (descriptive).
+- **D-7.3 Robust dominance is a conservative convenience rule** defined in the Phase 7 report (point-estimate dominance plus disjoint uncertainty intervals on one objective); it is not a formal test.
+- **D-7.4 PCA-to-128-d sensitivity (7.4, [P2]) not run**; shortlist-M and tie-breaking sensitivity (P1) use existing Phase 3 results (hallucination was generated only for M=50 with classical tie-breaking).
 <!-- END:deviations -->
 
 ## 5. Failures, Limitations, Threats to Validity
@@ -1113,6 +1315,8 @@ Concurrency through the published port (`results/phase6/phase6_20261012_200322/c
 - **More CPU did not mean lower latency at low load (Phase 6)**: the embedder's per-request compute time was not lower under the large profile (4 threads) than under small or medium (1-2 threads) in the in-network run, and single-client throughput was lower for large; the cause was not investigated (candidates: thread oversubscription of a 4-core/8-thread laptop that also hosts the load generator, small-batch thread overhead). The profile comparison is therefore about this host, not about cloud instance types.
 - **Shared-host measurement (Phase 6)**: the services, the load generator, Docker Desktop and Windows share one 8 GB laptop; power plan Balanced; temperature not monitored; host free RAM was low at the start of the runs. The embedding step (a transformer forward pass of ~15-25 ms) dominates the request in every profile and masks retrieval differences: classical and quantum-sim arms are indistinguishable at N <= 5000 over HTTP, and the arm and N effects at N=all are small compared with the run-to-run range.
 - **Concurrency is a closed-loop test (Phase 6)**: N concurrent clients each wait for their response; there is no open-loop arrival process, so tail latencies at saturation are not queueing-theory estimates. Occasional multi-second p95 values in single runs (visible in the raw concurrency CSVs) were not investigated; medians over 3 runs are reported.
+- **Pareto latency axis is nearly flat between arms (Phase 7)**: the shortlist arm executes the exact Flat search first, so its emulated latency is Flat plus a small estimator cost; differences between arms at a given N are inside the run-to-run range of repeat medians (and one quantum-sim point at N=all is nominally 'non-dominated' only because of a 0.015 ms median difference). The tradeoff conclusions rest on the hallucination axis; no latency advantage can be claimed.
+- **Break-even is limited by sample size (Phase 7)**: with 200 questions the paired CI of a hallucination-rate difference has a half-width of roughly 0.03-0.06 even at high shots, so equivalence within +-0.05 is hard to show; 'indistinguishable' at S=1024 means 'no detectable difference at this n', not 'no difference'. Hallucination break-even uses seed 0 only.
 <!-- END:failures -->
 
 ## 6. Reproduction Commands
