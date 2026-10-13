@@ -71,6 +71,13 @@ def figures() -> None:
     run(py(), "scripts/make_figures.py")
 
 
+def phase8() -> None:
+    """Robustness, error analysis, threats. The nli step loads a model: Ollama must be stopped (H5)."""
+    run(py(), "scripts/run_phase8.py", "--run-id", run_id("phase8"))
+    test()
+    report()
+
+
 def phase7() -> None:
     """Analysis only (no new measurements): Pareto, break-even, sensitivity from Phase 2-6 artifacts."""
     run(py(), "scripts/run_phase7.py", "--run-id", run_id("phase7"))
@@ -146,8 +153,8 @@ def phase0() -> None:
 
 
 TASKS = {"setup": setup, "env": env, "data": data, "bench": bench, "test": test, "report": report, "embed": embed,
-         "phase0": phase0, "phase1": phase1, "phase2": phase2, "phase3": phase3, "phase4": phase4, "phase5": phase5, "phase6": phase6, "phase7": phase7, "figures": figures}
-for _i in range(8, 11):
+         "phase0": phase0, "phase1": phase1, "phase2": phase2, "phase3": phase3, "phase4": phase4, "phase5": phase5, "phase6": phase6, "phase7": phase7, "phase8": phase8, "figures": figures}
+for _i in range(9, 11):
     TASKS[f"phase{_i}"] = not_yet(f"phase{_i}")
 
 

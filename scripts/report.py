@@ -98,6 +98,11 @@ DEVIATIONS = """- **D-0.1 max_tokens**: plan says 48 in D9/H2 but 64 in Appendix
 - **D-7.2 Equivalence margins are post hoc**: the plan asks for the smallest S at which outcome differences are "statistically indistinguishable" but pre-registers no margin. Three absolute margins (0.05, 0.075, 0.10) are reported side by side, chosen after seeing the data and not defended; the McNemar p >= 0.05 rule is reported too but is absence of evidence at n=200. Not multiplicity-corrected (descriptive).
 - **D-7.3 Robust dominance is a conservative convenience rule** defined in the Phase 7 report (point-estimate dominance plus disjoint uncertainty intervals on one objective); it is not a formal test.
 - **D-7.4 PCA-to-128-d sensitivity (7.4, [P2]) not run**; shortlist-M and tie-breaking sensitivity (P1) use existing Phase 3 results (hallucination was generated only for M=50 with classical tie-breaking).
+- **D-8.1 Alternative judge (8.2)**: `cross-encoder/nli-deberta-v3-base` (the plan's fallback NLI model), revision pinned in the Phase 8 manifest. DeBERTa has a 512-token limit, so each retrieved paragraph is scored separately against the same hypothesis as HHEM and the answer's score is the maximum entailment probability over its paragraphs (chunked premise, as the plan's risk section allows). This is more lenient than HHEM's joint premise (support from any one paragraph suffices) and the two scores are not calibrated to each other; the same threshold is applied to both and only agreement and direction of conclusions are reported. It was run on all non-abstained answers of the P0 arms rather than on a random subset (cheap enough), not on the P1 arms.
+- **D-8.2 Seed robustness of hallucination (8.1)** is limited to the seeds that exist: seeds 0/1/2 at S=256 for N=5000 and N=all (the Phase 5 P1 rows). No other (N, S) has more than one generation seed. Retrieval-level stability uses all 5 Phase 3 seeds and needs the git-ignored Phase 3 rankings (regenerate with `python tasks.py phase3`).
+- **D-8.3 Hand audit (8.4) is pending**: `results/audit_template.csv` has no human labels yet, so no kappa is reported. The agreement step runs automatically once labels are filled in and `python tasks.py phase8` (or `python scripts/run_phase8.py --run-id <id> --steps audit threats` followed by `python scripts/report.py`) is re-run.
+- **D-8.4 Qualitative examples (8.3)** are drawn at one setting only (classical Flat vs quantum-sim S=256 seed 0, N=all, first 200 questions), seeded random within four categories; they illustrate mechanisms and are not a representative sample.
+- **D-8.5 Phase 8 adds no new generation**: all outcome analyses re-use the stored Phase 5 answers and judge scores.
 """
 
 FAILURES = """- **Swap during benchmark**: the pagefile grew during every model's run (see the "Swap delta" column in the Phase 0 table), so the strict "no swapping" wording of H2(b) is not fully met on this 8 GB machine even for the chosen model; close browsers and other heavy apps during generation runs (H5/H10).
@@ -121,6 +126,8 @@ FAILURES = """- **Swap during benchmark**: the pagefile grew during every model'
 - **Concurrency is a closed-loop test (Phase 6)**: N concurrent clients each wait for their response; there is no open-loop arrival process, so tail latencies at saturation are not queueing-theory estimates. Occasional multi-second p95 values in single runs (visible in the raw concurrency CSVs) were not investigated; medians over 3 runs are reported.
 - **Pareto latency axis is nearly flat between arms (Phase 7)**: the shortlist arm executes the exact Flat search first, so its emulated latency is Flat plus a small estimator cost; differences between arms at a given N are inside the run-to-run range of repeat medians (and one quantum-sim point at N=all is nominally 'non-dominated' only because of a 0.015 ms median difference). The tradeoff conclusions rest on the hallucination axis; no latency advantage can be claimed.
 - **Break-even is limited by sample size (Phase 7)**: with 200 questions the paired CI of a hallucination-rate difference has a half-width of roughly 0.03-0.06 even at high shots, so equivalence within +-0.05 is hard to show; 'indistinguishable' at S=1024 means 'no detectable difference at this n', not 'no difference'. Hallucination break-even uses seed 0 only.
+- **Phase 8 limitations are collected in the threats matrix (plan T7)**: see the Phase 8 report (table T8f), where every threat carries its evidence and artifact. Items not covered by a number there: the NLI judge is a chunked, uncalibrated cross-check (D-8.1) and does not validate either judge against humans; the qualitative examples are illustrative; hallucination seed variability rests on three seeds at one shot setting.
+- **The NLI cross-check agrees only weakly with HHEM (Phase 8)**: the two judges disagree on many individual answers (kappa and agreement in table T8d) and the NLI model labels far fewer answers faithful, plausibly because short-answer hypotheses are hard for a per-paragraph NLI model. The cross-check therefore does not validate HHEM at the level of individual answers; it only shows whether the arm-level direction of the ungrounded-rate difference survives a second judge (see T8d). Faithfulness conclusions rest mainly on HHEM and stay unvalidated until the human audit is returned.
 """
 
 
@@ -308,6 +315,16 @@ def main() -> None:
         body7, rows7 = phase7_block(run7)
         text = block(text, "phase7", body7)
         index_rows += rows7
+    run8 = latest_run("phase8")
+    if run8 and (run8 / "threats_matrix.csv").exists() and (run8 / "audit_agreement.json").exists():
+        from report_phase8 import phase8_block
+
+        if "<!-- BEGIN:phase8 -->" not in text:
+            text = text.replace("## 3. Headline Findings", "### Phase 8 - Robustness, error analysis, threats to validity\n"
+                                "<!-- BEGIN:phase8 -->\n<!-- END:phase8 -->\n\n## 3. Headline Findings", 1)
+        body8, rows8 = phase8_block(run8)
+        text = block(text, "phase8", body8)
+        index_rows += rows8
     text = block(text, "index", md_table(["ID", "Phase", "Key result", "Artifact"], index_rows))
     text = seed_block(text, "deviations", DEVIATIONS)
     text = seed_block(text, "failures", FAILURES)

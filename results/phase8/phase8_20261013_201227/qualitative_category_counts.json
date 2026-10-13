@@ -1,0 +1,10 @@
+{
+  "pool_sizes_n200_N_all_S256_seed0": {
+    "quantum drops gold, answer becomes wrong": 17,
+    "quantum gains gold, answer becomes right": 4,
+    "both retrieve gold, quantum answer differs and is wrong": 9,
+    "neither retrieves gold (shared retrieval failure)": 55
+  },
+  "examples_written": 20,
+  "selection": "seeded random (seed 8) within category, sorted by question index"
+}

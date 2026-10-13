@@ -1,0 +1,34 @@
+{
+  "model": "cross-encoder/nli-deberta-v3-base",
+  "revision": "6c749ce3425cd33b46d187e45b92bbf96ee12ec7",
+  "answers_scored": 1837,
+  "paragraph_pairs": 5111,
+  "seconds_this_run": 3047.1240470000776,
+  "peak_rss_gb_this_run": 0.938971136,
+  "premise_handling": "each retrieved paragraph scored separately (512-token limit); score = max P(entailment) over the paragraphs",
+  "spearman_hhem_vs_nli": 0.5030074069733362,
+  "by_threshold": {
+    "0.3": {
+      "agreement": 0.42732716385410996,
+      "kappa": 0.11826789357842364,
+      "faithful_rate_hhem": 0.8666303756124115,
+      "faithful_rate_nli": 0.2961350027218291
+    },
+    "0.5": {
+      "agreement": 0.4267827980402831,
+      "kappa": 0.12350158750728954,
+      "faithful_rate_hhem": 0.833968426782798,
+      "faithful_rate_nli": 0.2694610778443114
+    },
+    "0.7": {
+      "agreement": 0.46271094175285793,
+      "kappa": 0.14948158370864553,
+      "faithful_rate_hhem": 0.7610234077299945,
+      "faithful_rate_nli": 0.2476864452912357
+    }
+  },
+  "quantum_vs_classical_ungrounded_direction_agrees_across_judges": {
+    "agree": 5,
+    "total": 6
+  }
+}

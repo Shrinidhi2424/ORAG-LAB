@@ -1,0 +1,4 @@
+{
+  "hallucination_rate_identical_across_thresholds_for_all_arms": true,
+  "source": "phase5 threshold_sweep.csv"
+}

@@ -48,6 +48,15 @@ Do not hand-type numbers inside generated blocks (R4).
 | P7-4 | 7 | Break-even S (Hit@3) at N=all: CI contains 0 from S=16384; CI within +-0.05 from S=4096 | results/phase7/phase7_20261013_200015/break_even_retrieval.csv |
 | P7-5 | 7 | Tie-breaking sensitivity: max absolute Hit@3 difference = 0.040 over all (N, S) | results/phase7/phase7_20261013_200015/sensitivity_tie_breaking.csv |
 | P7-6 | 7 | pytest: 59/59 passed | results/phase7/phase7_20261013_200015/pytest_junit.xml |
+| P8-1a | 8 | S=256 N=5000: hallucination rate sd across 3 seeds 0.025, 0.285 of questions flip outcome | results/phase8/phase8_20261013_201227/seed_robustness_outcomes.csv |
+| P8-1b | 8 | S=256 N=all: hallucination rate sd across 3 seeds 0.008, 0.360 of questions flip outcome | results/phase8/phase8_20261013_201227/seed_robustness_outcomes.csv |
+| P8-2 | 8 | N=all S=1024: 0.563 of queries change top-1 across seeds, 0.213 change Hit@3 | results/phase8/phase8_20261013_201227/seed_robustness_retrieval.csv |
+| P8-3 | 8 | HHEM threshold: significance verdict identical across 0.3/0.5/0.7 in 12/16 comparisons; hallucination rate threshold-invariant: True | results/phase8/phase8_20261013_201227/threshold_sensitivity_tests.csv |
+| P8-4 | 8 | NLI vs HHEM faithfulness @0.5: agreement 0.427, kappa 0.124, Spearman 0.503 | results/phase8/phase8_20261013_201227/nli_summary.json |
+| P8-5 | 8 | 20 curated classical-vs-quantum examples written; pools: 85 questions in 4 categories | results/phase8/phase8_20261013_201227/qualitative_examples.csv |
+| P8-6 | 8 | Hand audit: 0/50 rows labelled; pending: human labels not returned; kappa not computed | results/phase8/phase8_20261013_201227/audit_agreement.json |
+| P8-7 | 8 | Threats-to-validity matrix: 14 threats with artifact evidence | results/phase8/phase8_20261013_201227/threats_matrix.csv |
+| P8-8 | 8 | pytest: 66/66 passed | results/phase8/phase8_20261013_201227/pytest_junit.xml |
 <!-- END:index -->
 
 ## 1. Environment & Versions
@@ -1251,6 +1260,127 @@ For scale, the measured classical simulation of the real 19-qubit circuit (Tier 
 **Manuscript hook**: Section 10 (Discussion: tradeoffs / Pareto, break-even, what it means for cloud RAG) and Section 7 (scalability); Tables T7a-T7h; figures F7, F7b.
 <!-- END:phase7 -->
 
+### Phase 8 - Robustness, error analysis, threats to validity
+<!-- BEGIN:phase8 -->
+Run `phase8_20261013_201227` - manifest: `results/phase8/phase8_20261013_201227/run_manifest.json`. Re-aggregates Phase 1-6 artifacts; the only new model run is the alternative faithfulness judge (NLI cross-encoder, 8.2). Quantum-sim = classical simulation of the SWAP test; latency/shots remarks follow the Phase 3-7 labelling.
+
+**T8a Seed robustness of the hallucination outcome (8.1)** (`results/phase8/phase8_20261013_201227/seed_robustness_outcomes.csv`): quantum-sim M=50, S=256, seeds 0/1/2, 200 questions. Flip rate = share of questions whose hallucinated-or-misread indicator is not the same in all three seeds. 'Flips with / without gold-in-context change' splits the flipped questions by whether the gold paragraph entered or left the top-3 between seeds. Differences vs classical: paired bootstrap CI and exact McNemar p (uncorrected).
+
+| N | S | Classical rate | Seed 0 | Seed 1 | Seed 2 | sd over seeds | Range | Flip rate (hall.) | Flip rate (gold in ctx) | Hall. flips with / without gold change | Hall. in all seeds | Hall. in no seed | Diff vs classical seed 0 | seed 1 | seed 2 |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 5000 | 256 | 0.295 | 0.365 | 0.390 | 0.340 | 0.025 | 0.050 | 0.285 | 0.230 | 35 / 22 | 0.230 | 0.485 | +0.070 [+0.015, +0.125] p=0.0243 | +0.095 [+0.045, +0.150] p=0.0005 | +0.045 [+0.000, +0.095] p=0.1078 |
+| all (20958) | 256 | 0.390 | 0.465 | 0.475 | 0.480 | 0.008 | 0.015 | 0.360 | 0.290 | 44 / 28 | 0.300 | 0.340 | +0.075 [+0.010, +0.140] p=0.0357 | +0.085 [+0.020, +0.150] p=0.0161 | +0.090 [+0.030, +0.150] p=0.0051 |
+
+**T8b Seed stability of retrieval, per query (8.1)** (`results/phase8/phase8_20261013_201227/seed_robustness_retrieval.csv`): Phase 3 rankings, M=50, 5 seeds, 300 queries. 'Unstable' = not identical across the 5 seeds.
+
+| N | S | Hit@3 (mean of seeds) | sd over seeds | Queries with unstable Hit@3 | Queries with unstable top-1 | Queries with unstable top-3 set |
+|---|---|---|---|---|---|---|
+| 5000 | 64 | 0.521 | 0.034 | 0.570 | 0.917 | 1.000 |
+| 5000 | 256 | 0.685 | 0.013 | 0.300 | 0.673 | 0.987 |
+| 5000 | 1024 | 0.737 | 0.012 | 0.150 | 0.443 | 0.920 |
+| 5000 | 4096 | 0.759 | 0.005 | 0.087 | 0.243 | 0.713 |
+| 5000 | 16384 | 0.775 | 0.005 | 0.047 | 0.143 | 0.497 |
+| all (20958) | 64 | 0.415 | 0.022 | 0.547 | 0.923 | 1.000 |
+| all (20958) | 256 | 0.552 | 0.012 | 0.347 | 0.763 | 1.000 |
+| all (20958) | 1024 | 0.626 | 0.015 | 0.213 | 0.563 | 0.943 |
+| all (20958) | 4096 | 0.661 | 0.006 | 0.127 | 0.367 | 0.783 |
+| all (20958) | 16384 | 0.675 | 0.004 | 0.057 | 0.230 | 0.530 |
+
+**T8c HHEM threshold sensitivity of the conclusions (8.2)** (`results/phase8/phase8_20261013_201227/threshold_sensitivity_tests.csv`). The headline hallucination rate (hallucinated + misread) uses only correctness, abstention and gold-in-context: identical across thresholds for every arm = True (Phase 5 `threshold_sweep.csv`). The ungrounded-answer rate does depend on the threshold; the table gives the quantum - classical difference (same N, seed 0) at thresholds 0.3 / 0.5 / 0.7 with exact McNemar p (uncorrected, exploratory).
+
+| N | S | diff @0.3 | diff @0.5 | diff @0.7 |
+|---|---|---|---|---|
+| 5000 | 64 | +0.095 (p=0.000) | +0.130 (p=0.000) | +0.150 (p=0.000) |
+| 5000 | 256 | +0.060 (p=0.004) | +0.095 (p=0.000) | +0.095 (p=0.001) |
+| 5000 | 1024 | +0.010 (p=0.727) | +0.005 (p=1.000) | +0.020 (p=0.481) |
+| all (20958) | 64 | +0.160 (p=0.000) | +0.160 (p=0.000) | +0.190 (p=0.000) |
+| all (20958) | 256 | +0.055 (p=0.019) | +0.060 (p=0.012) | +0.065 (p=0.015) |
+| all (20958) | 1024 | +0.055 (p=0.013) | +0.055 (p=0.035) | +0.050 (p=0.110) |
+| 5000 | 4096 | +0.035 (p=0.016) | +0.025 (p=0.180) | +0.020 (p=0.344) |
+| all (20958) | 4096 | -0.005 (p=1.000) | -0.010 (p=0.727) | +0.000 (p=1.000) |
+| 1000 | 64 | +0.045 (p=0.049) | +0.050 (p=0.076) | +0.050 (p=0.110) |
+| 1000 | 256 | +0.010 (p=0.791) | -0.005 (p=1.000) | -0.005 (p=1.000) |
+| 1000 | 1024 | -0.015 (p=0.453) | -0.015 (p=0.549) | -0.015 (p=0.549) |
+| 1000 | 4096 | +0.015 (p=0.250) | -0.005 (p=1.000) | +0.010 (p=0.727) |
+
+Significance at 0.05 is the same at all three thresholds in 12 of 16 (N, S, seed) comparisons; the sign of the difference is reported in the table.
+
+**T8d Alternative judge: NLI cross-encoder (8.2)** (`results/phase8/phase8_20261013_201227/nli_summary.json`; scores `results/phase8/phase8_20261013_201227/nli_scores.csv`). `cross-encoder/nli-deberta-v3-base` @ `6c749ce3425cd33b46d187e45b92bbf96ee12ec7`; each retrieved paragraph scored separately (512-token limit); score = max P(entailment) over the paragraphs. 1837 non-abstained RAG answers of all P0 arms (5111 paragraph pairs). Spearman correlation HHEM vs NLI score: 0.503. Faithful = score >= threshold; the same threshold is applied to both judges (they are not calibrated to each other).
+
+| Threshold | Agreement on faithful / not | Cohen kappa | Faithful rate (HHEM) | Faithful rate (NLI) |
+|---|---|---|---|---|
+| 0.3 | 0.427 | 0.118 | 0.867 | 0.296 |
+| 0.5 | 0.427 | 0.124 | 0.834 | 0.269 |
+| 0.7 | 0.463 | 0.149 | 0.761 | 0.248 |
+
+Direction of 'quantum-sim ungrounded rate above/below classical at the same N' at threshold 0.5 agrees between the two judges in 5 of 6 arms.
+
+Ungrounded-answer rate by arm under each judge (threshold 0.5; `results/phase8/phase8_20261013_201227/nli_by_arm.csv`):
+
+| Arm | Answers scored | HHEM | NLI |
+|---|---|---|---|
+| oracle | 200 | 0.030 | 0.700 |
+| random | 104 | 0.942 | 1.000 |
+| classical_N5000_k3 | 196 | 0.051 | 0.689 |
+| classical_Nall_k3 | 193 | 0.078 | 0.705 |
+| quantum_N5000_M50_S64_seed0_k3 | 184 | 0.196 | 0.750 |
+| quantum_N5000_M50_S256_seed0_k3 | 197 | 0.147 | 0.701 |
+| quantum_N5000_M50_S1024_seed0_k3 | 194 | 0.057 | 0.691 |
+| quantum_Nall_M50_S64_seed0_k3 | 186 | 0.253 | 0.785 |
+| quantum_Nall_M50_S256_seed0_k3 | 190 | 0.142 | 0.716 |
+| quantum_Nall_M50_S1024_seed0_k3 | 193 | 0.135 | 0.699 |
+
+**T8e Qualitative error analysis, 20 curated examples (8.3)** (`results/phase8/phase8_20261013_201227/qualitative_examples.csv`, full text, retrieved ids and HHEM scores in the CSV). Classical Flat vs quantum-sim S=256 seed 0, N=all, first 200 questions. Pool sizes in these categories: {"quantum drops gold, answer becomes wrong": 17, "quantum gains gold, answer becomes right": 4, "both retrieve gold, quantum answer differs and is wrong": 9, "neither retrieves gold (shared retrieval failure)": 55}; examples drawn at random within category (seed 8). Cosines = exact query-paragraph cosine of the retrieved top-3 in rank order. 'Gold rank' = rank of the gold paragraph under exact cosine at N=all (blank = outside the stored top-50).
+
+| Category | q | Question | Gold | Gold rank | Classical cos (top-3) | Classical answer | Outcome | Quantum cos (top-3) | Quantum answer | Outcome |
+|---|---|---|---|---|---|---|---|---|---|---|
+| quantum drops gold | 40 | What are the phagocytes that are located in tissues in contact with t... | Dendritic cells | 4 | 0.597 0.581 0.533 | Dendritic cells | correct | 0.511 0.597 0.469 | Phagocytes are called macrophages. | hallucinated |
+| quantum drops gold | 58 | How many inhabitants does the Los Angeles area contain? | 12 million / over 12 mil... | 4 | 0.713 0.694 0.672 | Over 12 million inhabitants. | correct | 0.694 0.713 0.642 | 3,792,621 | hallucinated |
+| quantum drops gold | 59 | During what period did the Tower Theatre re-open? | late 1970s | 2 | 0.521 0.511 0.485 | The Tower Theatre re-opened in the late 1970... | correct | 0.483 0.460 0.397 | The Tower Theatre re-opened in May 2008. | hallucinated |
+| quantum drops gold | 73 | What is strongly linked to good student-teacher relationships? | student motivation and a... | 3 | 0.675 0.630 0.547 | Student-teacher relationships are strongly l... | correct | 0.675 0.481 0.547 | Friendly and supportive teachers. | hallucinated |
+| quantum drops gold | 148 | Where does the Rhine begin?  | Graubünden / Swiss canto... | 2 | 0.655 0.654 0.651 | The Rhine begins in the Swiss canton of Grau... | correct | 0.651 0.589 0.645 | The Rhine begins in the 1st century BC, form... | hallucinated |
+| quantum drops gold | 166 | Long-lived memory cells can remember previous encounters with what? | each specific pathogen /... | 3 | 0.588 0.582 0.574 | Specific pathogens. | correct | 0.560 0.479 0.547 | Emotions. | hallucinated |
+| quantum drops gold | 176 | What is another term for Tesla's visualization ability? | picture thinking | 2 | 0.603 0.526 0.494 | Picture thinking | correct | 0.494 0.452 0.485 | Invisibility. | hallucinated |
+| quantum drops gold | 198 | What additional srevice did BSkyB offer besides HD channels that they... | HD channels and Video On... | 4 | 0.731 0.699 0.675 | Video On Demand content. | correct | 0.675 0.731 0.641 | Premium channels | hallucinated |
+| quantum gains gold | 22 | What kinds of growth did Kublai encourage? | commercial, scientific, ... | 5 | 0.476 0.466 0.443 | Kublai encouraged the growth of settlements ... | hallucinated | 0.476 0.425 0.443 | Kublai Khan promoted commercial, scientific,... | correct |
+| quantum gains gold | 55 | How many total touchdowns did Cam Newton score? | 45 | 6 | 0.662 0.659 0.639 | Cam Newton scored 1 touchdown. | hallucinated | 0.533 0.662 0.622 | 45 | correct |
+| quantum gains gold | 96 | Of what mountain system are the Victorian Alps a part? | Great Dividing Range / t... | 12 | 0.568 0.561 0.550 | The Victorian Alps are part of the Eastern A... | hallucinated | 0.534 0.500 0.514 | The Victorian Alps are part of the Great Div... | correct |
+| quantum gains gold | 104 | Who did Britain exploit in India? | Mughal state / the Mugha... | 5 | 0.633 0.609 0.574 | The British exploited the East India Company... | hallucinated | 0.496 0.633 0.567 | The British exploited the political weakness... | correct |
+| both retrieve gold | 21 | What magnetic and electric force acts on a charge? | electromagnetic / unifie... | 2 | 0.583 0.498 0.394 | The electromagnetic force acts on a charge. | correct | 0.583 0.498 0.276 | The magnetic and electric force act on a cha... | misread |
+| both retrieve gold | 136 | On what date did the first railway trip in the world occur? | 21 February 1804 | 2 | 0.506 0.446 0.443 | 21 February 1804 | correct | 0.386 0.417 0.506 | 1804, 21 February | misread |
+| both retrieve gold | 180 | Some species of beroe have a pair of strips of adhesive cells on the ... | "zip" the mouth shut whe... | 2 | 0.588 0.427 0.425 | These strips "zip" the mouth shut when the a... | correct | 0.588 0.373 0.364 | It "zip[s] the mouth shut" when the animal i... | misread |
+| both retrieve gold | 191 | What company created Doctor Who? | BBC Television | 2 | 0.577 0.565 0.529 | BBC Television | correct | 0.512 0.511 0.577 | BBC | misread |
+| neither retrieves gold | 90 | What is the name of the port city that was created? | Mombasa | 19 | 0.568 0.518 0.482 | Gustavia | hallucinated | 0.426 0.408 0.518 | Valencia | hallucinated |
+| neither retrieves gold | 161 | What do all member states agree takes precedence over national law? | EU law | 55 | 0.585 0.581 0.565 | The federal Constitution and federal statute... | hallucinated | 0.585 0.435 0.524 | Federal law and treaties. | hallucinated |
+| neither retrieves gold | 170 | What is the name of the winter festival held in January that is based... | Kuviasungnerk/Kangeiko | 27 | 0.505 0.491 0.483 | I cannot find the answer in the provided con... | abstained | 0.390 0.427 0.469 | Dally in the Alley | hallucinated |
+| neither retrieves gold | 196 | What was the final score for Super Bowl XXXIII? | 34–19 | 22 | 0.597 0.556 0.549 | Denver Broncos 24, Carolina Panthers 10. | hallucinated | 0.597 0.500 0.495 | Denver Broncos 24–10 | hallucinated |
+
+**Hand audit (8.4)** (`results/phase8/phase8_20261013_201227/audit_agreement.json`): 0 of 50 rows of `results/audit_template.csv` carry human labels; status: pending: human labels not returned; kappa not computed.
+
+**T8f Threats-to-validity matrix (plan table T7; 8.5)** (`results/phase8/phase8_20261013_201227/threats_matrix.csv`): each threat with its evidence read from the artifacts, the direction of the possible bias, and the artifact.
+
+| Threat | Evidence | Direction / consequence | Artifact |
+|---|---|---|---|
+| Embedder contamination | model card mentions SQuAD: True; classical Hit@1 ceiling at N=all is limited by the embedder itself (Phase 1 ceiling table) | optimistic absolute retrieval for both arms; relative arm differences unaffected (R1) | `results/phase1/phase1_20261011_210325/contamination_check.json` |
+| LLM parametric knowledge of SQuAD | closed-book correct rate 0.095 [0.055, 0.140] vs oracle 0.860 | low leakage; RAG accuracy is driven by the context | `results/phase5/phase5_20261011_225152/controls_check.json` |
+| Single dataset (SQuAD v1.1), single-gold paragraph | 20958 paragraphs, 300 eval questions on 275 gold paragraphs; P@k bounded by 1/k | findings may not transfer to multi-hop / multi-gold corpora | `results/phase1/phase1_20261011_210325/corpus_stats.json` |
+| Single embedder (MiniLM-L6, 384-d, 256-token limit) | 1494 of 20958 paragraphs truncated at max_seq_length | score margins among distractors set how many shots are needed; another embedder changes the break-even S | `results/phase1/phase1_20261011_210325/embed_info.json` |
+| Single small generator (1.5B, CPU) | classical N=all abstention 0.035; hallucination rate 0.390; chosen by H2 gate (qwen2.5:1.5b-instruct) | rarely abstains when gold is absent, so retrieval misses become confident errors; absolute rates model-specific | `results/phase5/phase5_20261011_225152/outcomes_by_arm.csv` |
+| Simulated, not real quantum | all quantum-arm numbers come from a classical simulation of the SWAP test; shots/gates are modelled counts | no hardware noise, no state-preparation cost measured; no speedup claim possible | `results/phase3/phase3_20261011_221127/t6_resource_counts.json` |
+| Emulator (Tier B) vs circuit (Tier A) gap | two-sample KS on standardised errors p=0.258; repeated-estimate pooled KS p<0.05 reported in Phase 3 (Failures section); slopes agree with theory | equivalence supported on mean/variance, weaker on distribution shape (lattice-valued estimator) | `results/phase3/phase3_20261011_221127/validation.json` |
+| Small N relative to production | largest rung 20958 paragraphs; Flat latency exponent 1.14 [0.97, 1.32] | scaling exponents have wide CIs; extrapolation to millions of vectors is not supported | `results/phase4/phase4_20261011_223158/latency_slopes.csv` |
+| String-match correctness and single automatic judge | 45 answers cut by the 48-token limit; human audit: pending: human labels not returned; kappa not computed | paraphrases counted wrong, mentions counted right; faithfulness judge unvalidated until labels return | `results/audit_template.csv` |
+| Generation not bit-reproducible | identical text in 54 of 60 regenerated prompts; labels unchanged in 60 of 60 | exact reruns rely on the cache; labels were stable in the sample | `results/phase5/phase5_20261011_225152/regeneration_check.json` |
+| Limited seed coverage for hallucination | N=5000: rate sd across 3 seeds 0.025, 0.285 of questions flip; N=all: rate sd across 3 seeds 0.008, 0.360 of questions flip | T-c and break-even use seed 0 only; S=256 shows seed spread comparable to its CI | `results/phase8/phase8_20261013_201227/seed_robustness_outcomes.csv` |
+| Sample size (200 questions for generation) | hallucination CI half-width at classical N=all about 0.068 | differences below roughly that size cannot be resolved; equivalence claims are weak | `results/phase5/phase5_20261011_225152/outcomes_by_arm.csv` |
+| CPU-only, shared, thermally limited laptop | power scheme: Balanced; CPU temperature: not monitored (no sensor tool on this host); cpu_freq per repeat logged as throttling proxy; repeat-median ranges in the latency tables | small latency differences between arms are not interpretable; absolute latencies are host-specific | `results/phase2/phase2_20261011_212701/hygiene.json` |
+| Docker Desktop on Windows (WSL2) network path | published-port client path adds a constant delay (network diagnostic, Phase 6); in-network client used as primary | HTTP overhead is specific to this host; no claim about real cloud deployments | `results/phase6/phase6_20261012_203559/network_diagnostic.json` |
+
+**pytest** (whole suite at Phase 8 exit): 66 tests, 0 failures, 0 errors, 0 skipped (`results/phase8/phase8_20261013_201227/pytest_junit.xml`).
+
+**Manuscript hook**: Section 8 (hallucination analysis: robustness, error analysis) and Section 11 (limitations and threats to validity); Tables T8a-T8f.
+<!-- END:phase8 -->
+
 ## 3. Headline Findings
 (Filled in Phase 9.)
 
@@ -1292,6 +1422,11 @@ For scale, the measured classical simulation of the real 19-qubit circuit (Tier 
 - **D-7.2 Equivalence margins are post hoc**: the plan asks for the smallest S at which outcome differences are "statistically indistinguishable" but pre-registers no margin. Three absolute margins (0.05, 0.075, 0.10) are reported side by side, chosen after seeing the data and not defended; the McNemar p >= 0.05 rule is reported too but is absence of evidence at n=200. Not multiplicity-corrected (descriptive).
 - **D-7.3 Robust dominance is a conservative convenience rule** defined in the Phase 7 report (point-estimate dominance plus disjoint uncertainty intervals on one objective); it is not a formal test.
 - **D-7.4 PCA-to-128-d sensitivity (7.4, [P2]) not run**; shortlist-M and tie-breaking sensitivity (P1) use existing Phase 3 results (hallucination was generated only for M=50 with classical tie-breaking).
+- **D-8.1 Alternative judge (8.2)**: `cross-encoder/nli-deberta-v3-base` (the plan's fallback NLI model), revision pinned in the Phase 8 manifest. DeBERTa has a 512-token limit, so each retrieved paragraph is scored separately against the same hypothesis as HHEM and the answer's score is the maximum entailment probability over its paragraphs (chunked premise, as the plan's risk section allows). This is more lenient than HHEM's joint premise (support from any one paragraph suffices) and the two scores are not calibrated to each other; the same threshold is applied to both and only agreement and direction of conclusions are reported. It was run on all non-abstained answers of the P0 arms rather than on a random subset (cheap enough), not on the P1 arms.
+- **D-8.2 Seed robustness of hallucination (8.1)** is limited to the seeds that exist: seeds 0/1/2 at S=256 for N=5000 and N=all (the Phase 5 P1 rows). No other (N, S) has more than one generation seed. Retrieval-level stability uses all 5 Phase 3 seeds and needs the git-ignored Phase 3 rankings (regenerate with `python tasks.py phase3`).
+- **D-8.3 Hand audit (8.4) is pending**: `results/audit_template.csv` has no human labels yet, so no kappa is reported. The agreement step runs automatically once labels are filled in and `python tasks.py phase8` (or `python scripts/run_phase8.py --run-id <id> --steps audit threats` followed by `python scripts/report.py`) is re-run.
+- **D-8.4 Qualitative examples (8.3)** are drawn at one setting only (classical Flat vs quantum-sim S=256 seed 0, N=all, first 200 questions), seeded random within four categories; they illustrate mechanisms and are not a representative sample.
+- **D-8.5 Phase 8 adds no new generation**: all outcome analyses re-use the stored Phase 5 answers and judge scores.
 <!-- END:deviations -->
 
 ## 5. Failures, Limitations, Threats to Validity
@@ -1317,6 +1452,8 @@ For scale, the measured classical simulation of the real 19-qubit circuit (Tier 
 - **Concurrency is a closed-loop test (Phase 6)**: N concurrent clients each wait for their response; there is no open-loop arrival process, so tail latencies at saturation are not queueing-theory estimates. Occasional multi-second p95 values in single runs (visible in the raw concurrency CSVs) were not investigated; medians over 3 runs are reported.
 - **Pareto latency axis is nearly flat between arms (Phase 7)**: the shortlist arm executes the exact Flat search first, so its emulated latency is Flat plus a small estimator cost; differences between arms at a given N are inside the run-to-run range of repeat medians (and one quantum-sim point at N=all is nominally 'non-dominated' only because of a 0.015 ms median difference). The tradeoff conclusions rest on the hallucination axis; no latency advantage can be claimed.
 - **Break-even is limited by sample size (Phase 7)**: with 200 questions the paired CI of a hallucination-rate difference has a half-width of roughly 0.03-0.06 even at high shots, so equivalence within +-0.05 is hard to show; 'indistinguishable' at S=1024 means 'no detectable difference at this n', not 'no difference'. Hallucination break-even uses seed 0 only.
+- **Phase 8 limitations are collected in the threats matrix (plan T7)**: see the Phase 8 report (table T8f), where every threat carries its evidence and artifact. Items not covered by a number there: the NLI judge is a chunked, uncalibrated cross-check (D-8.1) and does not validate either judge against humans; the qualitative examples are illustrative; hallucination seed variability rests on three seeds at one shot setting.
+- **The NLI cross-check agrees only weakly with HHEM (Phase 8)**: the two judges disagree on many individual answers (kappa and agreement in table T8d) and the NLI model labels far fewer answers faithful, plausibly because short-answer hypotheses are hard for a per-paragraph NLI model. The cross-check therefore does not validate HHEM at the level of individual answers; it only shows whether the arm-level direction of the ungrounded-rate difference survives a second judge (see T8d). Faithfulness conclusions rest mainly on HHEM and stay unvalidated until the human audit is returned.
 <!-- END:failures -->
 
 ## 6. Reproduction Commands

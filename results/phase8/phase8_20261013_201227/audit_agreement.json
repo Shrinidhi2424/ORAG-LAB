@@ -1,0 +1,6 @@
+{
+  "audit_file": "results/audit_template.csv",
+  "rows": 50,
+  "rows_labelled": 0,
+  "status": "pending: human labels not returned; kappa not computed"
+}
